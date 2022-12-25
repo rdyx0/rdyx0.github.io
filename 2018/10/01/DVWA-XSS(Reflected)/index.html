@@ -16,12 +16,12 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:alert(&#x2F;xss&#x2F;)，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的删除，这种防护机制是可以被轻松">
+    <meta name="description" content="9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:&lt;script&gt;alert(&#x2F;xss&#x2F;)&lt;&#x2F;script&gt;，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DVWA-XSS(Reflected)">
 <meta property="og:url" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:alert(&#x2F;xss&#x2F;)，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的删除，这种防护机制是可以被轻松">
+<meta property="og:description" content="9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:&lt;script&gt;alert(&#x2F;xss&#x2F;)&lt;&#x2F;script&gt;，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/clipboard.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785636175.png">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785695487.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785725219.png">
 <meta property="article:published_time" content="2018-10-01T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-25T07:06:10.630Z">
+<meta property="article:modified_time" content="2022-12-25T08:41:38.791Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://rdyx0.github.io/2018/10/01/DVWA-XSS(Reflected)/clipboard.png">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          678 字
+          820 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          6 分钟
+          7 分钟
         
       </span>
     
@@ -286,16 +286,16 @@
                 <h1 id="9-XSS-Reflected"><a href="#9-XSS-Reflected" class="headerlink" title="9.XSS(Reflected)"></a>9.XSS(Reflected)</h1><h2 id="1-XSS-Reflected-Low"><a href="#1-XSS-Reflected-Low" class="headerlink" title="1.XSS(Reflected)(Low)"></a>1.XSS(Reflected)(Low)</h2><p>相关代码分析</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。</p>
-<p>输入payload:<script>alert(/xss/)</script>，成功弹框：</p>
+<p>输入payload:<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>，成功弹框：</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785636175.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h2 id="2-XSS-Reflected-Medium"><a href="#2-XSS-Reflected-Medium" class="headerlink" title="2.XSS(Reflected)(Medium)"></a>2.XSS(Reflected)(Medium)</h2><p>相关代码分析</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785647805.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的<script>删除，这种防护机制是可以被轻松绕过的。</p>
+<p>这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的<code>&lt;script&gt;</code>删除，这种防护机制是可以被轻松绕过的。</p>
 <p>1.双写绕过</p>
-<p>输入<sc<script>ript>alert(/xss/)</script>，成功弹框：</p>
+<p>输入<code>&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt;</code>，成功弹框：</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785654016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>2.大小写混淆绕过</p>
-<p>输入<ScRipt>alert(/xss/)</script>，成功弹框：</p>
+<p>输入<code>&lt;ScRipt&gt;alert(/xss/)&lt;/script&gt;</code>，成功弹框：</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785667638.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>3.使用不带script标签的payload，鼠标移动到图片，触发弹窗</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onmouseover</span>=<span class="hljs-string">&quot;alert(/xss/)&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
@@ -305,12 +305,12 @@
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785690218.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>High级别的代码同样使用黑名单过滤输入，preg_replace() 函数用于正则表达式的搜索和替换，这使得双写绕过、大小写混淆绕过（正则表达式中i表示不区分大小写）不再有效。</p>
 <p>漏洞利用 </p>
-<p>虽然无法使用<script>标签注入XSS代码，但是可以通过img、body等标签的事件或者iframe等标签的src注入恶意的js代码。</p>
+<p>虽然无法使用<code>&lt;script&gt;</code>标签注入XSS代码，但是可以通过img、body等标签的事件或者iframe等标签的src注入恶意的js代码。</p>
 <p>输入<code>&lt;img src=1 onerror=alert(/xss/)&gt;</code>，成功弹框：</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785695487.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h2 id="4-XSS-Reflected-Impossible"><a href="#4-XSS-Reflected-Impossible" class="headerlink" title="4.XSS(Reflected)(Impossible)"></a>4.XSS(Reflected)(Impossible)</h2><p>相关代码分析</p>
 <p><img src="/2018/10/01/DVWA-XSS(Reflected)/clipboard-1671785725219.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到，Impossible级别的代码使用htmlspecialchars函数把预定义的字符&、”、 ’、<、>转换为 HTML 实体，防止浏览器将其作为HTML元素。</p>
+<p>可以看到，Impossible级别的代码使用htmlspecialchars函数把预定义的字符&amp;、”、 ’、&lt;、&gt;转换为 HTML 实体，防止浏览器将其作为HTML元素。</p>
 
                 
               </div>

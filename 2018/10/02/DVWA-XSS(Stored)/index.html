@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/02/DVWA-XSS(Stored)/clipboard-1671786012590.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/10/02/DVWA-XSS(Stored)/clipboard-1671786022986.png">
 <meta property="article:published_time" content="2018-10-02T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-25T07:07:40.463Z">
+<meta property="article:modified_time" content="2022-12-25T08:41:15.797Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://rdyx0.github.io/2018/10/02/DVWA-XSS(Stored)/clipboard.png">
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.2k 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          9 分钟
+          11 分钟
         
       </span>
     
@@ -298,9 +298,9 @@
 <p>函数删除字符串中的反斜杠。</p>
 <p>可以看到，对输入并没有做XSS方面的过滤与检查，且存储在数据库中，因此这里存在明显的存储型XSS漏洞。</p>
 <p>漏洞利用 </p>
-<p>message一栏输入<script>alert(/xss/)</script>，成功弹框：</p>
+<p>message一栏输入<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>，成功弹框：</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785784091.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>name一栏前端有字数限制，抓包改为<script>alert(/name/)</script>：</p>
+<p>name一栏前端有字数限制，抓包改为<code>&lt;script&gt;alert(/name/)&lt;/script&gt;</code>：</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785798482.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>审查元素，修改长度限制</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785828362.png" srcset="/img/loading.gif" lazyload alt="img"></p>
@@ -311,14 +311,14 @@
 <p>相关函数说明</p>
 <p>strip_tags() 函数剥去字符串中的 HTML、XML 以及 PHP 的标签，但允许使用<b>标签。</p>
 <p>addslashes() 函数返回在预定义字符（单引号、双引号、反斜杠、NULL）之前添加反斜杠的字符串。</p>
-<p>可以看到，由于对message参数使用了htmlspecialchars函数进行编码，因此无法再通过message参数注入XSS代码，但是对于name参数，只是简单过滤了<script>字符串，仍然存在存储型的XSS。</p>
+<p>可以看到，由于对message参数使用了htmlspecialchars函数进行编码，因此无法再通过message参数注入XSS代码，但是对于name参数，只是简单过滤了<code>&lt;script&gt;</code>字符串，仍然存在存储型的XSS。</p>
 <p>1.双写绕过</p>
-<p>抓包改name参数为<sc<script>ript>alert(/xss/)</script>:</p>
+<p>抓包改name参数为<code>&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt;</code>:</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785940666.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>成功弹窗</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785963697.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>2.大小写混淆绕过</p>
-<p>抓包改name参数为<Script>alert(/xss/)</script>:</p>
+<p>抓包改name参数为<code>&lt;Script&gt;alert(/xss/)&lt;/script&gt;</code>:</p>
 <p>3.使用不带script标签的payload，鼠标移动到图片，触发弹窗</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onmouseover</span>=<span class="hljs-string">&quot;alert(/xss/)&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
 
@@ -326,7 +326,7 @@
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785969176.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <h2 id="3-XSS-Stored-High"><a href="#3-XSS-Stored-High" class="headerlink" title="3.XSS(Stored)(High)"></a>3.XSS(Stored)(High)</h2><p>相关代码分析</p>
 <p><img src="/2018/10/02/DVWA-XSS(Stored)/clipboard-1671785988534.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>可以看到，这里使用正则表达式过滤了<script>标签，但是却忽略了img、iframe等其它危险的标签，因此name参数依旧存在存储型XSS。</p>
+<p>可以看到，这里使用正则表达式过滤了<code>&lt;script&gt;</code>标签，但是却忽略了img、iframe等其它危险的标签，因此name参数依旧存在存储型XSS。</p>
 <p>抓包改name参数为</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=1 <span class="hljs-attribute">onerror</span>=alert(1)&gt;<br></code></pre></td></tr></table></figure>
 

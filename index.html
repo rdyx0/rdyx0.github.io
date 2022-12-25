@@ -257,7 +257,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2018/10/01/DVWA-XSS(Reflected)/" target="_self">
         <div>
-          9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:alert(/xss/)，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的删除，这种防护机制是可以被轻松
+          9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:&lt;script&gt;alert(/xss/)&lt;/script&gt;，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_
         </div>
       </a>
 
