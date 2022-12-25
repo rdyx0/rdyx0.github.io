@@ -16,12 +16,12 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="8.SQL Injection (Blind)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因此这里是SQL盲注漏洞。 由题可知是布尔盲注，只会返回T">
+    <meta name="description" content="8.SQL Injection (Blind)1.SQL Injection (Blind)(Low)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DVWA-SQL Injection (Blind)">
 <meta property="og:url" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="8.SQL Injection (Blind)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因此这里是SQL盲注漏洞。 由题可知是布尔盲注，只会返回T">
+<meta property="og:description" content="8.SQL Injection (Blind)1.SQL Injection (Blind)(Low)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard-1671785393490.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard-1671785499335.png">
 <meta property="og:image" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard-1671785547460.png">
 <meta property="article:published_time" content="2018-09-30T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-25T07:04:01.538Z">
+<meta property="article:modified_time" content="2022-12-25T10:00:11.631Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://rdyx0.github.io/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard.png">
@@ -287,7 +287,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="8-SQL-Injection-Blind"><a href="#8-SQL-Injection-Blind" class="headerlink" title="8.SQL Injection (Blind)"></a>8.SQL Injection (Blind)</h1><p>相关代码分析</p>
+                <h1 id="8-SQL-Injection-Blind"><a href="#8-SQL-Injection-Blind" class="headerlink" title="8.SQL Injection (Blind)"></a>8.SQL Injection (Blind)</h1><h2 id="1-SQL-Injection-Blind-Low"><a href="#1-SQL-Injection-Blind-Low" class="headerlink" title="1.SQL Injection (Blind)(Low)"></a>1.SQL Injection (Blind)(Low)</h2><p>相关代码分析</p>
 <p><img src="/2018/09/30/DVWA-SQL%20Injection%20(Blind)/clipboard.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种，</p>
 <p>‘<pre>User ID exists in the database.</pre>‘ 与</p>
