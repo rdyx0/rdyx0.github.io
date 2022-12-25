@@ -216,15 +216,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/22/Pikachu%E9%9D%B6%E5%9C%BA-SSRF/" target="_self">
-          Pikachu靶场-SSRF
+        <a href="/2018/10/02/DVWA-XSS(Stored)/" target="_self">
+          DVWA-XSS(Stored)
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/22/Pikachu%E9%9D%B6%E5%9C%BA-SSRF/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/10/02/DVWA-XSS(Stored)/" target="_self">
         <div>
-          15.SSRF1.SSRF(Server-Side Request Forgery服务器端请求伪造)SSRF(Server-Side Request Forgery:服务器端请求伪造) 其形成的原因大都是由于服务端提供了从其他服务器应用获取数据的功能,但又没有对目标地址做严格过滤与限制 导致攻击者可以传入任意的地址来让后端服务器对其发起请求,并返回对该目标地址请求的数据 数据流:攻击者—–&gt;
+          10.XSS(Stored)1.XSS(Stored)(Low)相关代码分析  trim(string,charlist) 函数移除字符串两侧的空白字符或其他预定义字符，预定义字符包括、\t、\n、\x0B、\r以及空格，可选参数charlist支持添加额外需要删除的字符。 mysql_real_escape_string(string,connection) 函数会对字符串中的特殊符号（\x00
         </div>
       </a>
 
@@ -232,8 +232,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-22 21:36" pubdate>
-              2018-09-22
+            <time datetime="2018-10-02 21:36" pubdate>
+              2018-10-02
             </time>
           </div>
         
@@ -249,15 +249,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/21/Pikachu%E9%9D%B6%E5%9C%BA-URL%E9%87%8D%E5%AE%9A%E5%90%91/" target="_self">
-          Pikachu靶场-URL重定向
+        <a href="/2018/10/01/DVWA-XSS(Reflected)/" target="_self">
+          DVWA-XSS(Reflected)
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/21/Pikachu%E9%9D%B6%E5%9C%BA-URL%E9%87%8D%E5%AE%9A%E5%90%91/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/10/01/DVWA-XSS(Reflected)/" target="_self">
         <div>
-          14.URL重定向1.不安全的url跳转不安全的url跳转 不安全的url跳转问题可能发生在一切执行了url地址跳转的地方。 如果后端采用了前端传进来的(可能是用户传参,或者之前预埋在前端页面的url地址)参数作为了跳转的目的地,而又没有做判断的话 就可能发生”跳错对象”的问题。 url跳转比较直接的危害是: –&gt;钓鱼,即攻击者使用漏洞方的域名(比如一个比较出名的公司域名往往会让用户放心的点
+          9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:alert(/xss/)，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_replace函数将输入中的删除，这种防护机制是可以被轻松
         </div>
       </a>
 
@@ -265,8 +265,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-21 21:36" pubdate>
-              2018-09-21
+            <time datetime="2018-10-01 21:36" pubdate>
+              2018-10-01
             </time>
           </div>
         
@@ -282,15 +282,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/20/Pikachu%E9%9D%B6%E5%9C%BA-XXE/" target="_self">
-          Pikachu靶场-XXE
+        <a href="/2018/09/30/DVWA-SQL%20Injection%20(Blind)/" target="_self">
+          DVWA-SQL Injection (Blind)
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/20/Pikachu%E9%9D%B6%E5%9C%BA-XXE/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/30/DVWA-SQL%20Injection%20(Blind)/" target="_self">
         <div>
-          13.XXE1.XXE -xml external entity injectionXXE -“xml external entity injection” 既”xml外部实体注入漏洞”。 概括一下就是”攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题” 也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。
+          8.SQL Injection (Blind)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因此这里是SQL盲注漏洞。 由题可知是布尔盲注，只会返回T
         </div>
       </a>
 
@@ -298,8 +298,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-20 21:36" pubdate>
-              2018-09-20
+            <time datetime="2018-09-30 21:36" pubdate>
+              2018-09-30
             </time>
           </div>
         
@@ -315,15 +315,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/19/Pikachu%E9%9D%B6%E5%9C%BA-PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
-          Pikachu靶场-PHP反序列化
+        <a href="/2018/09/29/DVWA-SQL%20Injection/" target="_self">
+          DVWA-SQL Injection
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/19/Pikachu%E9%9D%B6%E5%9C%BA-PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/29/DVWA-SQL%20Injection/" target="_self">
         <div>
-          12.PHP反序列化1.PHP反序列化概述在理解这个漏洞前,你需要先搞清楚php中serialize()，unserialize()这两个函数。 序列化serialize() 序列化说通俗点就是把一个对象变成可以传输的字符串,比如下面是一个对象: 12345678910111213141516class S&#123;	public $test=&quot;pikachu&quot;;&#125;
+          7.SQL Injection1.SQL Injection(Low)相关代码分析  可以看到代码没有对id参数做任何过滤，会导致SQL注入漏洞 输入1，正常返回  输入1’，产生报错，存在字符型SQL注入  判断字段数，输入1’ order by 2 – q，回显正常，用– q注释掉前面的单引号  输入1’ order by 3 – q，回显错误，所以字段数为2  判断回显点，输入1’ unio
         </div>
       </a>
 
@@ -331,8 +331,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-19 21:36" pubdate>
-              2018-09-19
+            <time datetime="2018-09-29 21:36" pubdate>
+              2018-09-29
             </time>
           </div>
         
@@ -348,15 +348,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/18/Pikachu%E9%9D%B6%E5%9C%BA-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" target="_self">
-          Pikachu靶场-敏感信息泄露
+        <a href="/2018/09/28/DVWA-Insecure%20CAPTCHA/" target="_self">
+          DVWA-Insecure CAPTCHA
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/18/Pikachu%E9%9D%B6%E5%9C%BA-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/28/DVWA-Insecure%20CAPTCHA/" target="_self">
         <div>
-          11.敏感信息泄露1.敏感信息泄露概述敏感信息泄露概述 由于后台人员的疏忽或者不当的设计，导致不应该被前端用户看到的数据被轻易的访问到。 比如： —通过访问url下的目录，可以直接列出目录下的文件列表; —输入错误的url参数后报错信息里面包含操作系统、中间件、开发语言的版本或其他信息; —前端的源码（html,css,js）里面包含了敏感信息，比如后台登录地址、内网接口信息、甚至账号密码等; 类
+          6.Insecure CAPTCHA1.Insecure CAPTCHA(Low)相关代码分析 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475&lt;?php if
         </div>
       </a>
 
@@ -364,8 +364,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-18 21:36" pubdate>
-              2018-09-18
+            <time datetime="2018-09-28 21:36" pubdate>
+              2018-09-28
             </time>
           </div>
         
@@ -381,15 +381,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/17/Pikachu%E9%9D%B6%E5%9C%BA-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" target="_self">
-          Pikachu靶场-目录遍历
+        <a href="/2018/09/27/DVWA-File%20Upload/" target="_self">
+          DVWA-File Upload
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/17/Pikachu%E9%9D%B6%E5%9C%BA-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/27/DVWA-File%20Upload/" target="_self">
         <div>
-          10.目录遍历1.目录遍历漏洞概述目录遍历漏洞概述 在web功能设计中,很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“..&#x2F;”这样的手段让后台打开或者执行一些其他的文件。
+          5.File Upload1.File Upload(Low)相关代码分析 12345678910111213141516171819&lt;?php if( isset( $_POST[ &#x27;Upload&#x27; ] ) ) &#123;	// Where are we going to be writing to?	$target_path  = DVWA_WEB_PAGE_TO_
         </div>
       </a>
 
@@ -397,8 +397,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-17 21:36" pubdate>
-              2018-09-17
+            <time datetime="2018-09-27 21:36" pubdate>
+              2018-09-27
             </time>
           </div>
         
@@ -414,15 +414,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/16/Pikachu%E9%9D%B6%E5%9C%BA-Over%20Permission/" target="_self">
-          Pikachu靶场-Over Permission
+        <a href="/2018/09/26/DVWA-File%20Inclusion/" target="_self">
+          DVWA-File Inclusion
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/16/Pikachu%E9%9D%B6%E5%9C%BA-Over%20Permission/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/26/DVWA-File%20Inclusion/" target="_self">
         <div>
-          9.Over Permission1.Over Permission概述如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。 越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。 一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对 对当前用户的权限进行校验，看其是否具备操作
+          4.File Inclusion1.File Inclusion(Low) 相关代码分析 123456&lt;?php // The page we wish to display$file = $_GET[ &#x27;page&#x27; ]; ?&gt;  可以看到，服务器端对page参数没有做任何的过滤跟检查。 服务器期望用户的操作是点击下面的三个链接，服务器会包含相应的文件，并将结果返回
         </div>
       </a>
 
@@ -430,8 +430,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-16 21:36" pubdate>
-              2018-09-16
+            <time datetime="2018-09-26 21:36" pubdate>
+              2018-09-26
             </time>
           </div>
         
@@ -447,15 +447,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" target="_self">
-          Pikachu靶场-Unsafe Fileupload
+        <a href="/2018/09/25/DVWA-CSRF/" target="_self">
+          DVWA-CSRF
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/25/DVWA-CSRF/" target="_self">
         <div>
-          8.Unsafe Fileupload1.不安全的文件上传漏洞概述不安全的文件上传漏洞概述 文件上传功能在web应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。 如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能
+          3.CSRF1.CSRF(Low)相关代码分析  可以看到，服务器收到修改密码的请求后，会检查参数password_new与password_conf是否相同，如果相同，就会修改密码，并没有任何的防CSRF机制（当然服务器对请求的发送者是做了身份验证的，是检查的cookie，只是这里的代码没有体现）。 修改密码，然后抓包，记录下修改密码的连接 http://43.247.91.228:81/vul
         </div>
       </a>
 
@@ -463,8 +463,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-15 21:36" pubdate>
-              2018-09-15
+            <time datetime="2018-09-25 21:36" pubdate>
+              2018-09-25
             </time>
           </div>
         
@@ -480,15 +480,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/" target="_self">
-          Pikachu靶场-Unsafe Filedownload
+        <a href="/2018/09/24/DVWA-Command%20Injection/" target="_self">
+          DVWA-Command Injection
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/24/DVWA-Command%20Injection/" target="_self">
         <div>
-          7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断
+          2.Command Injection1.Command Injection(Low)相关代码分析 123456789101112131415161718192021&lt;?php if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;	// Get input	$target = $_REQUEST[ &#x27;ip&#x27; ]; 	//
         </div>
       </a>
 
@@ -496,8 +496,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-14 21:36" pubdate>
-              2018-09-14
+            <time datetime="2018-09-24 21:36" pubdate>
+              2018-09-24
             </time>
           </div>
         
@@ -513,15 +513,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" target="_self">
-          Pikachu靶场-File Inclusion
+        <a href="/2018/09/23/DVWA-Brute%20Force/" target="_self">
+          DVWA-Brute Force
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/23/DVWA-Brute%20Force/" target="_self">
         <div>
-          6.File Inclusion1.File Inclusion(文件包含漏洞)概述File Inclusion(文件包含漏洞)概述 文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。 比如 在PHP中，提供了： include(),include_once() require(),require_once() 这些
+          1.Brute Force1.Brute Force(Low)相关的代码分析 1234567if( isset( $_GET[ &#x27;Login&#x27; ] ) ) &#123;    // Get username    $user = $_GET[ &#x27;username&#x27; ];    // Check the database    $query  = &quot;
         </div>
       </a>
 
@@ -529,8 +529,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-13 21:36" pubdate>
-              2018-09-13
+            <time datetime="2018-09-23 21:36" pubdate>
+              2018-09-23
             </time>
           </div>
         
@@ -544,7 +544,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
