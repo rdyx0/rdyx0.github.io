@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1.暴力破解1.Burte Force（暴力破解）概述Burte Force（暴力破解）概述 “暴力破解”是一攻击具手段，在web攻击中，一般会使用这种手段对应用系统的认证信息进行获取。 其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。 为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。 理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pikachu靶场-暴力破解">
+<meta property="og:url" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/index.html">
+<meta property="og:site_name" content="儒道易行">
+<meta property="og:description" content="1.暴力破解1.Burte Force（暴力破解）概述Burte Force（暴力破解）概述 “暴力破解”是一攻击具手段，在web攻击中，一般会使用这种手段对应用系统的认证信息进行获取。 其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。 为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。 理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765821954.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765827075.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765833339.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765842895.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765849464.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765854270.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765859031.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765880962.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765921665.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765880963.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765929703.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765938419.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765948047.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765979434.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765984263.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765993075.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775074964.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775084012.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775093524.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775103295.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775111756.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775124795.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775168115.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775192296.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775201793.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775211920.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775219037.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775226842.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775241696.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775250242.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775259250.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775268461.png">
+<meta property="og:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/ip_image002.jpeg">
+<meta property="article:published_time" content="2019-09-08T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-27T02:35:00.340Z">
+<meta property="article:author" content="儒道易行">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://rdyx0.github.io/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765821954.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Pikachu靶场-暴力破解 - 儒道易行</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>儒道易行</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Pikachu靶场-暴力破解"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-09-08 21:36" pubdate>
+          2019年9月8日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Pikachu靶场-暴力破解</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-暴力破解"><a href="#1-暴力破解" class="headerlink" title="1.暴力破解"></a>1.暴力破解</h1><h2 id="1-Burte-Force（暴力破解）概述"><a href="#1-Burte-Force（暴力破解）概述" class="headerlink" title="1.Burte Force（暴力破解）概述"></a>1.Burte Force（暴力破解）概述</h2><p>Burte Force（暴力破解）概述</p>
+<p>“暴力破解”是一攻击具手段，在web攻击中，一般会使用这种手段对应用系统的认证信息进行获取。 其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。 为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。</p>
+<p>理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能力和时间，所以断定一个系统是否存在暴力破解漏洞，其条件也不是绝对的。 我们说一个web应用系统存在暴力破解漏洞，一般是指该web应用系统没有采用或者采用了比较弱的认证安全策略，导致其被暴力破解的“可能性”变的比较高。 这里的认证安全策略, 包括：</p>
+<p>1.是否要求用户设置复杂的密码；</p>
+<p>2.是否每次认证都使用安全的验证码（想想你买火车票时输的验证码～）或者手机otp；</p>
+<p>3.是否对尝试登录的行为进行判断和限制（如：连续5次错误登录，进行账号锁定或IP地址锁定等）；</p>
+<p>4.是否采用了双因素认证；</p>
+<p>…等等。</p>
+<p>千万不要小看暴力破解漏洞,往往这种简单粗暴的攻击方式带来的效果是超出预期的!</p>
+<h2 id="2-基于表单的暴力破解"><a href="#2-基于表单的暴力破解" class="headerlink" title="2.基于表单的暴力破解"></a>2.基于表单的暴力破解</h2><p>1.进入靶场</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765821954.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>2.账号密码随便输入，登录抓包，右键发送到intruder模块</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765827075.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>3.把密码字段设置为变量</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765833339.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>4.导入密码文件</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765842895.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>5.设置线程</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765849464.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>6.进行爆破</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765854270.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>7.爆破完毕之后，对结果进行排序，点击数字不同的返回包，看是否登陆成功，如图所示，登陆成功</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765859031.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="3-验证码绕过-on-server"><a href="#3-验证码绕过-on-server" class="headerlink" title="3.验证码绕过(on server)"></a>3.验证码绕过(on server)</h2><p>1.进入靶场，可以看到本靶场需要输入验证码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765880962.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>2.账号密码随便输入，登录抓包，右键发送到intruder模块，先发到repeater重发器重放</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765921665.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>3.再次发送发现验证码可重复使用，可以直接爆破</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765880963.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>4.这一关的验证码是在后台服务端生成后放到前端客户端，如果后台服务端验证码刷新了，则上一次的验证码失效。</p>
+<p>抓包后，发现验证码参数，经测试直接放入Intruder模块爆破即可，不要在Proxy-&gt;Intercept模块放包后刷新页面，因为刷新页面后后台服务端的验证码也会随之刷新，从而使上一次验证码失效，导致爆破不了。</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765929703.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>5.接下来的步骤同上一题</p>
+<p>6.请求包密码为123456，带着验证码参数请求</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765938419.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>7.返回包中，返回了login success字样，成功爆破到密码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765948047.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="4-验证码绕过-on-client"><a href="#4-验证码绕过-on-client" class="headerlink" title="4.验证码绕过(on client)"></a>4.验证码绕过(on client)</h2><p>1.进入靶场，可以看到本靶场需要输入验证码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765979434.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>2.客户端自己验证自己，就是一切都用户说了算。f12开发者模式查看网页源码发现验证码的生成和验证码的校验都是通过前段实现的</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765984263.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>弹框，也可以说明是前端javascript验证验证码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671765993075.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>3.账号密码随便输入，登录抓包</p>
+<p>4.过关方法</p>
+<p>（1）这一关的验证码是在前端客户端生成的，所以将验证码参数删除，右键发送到intruder模块</p>
+<p>（2）禁用浏览器js脚本，验证码就不会显示了</p>
+<p>  首先网站是有验证码的</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775074964.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p> 谷歌浏览器禁用js</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775084012.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>刷新页面，验证码就消失了，就可以继续爆破了</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775093524.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（3）只要正确填写过一次验证码（注意它这里的验证码是区分大小写），让burp抓到包就可以爆破了</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775103295.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>5.接下来的步骤同上一题</p>
+<p>6.可以看到请求包中并没有验证码参数</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775111756.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>7.返回包中，返回了login success字样，成功爆破到密码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775124795.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="5-token防爆破"><a href="#5-token防爆破" class="headerlink" title="5.token防爆破"></a>5.token防爆破</h2><p>token防爆破?</p>
+<p>查看源码我们会就会发现，每次请求里面都会加上token的值，所以如果我们爆破的话，每次爆破，都要有三个参数，分别是username，password，token，比较麻烦，这里提供两种方法，第一种使用burpsuite进行暴力破解，第二种方法是使用python脚本。</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775168115.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>第一种方法，使用burpsuite神器进行暴力破解</p>
+<p>1.进入靶场</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775192296.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>2.抓取数据包可以看到请求头中有token参数，重放两次数据报后会提示token错误</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775201793.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>3.通过测试发现每个数据包的token在变化，尝试使用pitchfork进行爆破</p>
+<p>具体设置如下：</p>
+<p>选择pitchfork进行爆破，添加密码和token变量</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775211920.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>4.因为token值是单次传递的，所以线程数改为1</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775219037.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>5.在GREP-Extract中获取响应包，从中提取参数。选中token值，这个时候工具会自动编辑规则，复制token值备用。点击ok。</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775226842.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>6.在页面最底部找到always选项</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775241696.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>7.回到payloads模块，正常添加第一个变量密码的字典</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775250242.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>8.第二个变量选择递归搜索(Recursive grep)</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775259250.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>9.返回包中，返回了login success字样，成功爆破到密码</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/clipboard-1671775268461.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>第二种方法，通过burpsuite截断信息，我们可以获取cookie及post提交的字段信息；</p>
+<p>根据获取到的信息编写Python脚本，python脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br>s = requests.session()<br>password = [<span class="hljs-string">&#x27;123&#x27;</span>, <span class="hljs-string">&#x27;456&#x27;</span>, <span class="hljs-string">&#x27;123456&#x27;</span>, <span class="hljs-string">&#x27;67899&#x27;</span>]<br><span class="hljs-comment"># 设置http请求头部信息</span><br>header = &#123;<br>    <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36&#x27;</span><br>                  <span class="hljs-string">&#x27; (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36&#x27;</span>,<br>    <span class="hljs-string">&#x27;Cookie&#x27;</span>: <span class="hljs-string">&#x27;PHPSESSID=of5tkhcr385na1oij0h90vr1r0&#x27;</span><br>&#125;<br>req = s.get(<span class="hljs-string">&#x27;http://x.x.x.x/vul/burteforce/bf_token.php#&#x27;</span>)<br><span class="hljs-comment"># token验证</span><br>token= BeautifulSoup(req.text,<span class="hljs-string">&#x27;lxml&#x27;</span>).find(<span class="hljs-string">&#x27;input&#x27;</span>,&#123;<span class="hljs-string">&#x27;name&#x27;</span>:<span class="hljs-string">&#x27;token&#x27;</span>&#125;).get(<span class="hljs-string">&#x27;value&#x27;</span>)<br><span class="hljs-keyword">for</span> pa <span class="hljs-keyword">in</span> password:<br>    <span class="hljs-comment"># 基于表单的暴力破解</span><br>    <span class="hljs-comment"># req=s.post(url=&#x27;http://x.x.x.x/vul/burteforce/bf_form.php&#x27;,data=&#123;&#x27;username&#x27;:&#x27;admin&#x27;,&#x27;password&#x27;:pa,&#x27;submit&#x27;:&#x27;Login&#x27;&#125;)</span><br>    <span class="hljs-comment"># 验证码绕过（on server)未失效，可重复使用</span><br>    <span class="hljs-comment"># data = &#123;&#x27;username&#x27;: &#x27;admin&#x27;, &#x27;password&#x27;: pa, &#x27;vcode&#x27;: &#x27;14xkgk&#x27;, &#x27;submit&#x27;: &#x27;Login&#x27;&#125;</span><br>    <span class="hljs-comment"># req = requests.post(url=&#x27;http://x.x.x.x/vul/burteforce/bf_server.php&#x27;,</span><br>    <span class="hljs-comment">#                     data=data, headers=header)</span><br>    <span class="hljs-comment"># 基于client端验证码，后台无校验</span><br>    <span class="hljs-comment"># req=s.post(url=&#x27;http://x.x.x.x/vul/burteforce/bf_token.php&#x27;,data=&#123;&#x27;username&#x27;:&#x27;admin&#x27;,&#x27;password&#x27;:pa,&#x27;submit&#x27;:&#x27;Login&#x27;&#125;)</span><br>    <span class="hljs-comment"># 基于token验证</span><br>    req=s.post(url=<span class="hljs-string">&#x27;http://x.x.x.x/vul/burteforce/bf_token.php#&#x27;</span>,data=&#123;<span class="hljs-string">&#x27;username&#x27;</span>:<span class="hljs-string">&#x27;admin&#x27;</span>,<span class="hljs-string">&#x27;password&#x27;</span>:pa,<span class="hljs-string">&#x27;token&#x27;</span>:token,<span class="hljs-string">&#x27;submit&#x27;</span>:<span class="hljs-string">&#x27;Login&#x27;</span>&#125;)<br> <br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;success&#x27;</span> <span class="hljs-keyword">in</span> req.text:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;爆破成功，用户名：admin,密码为：%s&quot;</span> % pa)<br>        <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">else</span>:<br>        req = s.get(<span class="hljs-string">&#x27;http://x.x.x.x/vul/burteforce/bf_token.php#&#x27;</span>)<br>        token = BeautifulSoup(req.text, <span class="hljs-string">&#x27;lxml&#x27;</span>).find(<span class="hljs-string">&#x27;input&#x27;</span>, &#123;<span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;token&#x27;</span>&#125;).get(<span class="hljs-string">&#x27;value&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>此脚本来源于<a target="_blank" rel="noopener" href="https://blog.csdn.net/Nicky_Zheng/article/details/109170903">https://blog.csdn.net/Nicky_Zheng/article/details/109170903</a></p>
+<p>脚本成功运行后，爆破到密码，如下图</p>
+<p><img src="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/ip_image002.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Pikachu靶场-暴力破解</div>
+      <div>http://rdyx0.github.io/2019/09/08/Pikachu靶场-暴力破解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年9月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

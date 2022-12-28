@@ -60,7 +60,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -216,15 +216,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/2018/10/02/DVWA-XSS(Stored)/" target="_self">
-          DVWA-XSS(Stored)
+        <a href="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" target="_self">
+          Pikachu靶场-暴力破解
         </a>
       </h1>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/10/02/DVWA-XSS(Stored)/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2019/09/08/Pikachu%E9%9D%B6%E5%9C%BA-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3/" target="_self">
         <div>
-          10.XSS(Stored)1.XSS(Stored)(Low)相关代码分析  trim(string,charlist) 函数移除字符串两侧的空白字符或其他预定义字符，预定义字符包括、\t、\n、\x0B、\r以及空格，可选参数charlist支持添加额外需要删除的字符。 mysql_real_escape_string(string,connection) 函数会对字符串中的特殊符号（\x00
+          1.暴力破解1.Burte Force（暴力破解）概述Burte Force（暴力破解）概述 “暴力破解”是一攻击具手段，在web攻击中，一般会使用这种手段对应用系统的认证信息进行获取。 其过程就是使用大量的认证信息在认证接口进行尝试登录，直到得到正确的结果。 为了提高效率，暴力破解一般会使用带有字典的工具来进行自动化操作。 理论上来说，大多数系统都是可以被暴力破解的，只要攻击者有足够强大的计算能
         </div>
       </a>
 
@@ -232,305 +232,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2018-10-02 21:36" pubdate>
-              2018-10-02
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/10/01/DVWA-XSS(Reflected)/" target="_self">
-          DVWA-XSS(Reflected)
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/10/01/DVWA-XSS(Reflected)/" target="_self">
-        <div>
-          9.XSS(Reflected)1.XSS(Reflected)(Low)相关代码分析  代码直接引用了name参数，并没有任何的过滤与检查，存在明显的XSS漏洞。 输入payload:&lt;script&gt;alert(/xss/)&lt;/script&gt;，成功弹框：  2.XSS(Reflected)(Medium)相关代码分析  这里对输入进行了过滤，基于黑名单的思想，使用str_
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-10-01 21:36" pubdate>
-              2018-10-01
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/30/DVWA-SQL%20Injection%20(Blind)/" target="_self">
-          DVWA-SQL Injection (Blind)
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/30/DVWA-SQL%20Injection%20(Blind)/" target="_self">
-        <div>
-          8.SQL Injection (Blind)1.SQL Injection (Blind)(Low)相关代码分析  可以看到，Low级别的代码对参数id没有做任何检查、过滤，存在明显的SQL注入漏洞，同时SQL语句查询返回的结果只有两种， ‘User ID exists in the database.‘ 与  ‘User ID is MISSING from the database.‘; 因
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-30 21:36" pubdate>
-              2018-09-30
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/29/DVWA-SQL%20Injection/" target="_self">
-          DVWA-SQL Injection
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/29/DVWA-SQL%20Injection/" target="_self">
-        <div>
-          7.SQL Injection1.SQL Injection(Low)相关代码分析  可以看到代码没有对id参数做任何过滤，会导致SQL注入漏洞 输入1，正常返回  输入1’，产生报错，存在字符型SQL注入  判断字段数，输入1’ order by 2 – q，回显正常，用– q注释掉前面的单引号  输入1’ order by 3 – q，回显错误，所以字段数为2  判断回显点，输入1’ unio
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-29 21:36" pubdate>
-              2018-09-29
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/28/DVWA-Insecure%20CAPTCHA/" target="_self">
-          DVWA-Insecure CAPTCHA
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/28/DVWA-Insecure%20CAPTCHA/" target="_self">
-        <div>
-          6.Insecure CAPTCHA1.Insecure CAPTCHA(Low)相关代码分析 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475&lt;?php if
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-28 21:36" pubdate>
-              2018-09-28
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/27/DVWA-File%20Upload/" target="_self">
-          DVWA-File Upload
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/27/DVWA-File%20Upload/" target="_self">
-        <div>
-          5.File Upload1.File Upload(Low)相关代码分析 12345678910111213141516171819&lt;?php if( isset( $_POST[ &#x27;Upload&#x27; ] ) ) &#123;	// Where are we going to be writing to?	$target_path  = DVWA_WEB_PAGE_TO_
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-27 21:36" pubdate>
-              2018-09-27
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/26/DVWA-File%20Inclusion/" target="_self">
-          DVWA-File Inclusion
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/26/DVWA-File%20Inclusion/" target="_self">
-        <div>
-          4.File Inclusion1.File Inclusion(Low) 相关代码分析 123456&lt;?php // The page we wish to display$file = $_GET[ &#x27;page&#x27; ]; ?&gt;  可以看到，服务器端对page参数没有做任何的过滤跟检查。 服务器期望用户的操作是点击下面的三个链接，服务器会包含相应的文件，并将结果返回
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-26 21:36" pubdate>
-              2018-09-26
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/25/DVWA-CSRF/" target="_self">
-          DVWA-CSRF
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/25/DVWA-CSRF/" target="_self">
-        <div>
-          3.CSRF1.CSRF(Low)相关代码分析  可以看到，服务器收到修改密码的请求后，会检查参数password_new与password_conf是否相同，如果相同，就会修改密码，并没有任何的防CSRF机制（当然服务器对请求的发送者是做了身份验证的，是检查的cookie，只是这里的代码没有体现）。 修改密码，然后抓包，记录下修改密码的连接 http://43.247.91.228:81/vul
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-25 21:36" pubdate>
-              2018-09-25
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/24/DVWA-Command%20Injection/" target="_self">
-          DVWA-Command Injection
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/24/DVWA-Command%20Injection/" target="_self">
-        <div>
-          2.Command Injection1.Command Injection(Low)相关代码分析 123456789101112131415161718192021&lt;?php if( isset( $_POST[ &#x27;Submit&#x27; ]  ) ) &#123;	// Get input	$target = $_REQUEST[ &#x27;ip&#x27; ]; 	//
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-24 21:36" pubdate>
-              2018-09-24
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2018/09/23/DVWA-Brute%20Force/" target="_self">
-          DVWA-Brute Force
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2018/09/23/DVWA-Brute%20Force/" target="_self">
-        <div>
-          1.Brute Force1.Brute Force(Low)相关的代码分析 1234567if( isset( $_GET[ &#x27;Login&#x27; ] ) ) &#123;    // Get username    $user = $_GET[ &#x27;username&#x27; ];    // Check the database    $query  = &quot;
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2018-09-23 21:36" pubdate>
-              2018-09-23
+            <time datetime="2019-09-08 21:36" pubdate>
+              2019-09-08
             </time>
           </div>
         
@@ -541,12 +244,6 @@
   </div>
 
 
-
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
 
 
 
