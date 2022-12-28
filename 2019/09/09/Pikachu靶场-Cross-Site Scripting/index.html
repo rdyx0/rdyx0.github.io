@@ -62,7 +62,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/cc5dd6bba017762d396d8f8d0211c589.png">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/035ae57fe3bc4cf4a3d15353640afa02.png">
 <meta property="article:published_time" content="2019-09-09T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-28T07:23:23.548Z">
+<meta property="article:modified_time" content="2022-12-28T07:37:29.438Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/7d46ddad3db0a8d14ea70222f8a43063.png">
@@ -250,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.7k 字
+          3.6k 字
         
       </span>
     
@@ -326,88 +326,66 @@
 <h2 id="2-反射型xss-get"><a href="#2-反射型xss-get" class="headerlink" title="2.反射型xss(get)"></a>2.反射型xss(get)</h2><p>反射型XSS(get)</p>
 <p>输入 ‘ “ &lt;&gt; 特殊字符都可以原封不动的输出，可以发现没有任何过滤</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/7d46ddad3db0a8d14ea70222f8a43063.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/c707046da39653478998a101214278c7.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>在测试时，写入xss的payload发现被前端限制了输入长度</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/c2f73dd5b31addf84c2e9d4ac982604d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>审查元素修改下长度，输入payload：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>即可</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/48c6b4b751baed5ba8878825998ccb65.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>提交后，发现触发了xss</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/4e65cb07709cc4fe5eb3655836bec45f.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>查看后台代码，发现 后台代码并没有对你输入的东西 做任何修改 ，只是原封不动的输出了</p>
 <h2 id="3-反射型xss-post"><a href="#3-反射型xss-post" class="headerlink" title="3.反射型xss(post)"></a>3.反射型xss(post)</h2><p>输入账号密码：admin&#x2F;123456 登入</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/e72f5ae676ad191c0d602a5d64041571.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>成功登陆后的界面</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/7edc52d1b46679af58a9510da207264b.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>登入后直接输入payload：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/8b79d8f21f06fc502bafa807a749041f.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="4-存储型xss"><a href="#4-存储型xss" class="headerlink" title="4.存储型xss"></a>4.存储型xss</h2><p>输入特殊字符：’”&lt;&gt; 发现没有过滤</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/8dc62a7aeab278f3d38bc10dc877c349.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/96d827c08d08f2b23e67669f8b5d67d0.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/87cf1deefeddd200594c33e4199d2b74.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>直接输入payload：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/521ff5ba65ecf7f0e0364f7a919876e3.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>查看后台代码</p>
 <p>判断message是否存在，并且 message不为空</p>
 <p>进行了转义，防止sql注入</p>
 <p>插数据库的时候，做了对应的转义，防止数据库的注入 ，把message 插入到表中 存下来，存到后台</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/6fe5374662c5fcd2696ca2de2bf67316.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>将存储的留言 都显示出来</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/458fdcd6aabab0443e56b1dd0f740c8d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>每次点击存储型xss时就会弹窗，所以是持久型xss</p>
 <h2 id="5-DOM型xss"><a href="#5-DOM型xss" class="headerlink" title="5.DOM型xss"></a>5.DOM型xss</h2><p>HTML DOM树，可以理解为DOM为一个一个访问html的标准编程接口</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/13e3c54420852b36ed6ffb9b70a772e8.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>输入测试代码’”&lt;&gt; 显示的内容和我们的输入的有所不同</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/7281c28263fa44bdd401ffacd711e2ab.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>查看页面源码</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/04b5dd359c32ca71b91e2c29f698688b.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>getElementById获取标签id为text的值传递给str，str通过字符串拼接到a标签中。所以我们要闭合前面的<a>标签</p>
 <p>输入payload1：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&#x27;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;#&quot;</span> <span class="hljs-attr">onmouseover</span>=<span class="hljs-string">&quot;alert(&#x27;xss&#x27;)&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>可以发现我们的输入变成了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/432e5b192302284f52396b4de47a8668.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>当鼠标移动到图片位置就会触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/2cfb26c22f736889950c304c1cd2ff97.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>输入payload2：</p>
 <figure class="highlight scilab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scilab"><span class="hljs-string">&#x27; onclick=&quot;</span>alert(<span class="hljs-string">&#x27;xss&#x27;</span>)<span class="hljs-string">&quot;&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>可以发现我们的输入变成了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/64823da11974dfba190638ad8ab3cdc6.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>点击what do you see,便会触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/545ee8552b3eb6390098dc6eea3a8eee.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="6-DOM型xss-x"><a href="#6-DOM型xss-x" class="headerlink" title="6.DOM型xss-x"></a>6.DOM型xss-x</h2><p>查看网页源代码</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/32923599df56b322d6d32755cfc83c31.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>通过拼接代码的功能是从text框取值并插入到标签<a href=''>,例如输入alert，点击链接会跳转到 http://xxxx/xss/alert中，</p>
 <p>先闭合前面的<a>标签，再构造新的恶意标签拼接进代码</p>
 <p>输入payload1：</p>
@@ -415,48 +393,38 @@
 
 <p>可以发现我们的输入变成了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/3463b05b60faf344ce857963481144e2.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>当鼠标移动到图片位置就会触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/db0432a38628e1e9be9a697b245d8554.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>攻击过程：输入payload-》点击’请说出你的伤心往事‘-》点击’有些费尽心机…‘-》鼠标移动到图片位置</p>
 <p>输入payload2：</p>
 <figure class="highlight scilab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scilab"><span class="hljs-string">&#x27; onclick=&quot;</span>alert(<span class="hljs-string">&#x27;xss&#x27;</span>)<span class="hljs-string">&quot;&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>可以发现我们的输入变成了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/dc2dd03e8998efff4ff340b7fa7a45b8.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>点击’有些费尽心机…‘-》点击‘就让往事都随风’就会触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/bab18225e987759a7083eb49a66a0eb7.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="7-xss之盲打"><a href="#7-xss之盲打" class="headerlink" title="7.xss之盲打"></a>7.xss之盲打</h2><p>xss盲打是一种攻击场景。我们输出的payload不会在前端进行输出，当管理员查看时就会遭到xss攻击。</p>
 <p>输入常规的payload:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>,点击提交后发现这里提示一段文字，应该是直接打到后台了，找到后台，登录进去看看</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/3f34e9cb88c8bc9ffee2fcd1ce510201.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>后台地址是&#x2F;xssblind&#x2F;admin_login.php登录即可触发xss</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/3d5fc9b57f0ce2118a4dab940a6c7a0e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="8-xss之过滤"><a href="#8-xss之过滤" class="headerlink" title="8.xss之过滤"></a>8.xss之过滤</h2><p>输入<code>&#39;&lt;script&gt;”</code> 特殊字符，看输出结果字符被过滤，查看前端源码 输入与输出结果不一致</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/a5fa130fb69a91a49cff1067818b7a0c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>查看后端源码，发现对 &lt;script 标签进行了过滤，替换为空格，但是只是对小写进行了替换</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/54ede2d61c3b18781c7a535bd9286e91.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>尝试大小写绕过</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">SCRIPT</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">sCRIpt</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>成功弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/ef52b7904ed5bce8f9cc13f8c481f30d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>当script为过滤关键词时，可以尝试其他的payload，如</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onmouseover</span>=<span class="hljs-string">&quot;alert(/xss/)&quot;</span>&gt;<br>&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=<span class="hljs-string">&quot;alert(/xss/)&quot;</span>&gt;<br></code></pre></td></tr></table></figure>
 
 <p>点击图片的位置触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/2670d242fb26ff8504ec1e903ac2654c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="9-xss之htmlspecialchars"><a href="#9-xss之htmlspecialchars" class="headerlink" title="9.xss之htmlspecialchars"></a>9.xss之htmlspecialchars</h2><p>htmlspecialchars()函数定义及用法</p>
 <p>在php中，htmlspecialchars()函数是使用来把一些预定义的字符转换为HTML实体，返回转换后的新字符串，原字符串不变。如果 string 包含无效的编码，则返回一个空的字符串，除非设置了 ENT_IGNORE 或者 ENT_SUBSTITUTE 标志；</p>
 <p>被转换的预定义的字符有：</p>
@@ -472,31 +440,26 @@
 
 <p>可以看到我们的输入变成了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/fcd869da96dba12899250909f71c497c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>第一个单引号闭合href属性的双引号，第二个单引号闭合href属性的闭合双引号</p>
 <p>点击语句即可触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/cb1a82f72f419de1fe89359f95c5b3a0.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="10-xss之href输出"><a href="#10-xss之href输出" class="headerlink" title="10.xss之href输出"></a>10.xss之href输出</h2><p>输入测试代码#’ onclick&#x3D;’alert(&#x2F;xss&#x2F;) ，查看前端源码，发现单引号没有用了</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/e632a12bbd51faf2481976fd6df60219.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>在a标签的href属性里面,可以使用javascript协议来执行js，可以尝试使用伪协议绕过。</p>
 <figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arcade">javascript:alert(<span class="hljs-regexp">/xss/</span>)<br></code></pre></td></tr></table></figure>
 
 <p>点击即可触发弹窗</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/caaa94465aa39da6eef5570d8f2fa6d3.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <h2 id="11-xss之js输出"><a href="#11-xss之js输出" class="headerlink" title="11.xss之js输出"></a>11.xss之js输出</h2><p>输入测试代码</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>查看源码</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/cc5dd6bba017762d396d8f8d0211c589.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动">编辑</p>
 <p>输入的代码被生成在js中并赋值给$ms。我们的输入被带入到js中，可以闭合</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"><span class="hljs-title function_">alert</span>(<span class="hljs-regexp">/xss/</span>)</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br>&#x27;;alert(1);//<br></code></pre></td></tr></table></figure>
 
 <p>成功弹窗</p>
-<p><img src="https://img-blog.csdnimg.cn/035ae57fe3bc4cf4a3d15353640afa02.png" srcset="/img/loading.gif" lazyload alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" srcset="/img/loading.gif" lazyload alt="点击并拖拽以移动"></p>
+<p><img src="https://img-blog.csdnimg.cn/035ae57fe3bc4cf4a3d15353640afa02.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
 <p>博客:</p>
@@ -570,6 +533,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2019/09/10/Pikachu%E9%9D%B6%E5%9C%BA-CSRF/" title="Pikachu靶场-CSRF">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Pikachu靶场-CSRF</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
