@@ -16,28 +16,44 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+    <meta name="description" content="8.Unsafe Fileupload1.不安全的文件上传漏洞概述不安全的文件上传漏洞概述 文件上传功能在web应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。 如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pikachu靶场-Unsafe Filedownload">
-<meta property="og:url" content="http://rdyx0.github.io/2019/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/index.html">
+<meta property="og:title" content="Pikachu靶场-Unsafe Fileupload">
+<meta property="og:url" content="http://rdyx0.github.io/2019/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+<meta property="og:description" content="8.Unsafe Fileupload1.不安全的文件上传漏洞概述不安全的文件上传漏洞概述 文件上传功能在web应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。 如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png">
-<meta property="article:published_time" content="2019-09-14T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-30T01:45:23.595Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b443cb70d08d40fe8bf3d925acdb1b90.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0a1fefb672c841208083a49c355a5ec7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2394b9fd22a74403b43fee746192f077.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/84ce751502ee471fb1af7e5ca1d15ed6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a39298e86e234444a43443cde252c6b8.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/380912b48c1e498ba269fa5df518028f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5267090ba4eb496aa8674f85f7ac9584.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7c419da2e7a44d6a97644c5f78819c58.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d9299a2300254b5f96f81c58dccb22f0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6ea56dc706b546ebb539dc0f23f3fae5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bfed626002344a42b18e1a2432d1500f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6019630233744732b82b17ab084bc098.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f4105317764f49c6b190f9db5f6f7d99.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0e33e4eb0103438abc808ddeca04d5f0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/152b02091b1c4735aec729afb82d4724.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6cc88267a7db461e886f77f42d29b149.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/50da9a46b6a04d21bf530027b37cff53.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b07ad2e5c5c84297ba3c9073d4634771.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/97cafeeb06f740f0bd0d5566f1dd9795.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/45b4e6adb3f74b1daa51405115c07c88.png">
+<meta property="article:published_time" content="2019-09-15T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-30T02:11:00.880Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/b443cb70d08d40fe8bf3d925acdb1b90.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Pikachu靶场-Unsafe Filedownload - 儒道易行</title>
+  <title>Pikachu靶场-Unsafe Fileupload - 儒道易行</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +209,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Pikachu靶场-Unsafe Filedownload"></span>
+            <span id="subtitle" data-typed-text="Pikachu靶场-Unsafe Fileupload"></span>
           
         </div>
 
@@ -204,8 +220,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-14 21:36" pubdate>
-          2019年9月14日 晚上
+        <time datetime="2019-09-15 21:36" pubdate>
+          2019年9月15日 晚上
         </time>
       </span>
     
@@ -216,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          2.7k 字
         
       </span>
     
@@ -227,7 +243,7 @@
         
         
         
-          11 分钟
+          23 分钟
         
       </span>
     
@@ -273,23 +289,78 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Pikachu靶场-Unsafe Filedownload</h1>
+            <h1 style="display: none">Pikachu靶场-Unsafe Fileupload</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="7-Unsafe-Filedownload"><a href="#7-Unsafe-Filedownload" class="headerlink" title="7.Unsafe Filedownload"></a>7.Unsafe Filedownload</h1><h2 id="1-不安全的文件下载概述"><a href="#1-不安全的文件下载概述" class="headerlink" title="1.不安全的文件下载概述"></a>1.不安全的文件下载概述</h2><p>不安全的文件下载概述</p>
-<p>文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断的话，则可能会引发不安全的文件下载漏洞。</p>
-<p>此时如果 攻击者提交的不是一个程序预期的的文件名，而是一个精心构造的路径(比如..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd),则很有可能会直接将该指定的文件下载下来。 从而导致后台敏感信息(密码文件、源代码等)被下载。</p>
-<p>所以，在设计文件下载功能时，如果下载的目标文件是由前端传进来的，则一定要对传进来的文件进行安全考虑。 切记：所有与前端交互的数据都是不安全的，不能掉以轻心！</p>
-<h2 id="2-Unsafe-Filedownload"><a href="#2-Unsafe-Filedownload" class="headerlink" title="2.Unsafe Filedownload"></a>2.Unsafe Filedownload</h2><p>点击球员名字，抓包查看数据包</p>
-<p><img src="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>修改filename的值为filename&#x3D;..&#x2F;down_nba.php，然后通过repeater重发</p>
-<p><img src="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>Forward后，直接下载修改后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>查看下载后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+                <h1 id="8-Unsafe-Fileupload"><a href="#8-Unsafe-Fileupload" class="headerlink" title="8.Unsafe Fileupload"></a>8.Unsafe Fileupload</h1><h2 id="1-不安全的文件上传漏洞概述"><a href="#1-不安全的文件上传漏洞概述" class="headerlink" title="1.不安全的文件上传漏洞概述"></a>1.不安全的文件上传漏洞概述</h2><p>不安全的文件上传漏洞概述</p>
+<p>文件上传功能在web应用系统很常见，比如很多网站注册的时候需要上传头像、上传附件等等。当用户点击上传按钮后，后台会对上传的文件进行判断 比如是否是指定的类型、后缀名、大小等等，然后将其按照设计的格式进行重命名后存储在指定的目录。 如果说后台对上传的文件没有进行任何的安全判断或者判断条件不够严谨，则攻击着可能会上传一些恶意的文件，比如一句话木马，从而导致后台服务器被webshell。</p>
+<p>所以，在设计文件上传功能时，一定要对传进来的文件进行严格的安全考虑。比如：</p>
+<p>–验证文件类型、后缀名、大小;</p>
+<p>–验证文件的上传方式;</p>
+<p>–对文件进行一定复杂的重命名;</p>
+<p>–不要暴露文件上传后的路径;</p>
+<p>–等等…</p>
+<h2 id="2-client-check"><a href="#2-client-check" class="headerlink" title="2.client check"></a>2.client check</h2><p>查看源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkFileExt</span>(<span class="hljs-params">filename</span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">var</span> flag = <span class="hljs-literal">false</span>; <span class="hljs-comment">//状态</span><br>        <span class="hljs-keyword">var</span> arr = [<span class="hljs-string">&quot;jpg&quot;</span>,<span class="hljs-string">&quot;png&quot;</span>,<span class="hljs-string">&quot;gif&quot;</span>];<br>        <span class="hljs-comment">//取出上传文件的扩展名</span><br>        <span class="hljs-keyword">var</span> index = filename.<span class="hljs-title function_ invoke__">lastIndexOf</span>(<span class="hljs-string">&quot;.&quot;</span>);<br>        <span class="hljs-keyword">var</span> ext = filename.<span class="hljs-title function_ invoke__">substr</span>(index+<span class="hljs-number">1</span>);<br>        <span class="hljs-comment">//比较</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>;i&lt;arr.length;i++)<br>        &#123;<br>            <span class="hljs-keyword">if</span>(ext == arr[i])<br>            &#123;<br>                flag = <span class="hljs-literal">true</span>; <span class="hljs-comment">//一旦找到合适的，立即退出循环</span><br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">//条件判断</span><br>        <span class="hljs-keyword">if</span>(!flag)<br>        &#123;<br>            <span class="hljs-title function_ invoke__">alert</span>(<span class="hljs-string">&quot;上传的文件不符合要求，请重新选择！&quot;</span>);<br>            location.<span class="hljs-title function_ invoke__">reload</span>(<span class="hljs-literal">true</span>);<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>分析，前端限制，可以通过禁用javascript绕过</p>
+<p>上传php文件，显示不允许</p>
+<p><img src="https://img-blog.csdnimg.cn/b443cb70d08d40fe8bf3d925acdb1b90.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>使用火狐浏览器，直接禁用javascript，到这个界面，点击取消</p>
+<p><img src="https://img-blog.csdnimg.cn/0a1fefb672c841208083a49c355a5ec7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>使用谷歌浏览器，同样禁用javascript，</p>
+<p><img src="https://img-blog.csdnimg.cn/2394b9fd22a74403b43fee746192f077.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>点击上传，找到路径并访问</p>
+<p><img src="https://img-blog.csdnimg.cn/84ce751502ee471fb1af7e5ca1d15ed6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><a target="_blank" rel="noopener" href="http://x.x.x.x/vul/unsafeupload/uploads/phpinfo.php">http://x.x.x.x/vul/unsafeupload/uploads/phpinfo.php</a></p>
+<p><img src="https://img-blog.csdnimg.cn/a39298e86e234444a43443cde252c6b8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-MIME-type"><a href="#3-MIME-type" class="headerlink" title="3.MIME type"></a>3.MIME type</h2><p>选择非图片的文件时, 不会拦截; 点击上传时, 服务器端检测到非图片格式, 就被拦截</p>
+<p><img src="https://img-blog.csdnimg.cn/380912b48c1e498ba269fa5df518028f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>MIME (Multipurpose Internet Mail Extensions）多用途互联网邮件扩展类型</p>
+<p>MIME 是设定某种扩展名的文件用一种应用程序来打开的方式类型，当该扩展名文件被访问时，浏览器会自动使用指定应用程序来打开。多用于指定一些客户端自定义的文件名，以及一些媒体文件打开方式。</p>
+<p>每个MIME类型由两部分组成，前面是数据的大类别，例如声音audio、图象image等，后面定义具体的种类。常见的 MIME 类型，比如：</p>
+<p>超文本标记语言：.html，.html text.html</p>
+<p>普通文件：.txt text&#x2F;plain</p>
+<p>RTF文件：.rtf application&#x2F;rtf</p>
+<p>GIF图形：.gif image&#x2F;gif</p>
+<p>JPEG图形：.jpeg，.jpg image&#x2F;jpeg</p>
+<p>查看源码， 定义了一个数组 并且调用了uploadfile函数</p>
+<p><img src="https://img-blog.csdnimg.cn/5267090ba4eb496aa8674f85f7ac9584.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上传1.jpg ,抓包查看type类型</p>
+<p><img src="https://img-blog.csdnimg.cn/7c419da2e7a44d6a97644c5f78819c58.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上传1.php ,抓包查看type类型</p>
+<p><img src="https://img-blog.csdnimg.cn/d9299a2300254b5f96f81c58dccb22f0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>修改phpinfo.php的type类型为image&#x2F;jpeg</p>
+<p><img src="https://img-blog.csdnimg.cn/6ea56dc706b546ebb539dc0f23f3fae5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上传成功</p>
+<p><img src="https://img-blog.csdnimg.cn/bfed626002344a42b18e1a2432d1500f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/6019630233744732b82b17ab084bc098.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="4-getimagesize"><a href="#4-getimagesize" class="headerlink" title="4.getimagesize"></a>4.getimagesize</h2><p>getimagesize函数更是限制了上传文件的文件头必须为图像类型</p>
+<p>修改文件的type类型不可用</p>
+<p>第一种方法，可以通过添加jpg图片的格式头到脚本文件里进行绕过</p>
+<p>首先在文本文档里写入<?php phpinfo();?>文件后缀修改为.jpg</p>
+<p><img src="https://img-blog.csdnimg.cn/f4105317764f49c6b190f9db5f6f7d99.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上传文件，抓包，在脚本文件前加上GIF89，放包</p>
+<p><img src="https://img-blog.csdnimg.cn/0e33e4eb0103438abc808ddeca04d5f0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>成功上传</p>
+<p><img src="https://img-blog.csdnimg.cn/152b02091b1c4735aec729afb82d4724.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二种方法，在图片文件内容后添加<?php phpinfo();?></p>
+<p>命令行输入copy 1.png&#x2F;b + phpinfo.php&#x2F;a 2.png</p>
+<p><img src="https://img-blog.csdnimg.cn/6cc88267a7db461e886f77f42d29b149.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>点击上传</p>
+<p><img src="https://img-blog.csdnimg.cn/50da9a46b6a04d21bf530027b37cff53.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>文件上传成功</p>
+<p><img src="https://img-blog.csdnimg.cn/b07ad2e5c5c84297ba3c9073d4634771.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>服务器会将木马文件解析成图片文件，因此向其发送执行该文件的请求时，服务器只会返回这个“图片”文件，并不会执行相应命令。</p>
+<p>可以利用之前的文件包含漏洞，将图片格式的文件当做php文件来解析执行:</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">http:</span>//<span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span>.<span class="hljs-keyword">x</span>/vul/fileinclude/fi_local.php?filename<span class="hljs-operator">=</span>../../unsafeupload/uploads/<span class="hljs-number">2020</span>/<span class="hljs-number">10</span>/<span class="hljs-number">20</span>/<span class="hljs-number">5936185</span>f<span class="hljs-number">8e5245666</span>f<span class="hljs-number">2586884965</span>.jpg&amp;submit<span class="hljs-operator">=</span><span class="hljs-variable">%E6</span><span class="hljs-variable">%8</span>F<span class="hljs-variable">%90</span><span class="hljs-variable">%E4</span><span class="hljs-variable">%BA</span><span class="hljs-variable">%A4</span><span class="hljs-variable">%E6</span><span class="hljs-variable">%9</span>F<span class="hljs-variable">%A5</span><span class="hljs-variable">%E8</span><span class="hljs-variable">%AF</span><span class="hljs-variable">%A2</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/97cafeeb06f740f0bd0d5566f1dd9795.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">http:<span class="hljs-regexp">//</span>x.x.x.x<span class="hljs-regexp">/vul/</span>fileinclude<span class="hljs-regexp">/fi_local.php?filename=../</span>..<span class="hljs-regexp">/unsafeupload/u</span>ploads<span class="hljs-regexp">/2020/</span><span class="hljs-number">10</span><span class="hljs-regexp">/20/</span><span class="hljs-number">6950415</span>f8e7cda64b46247514668.jpg&amp;submit=æäº¤æ¥è¯¢<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/45b4e6adb3f74b1daa51405115c07c88.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
 <p>博客:</p>
@@ -319,8 +390,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Pikachu靶场-Unsafe Filedownload</div>
-      <div>http://rdyx0.github.io/2019/09/14/Pikachu靶场-Unsafe Filedownload/</div>
+      <div>Pikachu靶场-Unsafe Fileupload</div>
+      <div>http://rdyx0.github.io/2019/09/15/Pikachu靶场-Unsafe Fileupload/</div>
     </div>
     <div class="license-meta">
       
@@ -332,7 +403,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月14日</div>
+          <div>2019年9月15日</div>
         </div>
       
       
@@ -364,9 +435,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" title="Pikachu靶场-Unsafe Fileupload">
+                      <a href="/2019/09/16/Pikachu%E9%9D%B6%E5%9C%BA-Over%20Permission/" title="Pikachu靶场-Over Permission">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pikachu靶场-Unsafe Fileupload</span>
+                        <span class="hidden-mobile">Pikachu靶场-Over Permission</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -374,8 +445,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" title="Pikachu靶场-File Inclusion">
-                        <span class="hidden-mobile">Pikachu靶场-File Inclusion</span>
+                      <a href="/2019/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/" title="Pikachu靶场-Unsafe Filedownload">
+                        <span class="hidden-mobile">Pikachu靶场-Unsafe Filedownload</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -16,28 +16,36 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+    <meta name="description" content="文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。 9.Over Permission1.Over Permission概述如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。 越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。 一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pikachu靶场-Unsafe Filedownload">
-<meta property="og:url" content="http://rdyx0.github.io/2019/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/index.html">
+<meta property="og:title" content="Pikachu靶场-Over Permission">
+<meta property="og:url" content="http://rdyx0.github.io/2019/09/16/Pikachu%E9%9D%B6%E5%9C%BA-Over%20Permission/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+<meta property="og:description" content="文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。 9.Over Permission1.Over Permission概述如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。 越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。 一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png">
-<meta property="article:published_time" content="2019-09-14T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-30T01:45:23.595Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/abeea6c76f354dd2aca79c21ebaa206b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5e7275f6a5264468a91975dd4114440a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a7ccb06a80c948df8d82a918b0daa5ce.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/edf563a3ecfd4be5be34dab5bfe35db9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/afd253ad9d7d4380bf60afbc1a7fb4e8.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6583bc3ac4a94d0dba7d35f5cb40b3be.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f74f3b1c1b014ffebb2dd67f75accaba.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5ac5a7790ac94f6d8aab3c0c8d860408.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fcdf079169964953958a4ae08645aeb1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8643e2a4926944afb1029bd2a0453ab7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f0ca90c9b16742649b7929e450ee7986.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d361454ce79f455484205d5fea6f77d3.png">
+<meta property="article:published_time" content="2019-09-16T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-30T07:56:48.495Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/abeea6c76f354dd2aca79c21ebaa206b.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Pikachu靶场-Unsafe Filedownload - 儒道易行</title>
+  <title>Pikachu靶场-Over Permission - 儒道易行</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Pikachu靶场-Unsafe Filedownload"></span>
+            <span id="subtitle" data-typed-text="Pikachu靶场-Over Permission"></span>
           
         </div>
 
@@ -204,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-14 21:36" pubdate>
-          2019年9月14日 晚上
+        <time datetime="2019-09-16 21:36" pubdate>
+          2019年9月16日 晚上
         </time>
       </span>
     
@@ -216,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.6k 字
         
       </span>
     
@@ -227,7 +235,7 @@
         
         
         
-          11 分钟
+          14 分钟
         
       </span>
     
@@ -273,23 +281,51 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Pikachu靶场-Unsafe Filedownload</h1>
+            <h1 style="display: none">Pikachu靶场-Over Permission</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="7-Unsafe-Filedownload"><a href="#7-Unsafe-Filedownload" class="headerlink" title="7.Unsafe Filedownload"></a>7.Unsafe Filedownload</h1><h2 id="1-不安全的文件下载概述"><a href="#1-不安全的文件下载概述" class="headerlink" title="1.不安全的文件下载概述"></a>1.不安全的文件下载概述</h2><p>不安全的文件下载概述</p>
-<p>文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断的话，则可能会引发不安全的文件下载漏洞。</p>
-<p>此时如果 攻击者提交的不是一个程序预期的的文件名，而是一个精心构造的路径(比如..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd),则很有可能会直接将该指定的文件下载下来。 从而导致后台敏感信息(密码文件、源代码等)被下载。</p>
-<p>所以，在设计文件下载功能时，如果下载的目标文件是由前端传进来的，则一定要对传进来的文件进行安全考虑。 切记：所有与前端交互的数据都是不安全的，不能掉以轻心！</p>
-<h2 id="2-Unsafe-Filedownload"><a href="#2-Unsafe-Filedownload" class="headerlink" title="2.Unsafe Filedownload"></a>2.Unsafe Filedownload</h2><p>点击球员名字，抓包查看数据包</p>
-<p><img src="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>修改filename的值为filename&#x3D;..&#x2F;down_nba.php，然后通过repeater重发</p>
-<p><img src="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>Forward后，直接下载修改后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>查看下载后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+                <p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
+<h1 id="9-Over-Permission"><a href="#9-Over-Permission" class="headerlink" title="9.Over Permission"></a>9.Over Permission</h1><h2 id="1-Over-Permission概述"><a href="#1-Over-Permission概述" class="headerlink" title="1.Over Permission概述"></a>1.Over Permission概述</h2><p>如果使用A用户的权限去操作B用户的数据，A的权限小于B的权限，如果能够成功操作，则称之为越权操作。 越权漏洞形成的原因是后台使用了 不合理的权限校验规则导致的。</p>
+<p>一般越权漏洞容易出现在权限页面（需要登录的页面）增、删、改、查的的地方，当用户对权限页面内的信息进行这些操作时，后台需要对 对当前用户的权限进行校验，看其是否具备操作的权限，从而给出响应，而如果校验的规则过于简单则容易出现越权漏洞。</p>
+<p>因此，在在权限管理中应该遵守：</p>
+<p>1.使用最小权限原则对用户进行赋权;</p>
+<p>2.使用合理（严格）的权限校验规则;</p>
+<p>3.使用后台登录态作为条件进行权限判断,别动不动就瞎用前端传进来的条件;</p>
+<h2 id="2-水平越权"><a href="#2-水平越权" class="headerlink" title="2.水平越权"></a>2.水平越权</h2><p>首先收集账户信息</p>
+<p>lucy&#x2F;123456,lili&#x2F;123456</p>
+<p>登录lucy账户，点击查看个人信息</p>
+<p><img src="https://img-blog.csdnimg.cn/abeea6c76f354dd2aca79c21ebaa206b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>观察url的参数username</p>
+<p><img src="https://img-blog.csdnimg.cn/5e7275f6a5264468a91975dd4114440a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>水平越权的意思是，通过修改特定的参数信息，可以达到查看同等权限用户信息的目的</p>
+<p>我们将username参数改为lili</p>
+<p><img src="https://img-blog.csdnimg.cn/a7ccb06a80c948df8d82a918b0daa5ce.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>发现可以查看用户lili的信息，水平越权触发</p>
+<p><img src="https://img-blog.csdnimg.cn/edf563a3ecfd4be5be34dab5bfe35db9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="3-垂直越权"><a href="#3-垂直越权" class="headerlink" title="3.垂直越权"></a>3.垂直越权</h2><p>首先收集用户信息</p>
+<p>admin&#x2F;123456,pikachu&#x2F;000000</p>
+<p>admin是管理员权限，pikachu是普通用户权限</p>
+<p>登录admin账户，发现有添加用户的功能</p>
+<p><img src="https://img-blog.csdnimg.cn/afd253ad9d7d4380bf60afbc1a7fb4e8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>登录pikachu账户，发现没有添加用户的功能</p>
+<p><img src="https://img-blog.csdnimg.cn/6583bc3ac4a94d0dba7d35f5cb40b3be.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在管理员状态下，添加用户，抓包</p>
+<p><img src="https://img-blog.csdnimg.cn/f74f3b1c1b014ffebb2dd67f75accaba.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在pikachu用户状态下，获取cookie，bshi6ehg8coal73u4aeo9bpbj3</p>
+<p><img src="https://img-blog.csdnimg.cn/5ac5a7790ac94f6d8aab3c0c8d860408.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第一种方式，将普通用户状态下的cookie替换管理员账户下抓包的cookie，可以更换下包里的添加用户的信息</p>
+<p><img src="https://img-blog.csdnimg.cn/fcdf079169964953958a4ae08645aeb1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>放包</p>
+<p>发现用户2已经被添加，垂直越权触发</p>
+<p><img src="https://img-blog.csdnimg.cn/8643e2a4926944afb1029bd2a0453ab7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二种方式，登录admin账户，进入添加用户页面，记录下url：&#x2F;vul&#x2F;overpermission&#x2F;op2&#x2F;op2_admin_edit.php</p>
+<p>登录pikachu用户，替换url为上面记录的url，发现pikachu用户也可以添加用户了</p>
+<p><img src="https://img-blog.csdnimg.cn/f0ca90c9b16742649b7929e450ee7986.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>点击添加，登录admin账户，发现成功添加，垂直越权触发</p>
+<p><img src="https://img-blog.csdnimg.cn/d361454ce79f455484205d5fea6f77d3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
 <p>博客:</p>
@@ -319,8 +355,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Pikachu靶场-Unsafe Filedownload</div>
-      <div>http://rdyx0.github.io/2019/09/14/Pikachu靶场-Unsafe Filedownload/</div>
+      <div>Pikachu靶场-Over Permission</div>
+      <div>http://rdyx0.github.io/2019/09/16/Pikachu靶场-Over Permission/</div>
     </div>
     <div class="license-meta">
       
@@ -332,7 +368,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月14日</div>
+          <div>2019年9月16日</div>
         </div>
       
       
@@ -364,9 +400,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" title="Pikachu靶场-Unsafe Fileupload">
+                      <a href="/2019/09/17/Pikachu%E9%9D%B6%E5%9C%BA-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/" title="Pikachu靶场-目录遍历">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pikachu靶场-Unsafe Fileupload</span>
+                        <span class="hidden-mobile">Pikachu靶场-目录遍历</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -374,8 +410,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" title="Pikachu靶场-File Inclusion">
-                        <span class="hidden-mobile">Pikachu靶场-File Inclusion</span>
+                      <a href="/2019/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" title="Pikachu靶场-Unsafe Fileupload">
+                        <span class="hidden-mobile">Pikachu靶场-Unsafe Fileupload</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

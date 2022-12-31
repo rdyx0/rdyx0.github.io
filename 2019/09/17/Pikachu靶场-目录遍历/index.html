@@ -16,28 +16,27 @@
   <meta name="author" content="儒道易行">
   <meta name="keywords" content="">
   
-    <meta name="description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+    <meta name="description" content="10.目录遍历1.目录遍历漏洞概述目录遍历漏洞概述 在web功能设计中,很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“..&#x2F;”这样的手段让后台打开或者执行一些其他的文件。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pikachu靶场-Unsafe Filedownload">
-<meta property="og:url" content="http://rdyx0.github.io/2019/09/14/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Filedownload/index.html">
+<meta property="og:title" content="Pikachu靶场-目录遍历">
+<meta property="og:url" content="http://rdyx0.github.io/2019/09/17/Pikachu%E9%9D%B6%E5%9C%BA-%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86/index.html">
 <meta property="og:site_name" content="儒道易行">
-<meta property="og:description" content="7.Unsafe Filedownload1.不安全的文件下载概述不安全的文件下载概述 文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断">
+<meta property="og:description" content="10.目录遍历1.目录遍历漏洞概述目录遍历漏洞概述 在web功能设计中,很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“..&#x2F;”这样的手段让后台打开或者执行一些其他的文件。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png">
-<meta property="article:published_time" content="2019-09-14T13:36:15.000Z">
-<meta property="article:modified_time" content="2022-12-30T01:45:23.595Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9c25968c9c3d4b90a05960fe23b989af.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d72fb23f64e84a799424223c0be42689.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/525c95097aac496fa7b741bd8720a7b1.png">
+<meta property="article:published_time" content="2019-09-17T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-31T04:42:46.613Z">
 <meta property="article:author" content="儒道易行">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/9c25968c9c3d4b90a05960fe23b989af.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Pikachu靶场-Unsafe Filedownload - 儒道易行</title>
+  <title>Pikachu靶场-目录遍历 - 儒道易行</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +192,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Pikachu靶场-Unsafe Filedownload"></span>
+            <span id="subtitle" data-typed-text="Pikachu靶场-目录遍历"></span>
           
         </div>
 
@@ -204,8 +203,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-09-14 21:36" pubdate>
-          2019年9月14日 晚上
+        <time datetime="2019-09-17 21:36" pubdate>
+          2019年9月17日 晚上
         </time>
       </span>
     
@@ -216,7 +215,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.5k 字
         
       </span>
     
@@ -227,7 +226,7 @@
         
         
         
-          11 分钟
+          13 分钟
         
       </span>
     
@@ -273,23 +272,25 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Pikachu靶场-Unsafe Filedownload</h1>
+            <h1 style="display: none">Pikachu靶场-目录遍历</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="7-Unsafe-Filedownload"><a href="#7-Unsafe-Filedownload" class="headerlink" title="7.Unsafe Filedownload"></a>7.Unsafe Filedownload</h1><h2 id="1-不安全的文件下载概述"><a href="#1-不安全的文件下载概述" class="headerlink" title="1.不安全的文件下载概述"></a>1.不安全的文件下载概述</h2><p>不安全的文件下载概述</p>
-<p>文件下载功能在很多web系统上都会出现，一般我们当点击下载链接，便会向后台发送一个下载请求，一般这个请求会包含一个需要下载的文件名称，后台在收到请求后 会开始执行下载代码，将该文件名对应的文件response给浏览器，从而完成下载。 如果后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断的话，则可能会引发不安全的文件下载漏洞。</p>
-<p>此时如果 攻击者提交的不是一个程序预期的的文件名，而是一个精心构造的路径(比如..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd),则很有可能会直接将该指定的文件下载下来。 从而导致后台敏感信息(密码文件、源代码等)被下载。</p>
-<p>所以，在设计文件下载功能时，如果下载的目标文件是由前端传进来的，则一定要对传进来的文件进行安全考虑。 切记：所有与前端交互的数据都是不安全的，不能掉以轻心！</p>
-<h2 id="2-Unsafe-Filedownload"><a href="#2-Unsafe-Filedownload" class="headerlink" title="2.Unsafe Filedownload"></a>2.Unsafe Filedownload</h2><p>点击球员名字，抓包查看数据包</p>
-<p><img src="https://img-blog.csdnimg.cn/e9b44b8f481847ddbae909b17e05d182.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>修改filename的值为filename&#x3D;..&#x2F;down_nba.php，然后通过repeater重发</p>
-<p><img src="https://img-blog.csdnimg.cn/6ed6a9ec6e7a48ed9db204653b239679.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>Forward后，直接下载修改后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/46db3380cee448abb5653abff09f56d9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<p>查看下载后的文件</p>
-<p><img src="https://img-blog.csdnimg.cn/9a7fefc5089341a2bdb3aed5f31d06ee.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+                <h1 id="10-目录遍历"><a href="#10-目录遍历" class="headerlink" title="10.目录遍历"></a>10.目录遍历</h1><h2 id="1-目录遍历漏洞概述"><a href="#1-目录遍历漏洞概述" class="headerlink" title="1.目录遍历漏洞概述"></a>1.目录遍历漏洞概述</h2><p>目录遍历漏洞概述</p>
+<p>在web功能设计中,很多时候我们会要将需要访问的文件定义成变量，从而让前端的功能便的更加灵活。 当用户发起一个前端的请求时，便会将请求的这个文件的值(比如文件名称)传递到后台，后台再执行其对应的文件。 在这个过程中，如果后台没有对前端传进来的值进行严格的安全考虑，则攻击者可能会通过“..&#x2F;”这样的手段让后台打开或者执行一些其他的文件。 从而导致后台服务器上其他目录的文件结果被遍历出来，形成目录遍历漏洞。</p>
+<p>看到这里,你可能会觉得目录遍历漏洞和不安全的文件下载，甚至文件包含漏洞有差不多的意思，是的，目录遍历漏洞形成的最主要的原因跟这两者一样，都是在功能设计中将要操作的文件使用变量的 方式传递给了后台，而又没有进行严格的安全考虑而造成的，只是出现的位置所展现的现象不一样，因此，这里还是单独拿出来定义一下。</p>
+<p>需要区分一下的是,如果你通过不带参数的url（比如：<a target="_blank" rel="noopener" href="http://xxxx/doc%EF%BC%89%E5%88%97%E5%87%BA%E4%BA%86doc%E6%96%87%E4%BB%B6%E5%A4%B9%E9%87%8C%E9%9D%A2%E6%89%80%E6%9C%89%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%8C%E6%88%91%E4%BB%AC%E6%88%90%E4%B8%BA%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E3%80%82">http://xxxx/doc）列出了doc文件夹里面所有的文件，这种情况，我们成为敏感信息泄露。</a> 而并不归为目录遍历漏洞。</p>
+<h2 id="2-目录遍历"><a href="#2-目录遍历" class="headerlink" title="2.目录遍历"></a>2.目录遍历</h2><p>首先，点击链接进入，查看url参数</p>
+<p><img src="https://img-blog.csdnimg.cn/9c25968c9c3d4b90a05960fe23b989af.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可以看出是通过title参数执行php文件来显示页面的</p>
+<p>如果后端没有对用户的请求参数做严格校验，则用户可能通过过..&#x2F;..&#x2F;之类的目录跳转符，来造成路径穿越问题，从而达到访问网站目录下的任意文件的目的</p>
+<p>修改url为&#x2F;vul&#x2F;dir&#x2F;dir_list.php?title&#x3D;..&#x2F;..&#x2F;..&#x2F;README.md</p>
+<p>发现可以读取到文件内容</p>
+<p><img src="https://img-blog.csdnimg.cn/d72fb23f64e84a799424223c0be42689.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>修改url为&#x2F;vul&#x2F;dir&#x2F;dir_list.php?title&#x3D;..&#x2F;dir.php，发现可以读取到文件内容</p>
+<p><img src="https://img-blog.csdnimg.cn/525c95097aac496fa7b741bd8720a7b1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
 <p>博客:</p>
@@ -319,8 +320,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Pikachu靶场-Unsafe Filedownload</div>
-      <div>http://rdyx0.github.io/2019/09/14/Pikachu靶场-Unsafe Filedownload/</div>
+      <div>Pikachu靶场-目录遍历</div>
+      <div>http://rdyx0.github.io/2019/09/17/Pikachu靶场-目录遍历/</div>
     </div>
     <div class="license-meta">
       
@@ -332,7 +333,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2019年9月14日</div>
+          <div>2019年9月17日</div>
         </div>
       
       
@@ -364,9 +365,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2019/09/15/Pikachu%E9%9D%B6%E5%9C%BA-Unsafe%20Fileupload/" title="Pikachu靶场-Unsafe Fileupload">
+                      <a href="/2019/09/18/Pikachu%E9%9D%B6%E5%9C%BA-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/" title="Pikachu靶场-敏感信息泄露">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pikachu靶场-Unsafe Fileupload</span>
+                        <span class="hidden-mobile">Pikachu靶场-敏感信息泄露</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -374,8 +375,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2019/09/13/Pikachu%E9%9D%B6%E5%9C%BA-File%20Inclusion/" title="Pikachu靶场-File Inclusion">
-                        <span class="hidden-mobile">Pikachu靶场-File Inclusion</span>
+                      <a href="/2019/09/16/Pikachu%E9%9D%B6%E5%9C%BA-Over%20Permission/" title="Pikachu靶场-Over Permission">
+                        <span class="hidden-mobile">Pikachu靶场-Over Permission</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
