@@ -1,0 +1,721 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="4.bWAPP XML&amp;XPath Injection前言 XML注入 XXE -“xml external entity injection”, 即 “xml外部实体注入漏洞”。 概括一下就是”攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题” 也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4.bWAPP XML&amp;XPath Injection">
+<meta property="og:url" content="http://rdyx0.github.io/2019/10/12/4.bWAPP%20XML&XPath%20Injection/index.html">
+<meta property="og:site_name" content="儒道易行">
+<meta property="og:description" content="4.bWAPP XML&amp;XPath Injection前言 XML注入 XXE -“xml external entity injection”, 即 “xml外部实体注入漏洞”。 概括一下就是”攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题” 也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/31b7d9a3a5e245cd84f000cb3d965fd4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/55f1a93c7d1e411fbcf5156b35db77bd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/65c731472384456db6922f9bcb0426ae.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ed0598d49a3e4e53aba9a451d739248f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/49d0c503b9ea46d5a179fe1473216c89.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ffc85699cc8a4323ab95017d732e2cfc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0edb070cb2f842f594eebe5a8c67a2e3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/669797dab2454d49b51f3108bd28d51b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d315045343bb48a5a188c67e37fa1c5e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3bde5d759b80440fbaeab5c194680ba5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bdcdd1cc60824b34b6e0395185d5061d.png">
+<meta property="article:published_time" content="2019-10-12T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-31T14:09:05.603Z">
+<meta property="article:author" content="儒道易行">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/31b7d9a3a5e245cd84f000cb3d965fd4.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>4.bWAPP XML&amp;XPath Injection - 儒道易行</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>儒道易行</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="4.bWAPP XML&amp;XPath Injection"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-12 21:36" pubdate>
+          2019年10月12日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">4.bWAPP XML&amp;XPath Injection</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="4-bWAPP-XML-amp-XPath-Injection"><a href="#4-bWAPP-XML-amp-XPath-Injection" class="headerlink" title="4.bWAPP XML&amp;XPath Injection"></a>4.bWAPP XML&amp;XPath Injection</h1><p><strong>前言</strong></p>
+<p>XML注入</p>
+<p>XXE -“xml external entity injection”, 即 “xml外部实体注入漏洞”。</p>
+<p>概括一下就是”攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题”</p>
+<p>也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。</p>
+<p>XPath注入</p>
+<p>是指利用XPath 解析器的松散输入和容错特性，能够在 URL、表单或其它信息上附带恶意的XPath 查询代码，以获得权限信息的访问权并更改这些信息。XPath注入攻击是针对Web服务应用新的攻击方法，它允许攻击者在事先不知道XPath查询相关知识的情况下，通过XPath查询得到一个XML文档的完整内容。Xpath注入攻击本质上和SQL注入攻击是类似的，都是输入一些恶意的查询等代码字符串，从而对网站进行攻击。</p>
+<p><strong>基础</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/xml/xml_intro.asp">XML教程</a>    </p>
+<p><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/xpath/index.asp">XPath教程</a></p>
+<h2 id="0x01、XML-x2F-XPath-Injection-Login-Form"><a href="#0x01、XML-x2F-XPath-Injection-Login-Form" class="headerlink" title="0x01、XML&#x2F;XPath Injection (Login Form)"></a><strong>0x01、XML&#x2F;XPath Injection (Login Form)</strong></h2><p>注入单引号, 发现报出了xmli的解析错误:s</p>
+<p><img src="https://img-blog.csdnimg.cn/31b7d9a3a5e245cd84f000cb3d965fd4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可知是利用了xml&#x2F;xpath解析的用户登录信息。</p>
+<p>原理</p>
+<p>XPath注入的原理其实和sql注入很像， XPath注入攻击主要是通过构建特殊的输入，这些输入往往是XPath语法中的一些组合，这些输入将作为参数传入Web 应用程序，通过执行XPath查询而执行入侵者想要的操作，但是，注入的对象不是数据库users表了，而是一个存储数据的XML文件。攻击者可以获取 XML 数据的组织结构，或者访问在正常情况下不允许访问的数据，如果 XML 数据被用于用户认证，那么攻击者就可以提升它的权限。因为xpath不存在访问控制，所以我们不会遇到许多在SQL注入中经常遇到的访问限制。XML 中没有访问控制或者用户认证，如果用户有权限使用 XPath 查询，并且之间没有防御系统或者查询语句没有被防御系统过滤，那么用户就能够访问整个 XML 文档。 注入出现的位置也就是cookie，headers，request parameters&#x2F;input等。</p>
+<h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>以这关的登录验证模块为例，说明 XPath注入攻击的实现原理。</p>
+<p> 在Web 应用程序的登录验证程序中，一般有用户名（username）和密码（password） 两个参数，程序会通过用户所提交输入的用户名和密码来执行授权操作。若验证数据存放在XML文件中，其原理是通过查找XML文件中的用户名 （username）和密码（password）的结果来进行授权访问，</p>
+<ul>
+<li>白盒测试</li>
+</ul>
+<p>查看源码得知是通过读取heroes.xml文件的内容, 并且通过xpath寻找用户的账户和密码来验证登录:</p>
+<p><img src="https://img-blog.csdnimg.cn/55f1a93c7d1e411fbcf5156b35db77bd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>继续查看heroes.xml文件内容, 是一个xml文件, 里面包含了用户名和登录密码等信息:</p>
+<p><img src="https://img-blog.csdnimg.cn/65c731472384456db6922f9bcb0426ae.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>根据xpath语句:</p>
+<p>&#x2F;heroes&#x2F;hero[login&#x3D;’$login’ and password&#x3D;’$password’]</p>
+<p>在没有对login和password参数作任何防护的情况下, 可以构造xpath语句进行注入</p>
+<p>这里注入点选择login参数, 将$login前面的单引号闭合, 加入永真条件1&#x3D;1, 构造一个万能登录的payload:</p>
+<p>hack’ or 1&#x3D;1 or ‘’&#x3D;’</p>
+<p>结果为</p>
+<p><img src="https://img-blog.csdnimg.cn/ed0598d49a3e4e53aba9a451d739248f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-amp-High"><a href="#Medium-amp-High" class="headerlink" title="Medium&amp;High"></a><strong>Medium&amp;High</strong></h3><p>这两个级别中, 都对xpath语法进行了严格的过滤, 安全:</p>
+<p><img src="https://img-blog.csdnimg.cn/49d0c503b9ea46d5a179fe1473216c89.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x02、XML-x2F-XPath-Injection-Search"><a href="#0x02、XML-x2F-XPath-Injection-Search" class="headerlink" title="0x02、XML&#x2F;XPath Injection (Search)"></a><strong>0x02、XML&#x2F;XPath Injection (Search)</strong></h2><p>这关通过简单的类别搜索来查找电影名称</p>
+<p>如下就是查找科幻类的电影:</p>
+<p><img src="https://img-blog.csdnimg.cn/ffc85699cc8a4323ab95017d732e2cfc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a><strong>Low</strong></h3><ul>
+<li>黑盒测试</li>
+</ul>
+<p>通过url更改参数注入单引号, 从得到报错信息得知: 服务端是用了xml的解析</p>
+<p><img src="https://img-blog.csdnimg.cn/0edb070cb2f842f594eebe5a8c67a2e3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li>白盒测试</li>
+</ul>
+<p>查看源码, 看到的确是读取了一个包含电影信息的xml文件, 然后再利用xpath提取信息:</p>
+<p><img src="https://img-blog.csdnimg.cn/669797dab2454d49b51f3108bd28d51b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>继续查看heroes.xml文件内容, 是一个xml文件, 里面包含了用户名和登录密码等信息:</p>
+<p><img src="https://img-blog.csdnimg.cn/d315045343bb48a5a188c67e37fa1c5e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>关键xpath语句如下:</p>
+<p>&#x2F;&#x2F;hero[contains(genre, ‘$genre’)]&#x2F;movie</p>
+<p>大概表示所有属性值genre为$genre的hero标签下的movie元素值</p>
+<p>这里的genre参数是可控的, 攻击者可以构造恶意xpath语句来获取整个xml文档的信息:</p>
+<p>比如, 通过闭合$genre前面的单引号, 然后在后面选取hero的password元素值; 最后用一个 | 运算符将movie闭合好:</p>
+<p>horror’)]&#x2F;password | hack[contains(a,’</p>
+<p>注入后的xpath语句为:</p>
+<p>&#x2F;&#x2F;hero[contains(genre, ‘horror’)]&#x2F;password | hack[contains(a,’’)]&#x2F;movie</p>
+<p>结果为</p>
+<p><img src="https://img-blog.csdnimg.cn/3bde5d759b80440fbaeab5c194680ba5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-amp-High-1"><a href="#Medium-amp-High-1" class="headerlink" title="Medium&amp;High"></a><strong>Medium&amp;High</strong></h3><p>同样对xpath语法进行了严格的过滤, 安全:</p>
+<p><img src="https://img-blog.csdnimg.cn/bdcdd1cc60824b34b6e0395185d5061d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
+<p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
+<p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
+<p>博客:</p>
+<p><a href="https://rdyx0.github.io/">https://rdyx0.github.io/</a></p>
+<p>先知社区：</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/u/37846">https://xz.aliyun.com/u/37846</a> </p>
+<p>CSDN:</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48899364?type=blog">https://blog.csdn.net/weixin_48899364?type&#x3D;blog</a></p>
+<p>公众号：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
+<p>FreeBuf：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>4.bWAPP XML&amp;XPath Injection</div>
+      <div>http://rdyx0.github.io/2019/10/12/4.bWAPP XML&amp;XPath Injection/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/13/5.bWAPP%20Broken%20Auth.%20&amp;%20Session%20Mgmt/" title="5.bWAPP Broken Auth. &amp; Session Mgmt">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">5.bWAPP Broken Auth. &amp; Session Mgmt</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/11/3.bWAPP%20SQL%E6%B3%A8%E5%85%A5%E7%AF%87/" title="3.bWAPP SQL注入篇">
+                        <span class="hidden-mobile">3.bWAPP SQL注入篇</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

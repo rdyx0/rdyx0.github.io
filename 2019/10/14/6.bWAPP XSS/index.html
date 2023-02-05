@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="6.bWAPP XSS0x01、XSS - Reflected (GET)Low输入的内容直接输出到页面中:  后台服务端没有对输入的参数进行过滤, 构造一个注入xss payload即可: &lt;script&gt;alert(1)&lt;&#x2F;script&gt; 成功弹窗  Medium审查源码可以发现服务端进行了过滤, 但只是addslashes()函数而已(防sql注入), 依旧可以xss">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6.bWAPP XSS">
+<meta property="og:url" content="http://rdyx0.github.io/2019/10/14/6.bWAPP%20XSS/index.html">
+<meta property="og:site_name" content="儒道易行">
+<meta property="og:description" content="6.bWAPP XSS0x01、XSS - Reflected (GET)Low输入的内容直接输出到页面中:  后台服务端没有对输入的参数进行过滤, 构造一个注入xss payload即可: &lt;script&gt;alert(1)&lt;&#x2F;script&gt; 成功弹窗  Medium审查源码可以发现服务端进行了过滤, 但只是addslashes()函数而已(防sql注入), 依旧可以xss">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/75bcbbbbf8e04e058b73f0330e7e4dde.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1a498f79f45042c8902f77947ea1df8c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7cc147e7e4d54b328d5386239500eac3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d192afa0104144a28d7a9a618083f799.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/43218a6610bc43e7bf17e37b48a67d89.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/afc22a4796a34443889790dbdf5d6fc3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/91ef350d511c4bddaef8e0ac3e833f00.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0afb6ed2ebdd4bfab59fe57a4f23c8e4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3d7f227ac3e14fff8acb5769b4c7bea6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f56dada02d5e43ac939acb608ad586df.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2ce11c959d6b4cda8447b4e29bb954d2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5da98bbe19464ae0ae601c825eea370d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b4063df397434498ae7f5227ec1c34c0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/852750a227e74d60bc928109f10641f2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f7d1cbd5a4b84afb9515e99c3e0f60f7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/29529224275a4962a7abbd83b55871f4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/176d0cd559ab44d093ee77c077493c96.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9b4feeb456b6417e832b10f5090cad31.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f3d01e91c19c4682b903addff2fd0948.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ce27d86582f34667b8cc582f7b58742a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b02c981497994e368ede2b1a9ab9a22e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5cf4269f2d7c4fb39c752804cdd3a08e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/899f7588907a4f79817347300dab34cc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2c40c2af180742228bdb01005c3280b6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/193a4c1711304b13afbf698401b39dd4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/57857f201ab24b629b8c5a3fd0c68420.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/66c195fd257b41998157c3e0fe262d74.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1e91678cf0884eea8ce9defdeea7c32d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a52ca5cb1fa44576bb8d8ea163c3a983.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c9d44e0124e643c58b0155ff8b666151.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7e885fc18d8749f59f73a78627e6f10d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2692c1c77143412b809f9cba81e457e7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9494d87258cf41629d57ad7f55567df9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9f1d16ef0bf34704a77c021bae8dce7f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2d2603130d0c4aee83ed3330735328ff.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5cd5b39f4cde42fabb847e7c569e7ffb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c9e7cb1c06a8473fb0425f2460a9b389.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/21ec6fe7e5d742a4bf892ce60acd7ec5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f8b24170483b4f01843e001ec04eea4e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7fc51d66fe054e589a6974694d15e62a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f16c901c34a94ada95f330e67701d684.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c44b7bab223c450abc4668e9c4562e8b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d2a7d8de216d46ab93c42da69ed35553.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/99d8b6fb1a9e46479b702384198991f3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9c8b26b7afb14b56a74af84454eae99a.png">
+<meta property="article:published_time" content="2019-10-14T13:36:15.000Z">
+<meta property="article:modified_time" content="2022-12-31T14:46:36.881Z">
+<meta property="article:author" content="儒道易行">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/75bcbbbbf8e04e058b73f0330e7e4dde.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>6.bWAPP XSS - 儒道易行</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>儒道易行</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="6.bWAPP XSS"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-14 21:36" pubdate>
+          2019年10月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">6.bWAPP XSS</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="6-bWAPP-XSS"><a href="#6-bWAPP-XSS" class="headerlink" title="6.bWAPP XSS"></a>6.bWAPP XSS</h1><h2 id="0x01、XSS-Reflected-GET"><a href="#0x01、XSS-Reflected-GET" class="headerlink" title="0x01、XSS - Reflected (GET)"></a><strong>0x01、XSS - Reflected (GET)</strong></h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>输入的内容直接输出到页面中:</p>
+<p><img src="https://img-blog.csdnimg.cn/75bcbbbbf8e04e058b73f0330e7e4dde.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>后台服务端没有对输入的参数进行过滤, 构造一个注入xss payload即可:</p>
+<p><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/1a498f79f45042c8902f77947ea1df8c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>审查源码可以发现服务端进行了过滤, 但只是addslashes()函数而已(防sql注入), 依旧可以xss:</p>
+<p><img src="https://img-blog.csdnimg.cn/7cc147e7e4d54b328d5386239500eac3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>构造一个注入xss payload即可:</p>
+<p><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/d192afa0104144a28d7a9a618083f799.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="High"><a href="#High" class="headerlink" title="High"></a><strong>High</strong></h3><p>审查源码可以发现将所有关键字转换为HTML实体, 是安全的:</p>
+<p><img src="https://img-blog.csdnimg.cn/43218a6610bc43e7bf17e37b48a67d89.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x02、XSS-Reflected-POST"><a href="#0x02、XSS-Reflected-POST" class="headerlink" title="0x02、XSS - Reflected (POST)"></a><strong>0x02、XSS - Reflected (POST)</strong></h2><p>和GET型一样, 只是区别在于GET型的注入直接修改URL的请求即可, POST注入则需要要Post data构造传输post请求:</p>
+<p>GET型:</p>
+<p><code>http://localhost:8080/bWAPP/xss_get.php?firstname=&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<p>POST型:</p>
+<p><img src="https://img-blog.csdnimg.cn/afc22a4796a34443889790dbdf5d6fc3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/91ef350d511c4bddaef8e0ac3e833f00.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x03、XSS-Reflected-JSON"><a href="#0x03、XSS-Reflected-JSON" class="headerlink" title="0x03、XSS - Reflected (JSON)"></a><strong>0x03、XSS - Reflected (JSON)</strong></h2><p>思考</p>
+<p>当查找movie：Iron Man成功时, 就会提示找到:</p>
+<p><img src="https://img-blog.csdnimg.cn/0afb6ed2ebdd4bfab59fe57a4f23c8e4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>当查找movie：Iron 不成功时, 就会将输入的字符串显示在界面上:</p>
+<p><img src="https://img-blog.csdnimg.cn/3d7f227ac3e14fff8acb5769b4c7bea6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这就造成了可控变量的存在</p>
+<h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>构造一个注入xss payload即可:</p>
+<p><code>&lt;script&gt;alert(1)&lt;/script&gt; </code></p>
+<p>错误信息直接爆出来了..</p>
+<p><img src="https://img-blog.csdnimg.cn/f56dada02d5e43ac939acb608ad586df.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>可以看出来是Json注入,</p>
+<p>尝试注入json数据:</p>
+<p><code>&#123;&quot;result&quot;: &quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;&#125;</code></p>
+<p>发现不行; </p>
+<p><img src="https://img-blog.csdnimg.cn/2ce11c959d6b4cda8447b4e29bb954d2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再看报错信息, 继续尝试闭合吧:</p>
+<p><code>&quot;&#125;]&#125;&#39;; &lt;script&gt;alert(1)&lt;/script&gt; //</code></p>
+<p>发现不行, 查看HTML源码, 发现闭合出去之后是处于script之间的:</p>
+<p><img src="https://img-blog.csdnimg.cn/5da98bbe19464ae0ae601c825eea370d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>知道原因之后就简单了:</p>
+<p><code>&quot;&#125;]&#125;&#39;; alert(document.cookie) //</code></p>
+<p>成功进行json注入</p>
+<p><img src="https://img-blog.csdnimg.cn/b4063df397434498ae7f5227ec1c34c0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-amp-High"><a href="#Medium-amp-High" class="headerlink" title="Medium&amp;High"></a><strong>Medium&amp;High</strong></h3><p>将所有关键字转换为HTML实体, 安全:</p>
+<p><img src="https://img-blog.csdnimg.cn/852750a227e74d60bc928109f10641f2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x04、XSS-Reflected-AJAX-x2F-JSON"><a href="#0x04、XSS-Reflected-AJAX-x2F-JSON" class="headerlink" title="0x04、XSS - Reflected (AJAX&#x2F;JSON)"></a><strong>0x04、XSS - Reflected (AJAX&#x2F;JSON)</strong></h2><p>通过尝试可以发现本页面是xss_ajax_2-1.php, 通过Ajax调用xss_ajax_2-2.php完成查询:</p>
+<p><img src="https://img-blog.csdnimg.cn/f7d1cbd5a4b84afb9515e99c3e0f60f7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Low-amp-Medium"><a href="#Low-amp-Medium" class="headerlink" title="Low&amp;Medium"></a><strong>Low&amp;Medium</strong></h3><p>有两种方法：</p>
+<p>第一种方法：在页面内直接输入XSS的Payload即可</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">&lt;img <span class="hljs-attribute">src</span>=x <span class="hljs-attribute">onerror</span>=alert(1)&gt;<br></code></pre></td></tr></table></figure>
+
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/29529224275a4962a7abbd83b55871f4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在xss_ajax_2-2.php?title&#x3D;页面也可以直接输入Payload</p>
+<p><img src="https://img-blog.csdnimg.cn/176d0cd559ab44d093ee77c077493c96.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="High-1"><a href="#High-1" class="headerlink" title="High"></a><strong>High</strong></h3><p>high等级利用了json的解析:</p>
+<p><img src="https://img-blog.csdnimg.cn/9b4feeb456b6417e832b10f5090cad31.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>在输入框中注入是直接以字符串的形式输出的, 不会作为html元素或者js执行,</p>
+<p><img src="https://img-blog.csdnimg.cn/f3d01e91c19c4682b903addff2fd0948.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>原因就在于xss_ajax_2-2.php中对输入进行了HTM实体编码:</p>
+<p><img src="https://img-blog.csdnimg.cn/ce27d86582f34667b8cc582f7b58742a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x05、XSS-Reflected-AJAX-x2F-XML"><a href="#0x05、XSS-Reflected-AJAX-x2F-XML" class="headerlink" title="0x05、XSS - Reflected (AJAX&#x2F;XML)"></a><strong>0x05、XSS - Reflected (AJAX&#x2F;XML)</strong></h2><p>和上一题一样, 同样通过Ajax跳转到另一个php解析,</p>
+<p>发现是xml解析:</p>
+<p><img src="https://img-blog.csdnimg.cn/b02c981497994e368ede2b1a9ab9a22e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Low-amp-Medium-1"><a href="#Low-amp-Medium-1" class="headerlink" title="Low&amp;Medium"></a>Low&amp;Medium</h3><p>payload:</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">&lt;<span class="hljs-keyword">a</span> xmlns:<span class="hljs-keyword">a</span>=<span class="hljs-string">&#x27;http://www.w3.org/1999/xhtml&#x27;</span>&gt;&lt;<span class="hljs-keyword">a</span>:body onload=<span class="hljs-string">&#x27;alert(1)&#x27;</span>/&gt;&lt;/<span class="hljs-keyword">a</span>&gt;<br></code></pre></td></tr></table></figure>
+
+<p>xmlns是XML Namespaces的缩写,</p>
+<p>当加载网站的时候执行alert(1)</p>
+<p><img src="https://img-blog.csdnimg.cn/5cf4269f2d7c4fb39c752804cdd3a08e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-1"><a href="#Medium-1" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>源码中使用了addslashes()函数来进行过滤，因为有转义，所以该函数无效。payload仍可行</p>
+<h3 id="High-2"><a href="#High-2" class="headerlink" title="High"></a><strong>High</strong></h3><p>源码中使用了htmlspecialchars()函数来进行过滤</p>
+<h2 id="0x06、XSS-Reflected-Back-Button"><a href="#0x06、XSS-Reflected-Back-Button" class="headerlink" title="0x06、XSS - Reflected (Back Button)"></a><strong>0x06、XSS - Reflected (Back Button)</strong></h2><p>点击Go back按钮, </p>
+<p><img src="https://img-blog.csdnimg.cn/899f7588907a4f79817347300dab34cc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>页面会Header到上一个界面:</p>
+<p><img src="https://img-blog.csdnimg.cn/2c40c2af180742228bdb01005c3280b6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>由于刚刚从上一题到这题, 点击按钮之后就返回了上一个页面</p>
+<h3 id="Low-2"><a href="#Low-2" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>分析源码, 看到是利用了Referer来进行相应地跳转:</p>
+<p><img src="https://img-blog.csdnimg.cn/193a4c1711304b13afbf698401b39dd4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>闭合绕过</p>
+<p>观察, 发现可以闭合绕出input标签, 然后加xss:</p>
+<p><img src="https://img-blog.csdnimg.cn/57857f201ab24b629b8c5a3fd0c68420.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>构造payload：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">Referer:&#x27;&quot;&gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/66c195fd257b41998157c3e0fe262d74.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="High-3"><a href="#High-3" class="headerlink" title="High"></a>High</h3><p>将所有关键字转换为HTML实体, 安全:</p>
+<p><img src="https://img-blog.csdnimg.cn/1e91678cf0884eea8ce9defdeea7c32d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x07、XSS-Reflected-Custom-Header"><a href="#0x07、XSS-Reflected-Custom-Header" class="headerlink" title="0x07、XSS - Reflected (Custom Header)"></a><strong>0x07、XSS - Reflected (Custom Header)</strong></h2><p>有的web会加上自定义的http字段信息, 且没有做好过滤</p>
+<h3 id="Low-3"><a href="#Low-3" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>直接在Http头中加入bWAPP字段信息:</p>
+<p>payload：</p>
+<p><code>bWAPP：&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/a52ca5cb1fa44576bb8d8ea163c3a983.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-2"><a href="#Medium-2" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>由于采用了addslashes()函数转义单引号等字符, 但是仍可以xss注入</p>
+<h3 id="High-4"><a href="#High-4" class="headerlink" title="High"></a><strong>High</strong></h3><p>将所有关键字转换为HTML实体, 安全:</p>
+<p><img src="https://img-blog.csdnimg.cn/c9d44e0124e643c58b0155ff8b666151.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x08、XSS-Reflected-Eval"><a href="#0x08、XSS-Reflected-Eval" class="headerlink" title="0x08、XSS - Reflected (Eval)"></a><strong>0x08、XSS - Reflected (Eval)</strong></h2><h3 id="Low-amp-High"><a href="#Low-amp-High" class="headerlink" title="Low&amp;High"></a><strong>Low&amp;High</strong></h3><p>很明显的一个执行函数eval(), 通过参数date传入可执行的js:</p>
+<p>构造payload:</p>
+<p><a target="_blank" rel="noopener" href="http://localhost:8080/bWAPP/xss_eval.php?date=alert(1)">http://localhost:8080/bWAPP/xss_eval.php?date=alert(1)</a></p>
+<p><img src="https://img-blog.csdnimg.cn/7e885fc18d8749f59f73a78627e6f10d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-3"><a href="#Medium-3" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>不影响js代码的执行</p>
+<p><img src="https://img-blog.csdnimg.cn/2692c1c77143412b809f9cba81e457e7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="0x09、XSS-Reflected-HREF"><a href="#0x09、XSS-Reflected-HREF" class="headerlink" title="0x09、XSS - Reflected (HREF)"></a><strong>0x09、XSS - Reflected (HREF)</strong></h2><p>web流程大致是先输入姓名, 再进行电影投票:</p>
+<p><img src="https://img-blog.csdnimg.cn/9494d87258cf41629d57ad7f55567df9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Low-4"><a href="#Low-4" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>分析</p>
+<p>观察名字被写入了页面中:</p>
+<p><img src="https://img-blog.csdnimg.cn/9f1d16ef0bf34704a77c021bae8dce7f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>于是直接在输入名字的地方xss:</p>
+<p>发现在p标签中:</p>
+<p>构造payload：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功闭合</p>
+<p><img src="https://img-blog.csdnimg.cn/2d2603130d0c4aee83ed3330735328ff.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>再者, 注意到链接处也可以闭合绕出:</p>
+<p><img src="https://img-blog.csdnimg.cn/5cd5b39f4cde42fabb847e7c569e7ffb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>构造payload：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">1&gt;Vote<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功闭合</p>
+<p><img src="https://img-blog.csdnimg.cn/c9e7cb1c06a8473fb0425f2460a9b389.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-amp-High-1"><a href="#Medium-amp-High-1" class="headerlink" title="Medium&amp;High"></a><strong>Medium&amp;High</strong></h3><p>源码中使用了urlencode()函数来进行过滤。</p>
+<h2 id="0x0A、XSS-Reflected-Login-Form"><a href="#0x0A、XSS-Reflected-Login-Form" class="headerlink" title="0x0A、XSS - Reflected (Login Form)"></a><strong>0x0A、XSS - Reflected (Login Form)</strong></h2><h3 id="Low-5"><a href="#Low-5" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>开始先xss盲打一下:</p>
+<p><img src="https://img-blog.csdnimg.cn/21ec6fe7e5d742a4bf892ce60acd7ec5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>不行, 输入单引号, 尝试sql注入:</p>
+<p><img src="https://img-blog.csdnimg.cn/f8b24170483b4f01843e001ec04eea4e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>发现单引号后面的内容(123)被输出到页面上, 并且应该是没做过滤的。</p>
+<p>于是在单引号后面xss:</p>
+<p>构造payload:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">bee&#x27; 123 <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/7fc51d66fe054e589a6974694d15e62a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-4"><a href="#Medium-4" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>使用了addslashes()函数来进行过滤，因为有转义，所以该函数无效。</p>
+<h3 id="High-5"><a href="#High-5" class="headerlink" title="High"></a><strong>High</strong></h3><p>用了htmlspecialchars()函数来进行过滤。</p>
+<h2 id="0x0B、XSS-Reflected-Referer"><a href="#0x0B、XSS-Reflected-Referer" class="headerlink" title="0x0B、XSS - Reflected (Referer)"></a><strong>0x0B、XSS - Reflected (Referer)</strong></h2><p>和0x06那关一样, 抓包修改Referer即可。</p>
+<h2 id="0x0C、XSS-Reflected-User-Agent"><a href="#0x0C、XSS-Reflected-User-Agent" class="headerlink" title="0x0C、XSS - Reflected (User-Agent)"></a><strong>0x0C、XSS - Reflected (User-Agent)</strong></h2><p>同理, 抓包修改User-Agent即可。</p>
+<h2 id="0x0D、-XSS-Stored-Blog"><a href="#0x0D、-XSS-Stored-Blog" class="headerlink" title="0x0D、 XSS - Stored (Blog)"></a><strong>0x0D、 XSS - Stored (Blog)</strong></h2><p>同 SQL Injection - Stored (Blog)</p>
+<h2 id="0x0E、XSS-Stored-Change-Secret"><a href="#0x0E、XSS-Stored-Change-Secret" class="headerlink" title="0x0E、XSS - Stored (Change Secret)"></a><strong>0x0E、XSS - Stored (Change Secret)</strong></h2><p>xss盲打</p>
+<p>先把密码修改为xss的payload:</p>
+<p><code>&lt;script&gt;alert(&#39;hack&#39;)&lt;/script&gt;</code></p>
+<p>修改成功</p>
+<p><img src="https://img-blog.csdnimg.cn/f16c901c34a94ada95f330e67701d684.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>进入SQL Injection (Login Form&#x2F;User)</p>
+<p>然后当用户登录的时候, 就会触发xss:</p>
+<p><img src="https://img-blog.csdnimg.cn/c44b7bab223c450abc4668e9c4562e8b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>修改前端代码</p>
+<p>观察前端, 发现有一个隐藏的input标签:</p>
+<p><img src="https://img-blog.csdnimg.cn/d2a7d8de216d46ab93c42da69ed35553.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>将type改为text, 然后在其中输入绕出闭合即可xss:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">123&quot;&gt; <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>隐藏标签会显示出来</p>
+<p><img src="https://img-blog.csdnimg.cn/99d8b6fb1a9e46479b702384198991f3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>成功弹窗</p>
+<p><img src="https://img-blog.csdnimg.cn/9c8b26b7afb14b56a74af84454eae99a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="Medium-5"><a href="#Medium-5" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>使用了addslashes()函数来进行过滤，因为有转义，所以该函数无效。</p>
+<h3 id="High-6"><a href="#High-6" class="headerlink" title="High"></a><strong>High</strong></h3><p>用了htmlspecialchars()函数来进行过滤。</p>
+<h2 id="0x0F、XSS-Stored-User-Agent"><a href="#0x0F、XSS-Stored-User-Agent" class="headerlink" title="0x0F、XSS - Stored (User-Agent)"></a><strong>0x0F、XSS - Stored (User-Agent)</strong></h2><p>同 SQL Injection - Stored (User-Agent)</p>
+<p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
+<p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
+<p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
+<p>博客:</p>
+<p><a href="https://rdyx0.github.io/">https://rdyx0.github.io/</a></p>
+<p>先知社区：</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/u/37846">https://xz.aliyun.com/u/37846</a> </p>
+<p>CSDN:</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_48899364?type=blog">https://blog.csdn.net/weixin_48899364?type&#x3D;blog</a></p>
+<p>公众号：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
+<p>FreeBuf：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>6.bWAPP XSS</div>
+      <div>http://rdyx0.github.io/2019/10/14/6.bWAPP XSS/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/15/7.bWAPP%20--%20INSECURE%20DIRECT%20OBJECT%20REFERENCES/" title="7.bWAPP -- INSECURE DIRECT OBJECT REFERENCES">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">7.bWAPP -- INSECURE DIRECT OBJECT REFERENCES</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/13/5.bWAPP%20Broken%20Auth.%20&amp;%20Session%20Mgmt/" title="5.bWAPP Broken Auth. &amp; Session Mgmt">
+                        <span class="hidden-mobile">5.bWAPP Broken Auth. &amp; Session Mgmt</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
