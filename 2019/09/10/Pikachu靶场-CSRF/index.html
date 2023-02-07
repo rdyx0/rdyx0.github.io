@@ -42,6 +42,8 @@
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/dc084a03bed14580b640b3b9c1b4fb47.png">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
   
   <title>Pikachu靶场-CSRF - 谢天谢地、不忘祖先、敬偎圣贤</title>
 
@@ -206,6 +208,11 @@
           
   <div class="mt-3">
     
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        儒道易行
+      </span>
+    
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
@@ -238,6 +245,14 @@
     
 
     
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
     
   </div>
 
@@ -313,7 +328,7 @@
 <p>可以发现lucy的个人信息已经被修改为kobe的个人信息了</p>
 <p><img src="https://img-blog.csdnimg.cn/5412119c6a2b46c0b75632d51c040a07.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>get型的CSRF还可以直接在url里进行修改，可以达到同样的效果</p>
-<p>&#x2F;pikachu&#x2F;vul&#x2F;csrf&#x2F;csrfget&#x2F;csrf_get_edit.php?sex&#x3D;boy&amp;phonenum&#x3D;15988767673&amp;add&#x3D;nba lakes&amp;email&#x3D;<a href="mailto:&#107;&#111;&#x62;&#101;&#64;&#x70;&#x69;&#107;&#97;&#99;&#x68;&#x75;&#46;&#x63;&#x6f;&#109;">&#107;&#111;&#x62;&#101;&#64;&#x70;&#x69;&#107;&#97;&#99;&#x68;&#x75;&#46;&#x63;&#x6f;&#109;</a>&amp;submit&#x3D;submit</p>
+<p>&#x2F;pikachu&#x2F;vul&#x2F;csrf&#x2F;csrfget&#x2F;csrf_get_edit.php?sex&#x3D;boy&amp;phonenum&#x3D;15988767673&amp;add&#x3D;nba lakes&amp;email&#x3D;<a href="mailto:&#107;&#111;&#x62;&#x65;&#64;&#112;&#x69;&#107;&#x61;&#x63;&#104;&#x75;&#x2e;&#x63;&#x6f;&#109;">&#107;&#111;&#x62;&#x65;&#64;&#112;&#x69;&#107;&#x61;&#x63;&#104;&#x75;&#x2e;&#x63;&#x6f;&#109;</a>&amp;submit&#x3D;submit</p>
 <h2 id="3-CSRF-post"><a href="#3-CSRF-post" class="headerlink" title="3.CSRF(post)"></a>3.CSRF(post)</h2><p>谷歌浏览器登录kobe账号</p>
 <p><img src="https://img-blog.csdnimg.cn/06bf5f507f1c4485ab5fb56607a9c8e7.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>QQ浏览器登录lili账号</p>
@@ -518,6 +533,58 @@
     </div>
   
   
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      京ICP证123456号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>京公网安备12345678号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
   
   
 </div>
@@ -653,6 +720,8 @@
 
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
