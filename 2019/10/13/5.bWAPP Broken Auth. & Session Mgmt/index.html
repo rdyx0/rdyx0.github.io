@@ -1,230 +1,400 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>5.bWAPP Broken Auth. &amp; Session Mgmt | 谢天谢地、不忘祖先、敬偎圣贤</title><meta name="author" content="儒道易行"><meta name="copyright" content="儒道易行"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="5.bWAPP Broken Auth. &amp; Session Mgmt0x01、Broken Auth - CAPTCHA BypassingLow验证码绕过，本题验证码没有时间限制，所以提交一次验证码后，就可以暴力破解用户名和密码了  爆破结果如下  Medium&amp;High方法同上，依旧可以暴力破解。 因此及时销毁验证码的有效性，添加时间限制是很必要的。 0x02、Broken">
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="儒道易行">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="5.bWAPP Broken Auth. &amp; Session Mgmt0x01、Broken Auth - CAPTCHA BypassingLow验证码绕过，本题验证码没有时间限制，所以提交一次验证码后，就可以暴力破解用户名和密码了  爆破结果如下  Medium&amp;High方法同上，依旧可以暴力破解。 因此及时销毁验证码的有效性，添加时间限制是很必要的。 0x02、Broken">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5.bWAPP Broken Auth. &amp; Session Mgmt">
 <meta property="og:url" content="http://rdyx0.github.io/2019/10/13/5.bWAPP%20Broken%20Auth.%20&%20Session%20Mgmt/index.html">
 <meta property="og:site_name" content="谢天谢地、不忘祖先、敬偎圣贤">
 <meta property="og:description" content="5.bWAPP Broken Auth. &amp; Session Mgmt0x01、Broken Auth - CAPTCHA BypassingLow验证码绕过，本题验证码没有时间限制，所以提交一次验证码后，就可以暴力破解用户名和密码了  爆破结果如下  Medium&amp;High方法同上，依旧可以暴力破解。 因此及时销毁验证码的有效性，添加时间限制是很必要的。 0x02、Broken">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://rdyx0.github.io/img/fluid.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/cfa7b4a88d1846eaa2c5f13f261747e0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/dbf925b278e046b7b8b097629227936e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4c5b5ca53daf44c099cf696f582575ed.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a2d6c6cad7b649a090cc17da4399a655.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ae923f69a0bf4e6284636348efdce7bd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7efa301afa8a4d8c811c7a5f7db22c64.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/943f4a2cb5da464282dfe485939a1439.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5bd1b0c8362344728777c58f88b3411c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c79abfea15c14374947632fd3071e2a8.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4fa4c41a78b1481abfdd7c72285a8c3b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7bf1da97926d465b8f39f48be1ba18ca.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9e969767c7ee4e429932b5cf6a85e1fc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7a53b6f6c6ee45fba7595d3c8620cac5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/177d3353f6eb432aba842fce4cd9cfcb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/dd186d5b7acc43a0bbf0a8895b0793ef.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c7b0385f9ad540fca2f94031fc24808e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/77e99da319dc4d0ca47f44c970a6094a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/b19f38dc85504e6fb62073b29934a6d8.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/916f56301a944a138d6b38e0dfb37e00.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/dae3bc20b04f41bf9b0b95bfa4baa927.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4ede6b3b032d41389eb09aac5994a5b9.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/81ff5022f5644ba2ade79b9fe995a569.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3e663fd2b67d4a69abdea23fd5e881f3.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/84fb5419ed734482988449bf2993b785.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/971a048043694fa5bf0b535b64037d33.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/484c53ea128d486fa9f2014c7731349e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f19aaebb723148d398d9f08f47cc8483.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/eb15c4bff19d475da40f71174beb7bc2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d9bd3a2345f1402eb47d8d6d96e7e5cd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2048e7d8071b4fee8f37e77712d99a24.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/f5a5cb625cc041a7ba4def75aa42e12f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/37fc20df91f6444cba6175992c4b5d03.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/afee47315d1c49699d04bbf4213c3907.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0f9b4ed197c148e587ea8aafaaf09126.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/7b4a73daec0241c69e6b72ba3988e835.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/c57bc22c279b4f68b9f21d52c5b115e1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6c55c5d2e2ee46a7bc9c149439ad1baf.png">
 <meta property="article:published_time" content="2019-10-13T13:36:15.000Z">
 <meta property="article:modified_time" content="2022-12-31T14:23:10.862Z">
 <meta property="article:author" content="儒道易行">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://rdyx0.github.io/img/fluid.png"><link rel="shortcut icon" href="/img/fluid.png"><link rel="canonical" href="http://rdyx0.github.io/2019/10/13/5.bWAPP%20Broken%20Auth.%20&amp;%20Session%20Mgmt/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
-  root: '/',
-  algolia: undefined,
-  localSearch: undefined,
-  translate: undefined,
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '',
-  date_suffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'null',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
-    }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '5.bWAPP Broken Auth. & Session Mgmt',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isToc: true,
-  postUpdate: '2022-12-31 22:23:10'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
-
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
-
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/cfa7b4a88d1846eaa2c5f13f261747e0.png">
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
   
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
-      }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+  
+  <title>5.bWAPP Broken Auth. &amp; Session Mgmt - 谢天谢地、不忘祖先、敬偎圣贤</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"rdyx0.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
     
-          if (t === 'dark') activateDarkMode()
-          else if (t === 'light') activateLightMode()
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="5.bWAPP Broken Auth. &amp; Session Mgmt"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
     
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/fluid.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">谢天谢地、不忘祖先、敬偎圣贤</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">5.bWAPP Broken Auth. &amp; Session Mgmt</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">发表于</span><time datetime="2019-10-13T13:36:15.000Z" title="发表于 2019-10-13 21:36:15">2019-10-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="5.bWAPP Broken Auth. &amp; Session Mgmt"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="5-bWAPP-Broken-Auth-amp-Session-Mgmt"><a href="#5-bWAPP-Broken-Auth-amp-Session-Mgmt" class="headerlink" title="5.bWAPP Broken Auth. &amp; Session Mgmt"></a>5.bWAPP Broken Auth. &amp; Session Mgmt</h1><h2 id="0x01、Broken-Auth-CAPTCHA-Bypassing"><a href="#0x01、Broken-Auth-CAPTCHA-Bypassing" class="headerlink" title="0x01、Broken Auth - CAPTCHA Bypassing"></a><strong>0x01、Broken Auth - CAPTCHA Bypassing</strong></h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>验证码绕过，本题验证码没有时间限制，所以提交一次验证码后，就可以暴力破解用户名和密码了</p>
-<p><img src="https://img-blog.csdnimg.cn/cfa7b4a88d1846eaa2c5f13f261747e0.png" alt="在这里插入图片描述"></p>
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2019-10-13 21:36" pubdate>
+          2019年10月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          38 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">5.bWAPP Broken Auth. &amp; Session Mgmt</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="5-bWAPP-Broken-Auth-amp-Session-Mgmt"><a href="#5-bWAPP-Broken-Auth-amp-Session-Mgmt" class="headerlink" title="5.bWAPP Broken Auth. &amp; Session Mgmt"></a>5.bWAPP Broken Auth. &amp; Session Mgmt</h1><h2 id="0x01、Broken-Auth-CAPTCHA-Bypassing"><a href="#0x01、Broken-Auth-CAPTCHA-Bypassing" class="headerlink" title="0x01、Broken Auth - CAPTCHA Bypassing"></a><strong>0x01、Broken Auth - CAPTCHA Bypassing</strong></h2><h3 id="Low"><a href="#Low" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>验证码绕过，本题验证码没有时间限制，所以提交一次验证码后，就可以暴力破解用户名和密码了</p>
+<p><img src="https://img-blog.csdnimg.cn/cfa7b4a88d1846eaa2c5f13f261747e0.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>爆破结果如下</p>
-<p><img src="https://img-blog.csdnimg.cn/dbf925b278e046b7b8b097629227936e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dbf925b278e046b7b8b097629227936e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium-amp-High"><a href="#Medium-amp-High" class="headerlink" title="Medium&amp;High"></a><strong>Medium&amp;High</strong></h3><p>方法同上，依旧可以暴力破解。</p>
 <p>因此及时销毁验证码的有效性，添加时间限制是很必要的。</p>
 <h2 id="0x02、Broken-Auth-Forgotten-Function"><a href="#0x02、Broken-Auth-Forgotten-Function" class="headerlink" title="0x02、Broken Auth. - Forgotten Function"></a><strong>0x02、Broken Auth. - Forgotten Function</strong></h2><h3 id="Low-1"><a href="#Low-1" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>首先我们审查源码，可以发现源码中使用了mysqli_real_escape_string()函数，来进行防sql注入验证;</p>
 <p>且验证了输入是否为email格式:</p>
-<p><img src="https://img-blog.csdnimg.cn/4c5b5ca53daf44c099cf696f582575ed.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/4c5b5ca53daf44c099cf696f582575ed.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>暴力破解邮箱，邮箱正确了，会提示你的安全问题，也不会直接显示密码。</p>
-<p><img src="https://img-blog.csdnimg.cn/a2d6c6cad7b649a090cc17da4399a655.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/a2d6c6cad7b649a090cc17da4399a655.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium"><a href="#Medium" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>Medium</p>
 <p>同样我们通过审查源码得知，在中级难度时，安全问题会发送邮箱。</p>
-<p><img src="https://img-blog.csdnimg.cn/ae923f69a0bf4e6284636348efdce7bd.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/ae923f69a0bf4e6284636348efdce7bd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>就是我们平时经常遇到的:， 忘记密码需要更改时, 要通过发送修改密码的邮件到绑定的邮箱来修改。</p>
 <h3 id="High"><a href="#High" class="headerlink" title="High"></a><strong>High</strong></h3><p>会将sha1的随机哈希值发送到邮箱，通过安全问题找回页面重置安全问题</p>
 <h2 id="0x03、Broken-Auth-Insecure-Login-Forms"><a href="#0x03、Broken-Auth-Insecure-Login-Forms" class="headerlink" title="0x03、Broken Auth. - Insecure Login Forms"></a><strong>0x03、Broken Auth. - Insecure Login Forms</strong></h2><h3 id="Low-2"><a href="#Low-2" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>右键审查元素, 发现用户账号密码信息泄露:</p>
-<p><img src="https://img-blog.csdnimg.cn/7efa301afa8a4d8c811c7a5f7db22c64.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/7efa301afa8a4d8c811c7a5f7db22c64.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>账号：tonystark，密码：I am Iron Man，成功登录</p>
-<p><img src="https://img-blog.csdnimg.cn/943f4a2cb5da464282dfe485939a1439.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/943f4a2cb5da464282dfe485939a1439.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium-1"><a href="#Medium-1" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>右键审查元素, 同样发现了用户名的泄露， 通过查找发现unlock按钮的事件:</p>
-<p><img src="https://img-blog.csdnimg.cn/5bd1b0c8362344728777c58f88b3411c.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/5bd1b0c8362344728777c58f88b3411c.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>继续在网页源代码中找到 unlock_secret()函数:</p>
-<p><img src="https://img-blog.csdnimg.cn/c79abfea15c14374947632fd3071e2a8.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c79abfea15c14374947632fd3071e2a8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">var <span class="hljs-keyword">bWAPP </span>= <span class="hljs-string">&quot;bash update killed my shells!&quot;</span><br><br>    var a = <span class="hljs-keyword">bWAPP.charAt(0); </span> var d = <span class="hljs-keyword">bWAPP.charAt(3); </span> var r = <span class="hljs-keyword">bWAPP.charAt(16);</span><br><span class="hljs-keyword"></span>    var <span class="hljs-keyword">b </span>= <span class="hljs-keyword">bWAPP.charAt(1); </span> var e = <span class="hljs-keyword">bWAPP.charAt(4); </span> var <span class="hljs-keyword">j </span>= <span class="hljs-keyword">bWAPP.charAt(9);</span><br><span class="hljs-keyword"></span>    var c = <span class="hljs-keyword">bWAPP.charAt(2); </span> var f = <span class="hljs-keyword">bWAPP.charAt(5); </span> var g = <span class="hljs-keyword">bWAPP.charAt(4);</span><br><span class="hljs-keyword"></span>    var <span class="hljs-keyword">j </span>= <span class="hljs-keyword">bWAPP.charAt(9); </span> var h = <span class="hljs-keyword">bWAPP.charAt(6); </span> var l = <span class="hljs-keyword">bWAPP.charAt(11);</span><br><span class="hljs-keyword"></span>    var g = <span class="hljs-keyword">bWAPP.charAt(4); </span> var i = <span class="hljs-keyword">bWAPP.charAt(7); </span> var x = <span class="hljs-keyword">bWAPP.charAt(4);</span><br><span class="hljs-keyword"></span>    var l = <span class="hljs-keyword">bWAPP.charAt(11); </span>var p = <span class="hljs-keyword">bWAPP.charAt(23); </span>var m = <span class="hljs-keyword">bWAPP.charAt(4);</span><br><span class="hljs-keyword"></span>    var s = <span class="hljs-keyword">bWAPP.charAt(17); </span>var k = <span class="hljs-keyword">bWAPP.charAt(10); </span>var d = <span class="hljs-keyword">bWAPP.charAt(23);</span><br><span class="hljs-keyword"></span>    var t = <span class="hljs-keyword">bWAPP.charAt(2); </span> var n = <span class="hljs-keyword">bWAPP.charAt(12); </span>var e = <span class="hljs-keyword">bWAPP.charAt(4);</span><br><span class="hljs-keyword"></span>    var a = <span class="hljs-keyword">bWAPP.charAt(1); </span> var o = <span class="hljs-keyword">bWAPP.charAt(13); </span>var f = <span class="hljs-keyword">bWAPP.charAt(5);</span><br><span class="hljs-keyword"></span>    var <span class="hljs-keyword">b </span>= <span class="hljs-keyword">bWAPP.charAt(1); </span> var q = <span class="hljs-keyword">bWAPP.charAt(15); </span>var h = <span class="hljs-keyword">bWAPP.charAt(9);</span><br><span class="hljs-keyword"></span>    var c = <span class="hljs-keyword">bWAPP.charAt(2); </span> var h = <span class="hljs-keyword">bWAPP.charAt(2); </span> var i = <span class="hljs-keyword">bWAPP.charAt(7);</span><br><span class="hljs-keyword"></span>    var <span class="hljs-keyword">j </span>= <span class="hljs-keyword">bWAPP.charAt(5); </span> var i = <span class="hljs-keyword">bWAPP.charAt(7); </span> var y = <span class="hljs-keyword">bWAPP.charAt(22);</span><br><span class="hljs-keyword"></span>    var g = <span class="hljs-keyword">bWAPP.charAt(1); </span> var p = <span class="hljs-keyword">bWAPP.charAt(4); </span> var p = <span class="hljs-keyword">bWAPP.charAt(28);</span><br><span class="hljs-keyword"></span>    var l = <span class="hljs-keyword">bWAPP.charAt(11); </span>var k = <span class="hljs-keyword">bWAPP.charAt(14);</span><br><span class="hljs-keyword"></span>    var q = <span class="hljs-keyword">bWAPP.charAt(12); </span>var n = <span class="hljs-keyword">bWAPP.charAt(12);</span><br><span class="hljs-keyword"></span>    var m = <span class="hljs-keyword">bWAPP.charAt(4); </span> var o = <span class="hljs-keyword">bWAPP.charAt(19);</span><br><span class="hljs-keyword"></span><br>    var secret = (d + <span class="hljs-string">&quot;&quot;</span> + <span class="hljs-keyword">j </span>+ <span class="hljs-string">&quot;&quot;</span> + k + <span class="hljs-string">&quot;&quot;</span> + q + <span class="hljs-string">&quot;&quot;</span> + x + <span class="hljs-string">&quot;&quot;</span> + t + <span class="hljs-string">&quot;&quot;</span> +o + <span class="hljs-string">&quot;&quot;</span> + g + <span class="hljs-string">&quot;&quot;</span> + h + <span class="hljs-string">&quot;&quot;</span> + d + <span class="hljs-string">&quot;&quot;</span> + p)<span class="hljs-comment">;secret</span><br></code></pre></td></tr></table></figure>
 
 <p>将如上关键代码进行解密</p>
-<p><img src="https://img-blog.csdnimg.cn/4fa4c41a78b1481abfdd7c72285a8c3b.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/4fa4c41a78b1481abfdd7c72285a8c3b.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>得到密码为hulk smash! 成功登录</p>
-<p><img src="https://img-blog.csdnimg.cn/7bf1da97926d465b8f39f48be1ba18ca.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/7bf1da97926d465b8f39f48be1ba18ca.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="High-1"><a href="#High-1" class="headerlink" title="High"></a><strong>High</strong></h3><p>没有什么别的解法，只有默认账号密码 bee&#x2F;bug，提示也是如此</p>
-<p><img src="https://img-blog.csdnimg.cn/9e969767c7ee4e429932b5cf6a85e1fc.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/9e969767c7ee4e429932b5cf6a85e1fc.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>成功登录</p>
-<p><img src="https://img-blog.csdnimg.cn/7a53b6f6c6ee45fba7595d3c8620cac5.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/7a53b6f6c6ee45fba7595d3c8620cac5.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h2 id="0x04、Broken-Auth-Logout-Management"><a href="#0x04、Broken-Auth-Logout-Management" class="headerlink" title="0x04、Broken Auth. - Logout Management"></a><strong>0x04、Broken Auth. - Logout Management</strong></h2><p>审查源码我们可以发现，Low&#x2F;Medium&#x2F;High三个级别的区别:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">switch</span>(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&quot;security_level&quot;</span>])<br>&#123; <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;0&quot;</span> :       <br>        <span class="hljs-comment">// Do nothing</span><br>        <span class="hljs-keyword">break</span>;  <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;1&quot;</span> :               <br>        <span class="hljs-comment">// Destroys the session        </span><br>        <span class="hljs-title function_ invoke__">session_destroy</span>();        <br>        <span class="hljs-keyword">break</span>;  <br>    <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;2&quot;</span> :                         <br>        <span class="hljs-comment">// Unsets all of the session variables</span><br>        <span class="hljs-variable">$_SESSION</span> = <span class="hljs-keyword">array</span>();<br>        <span class="hljs-comment">// Destroys the session    </span><br>        <span class="hljs-title function_ invoke__">session_destroy</span>();    <br>        <span class="hljs-keyword">break</span>;<br>    <span class="hljs-keyword">default</span> :<br>        <span class="hljs-comment">// Do nothing</span><br>        <span class="hljs-keyword">break</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p><strong>Low</strong></p>
 <p>退出登录时，session没有销毁，可以账号依然有效:</p>
-<p><img src="https://img-blog.csdnimg.cn/177d3353f6eb432aba842fce4cd9cfcb.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/177d3353f6eb432aba842fce4cd9cfcb.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>重新加载刚刚注销的url</p>
 <p>x.x.x.&#x2F;ba_logout.php</p>
 <p>发现仍然有效</p>
-<p><img src="https://img-blog.csdnimg.cn/dd186d5b7acc43a0bbf0a8895b0793ef.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dd186d5b7acc43a0bbf0a8895b0793ef.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium-2"><a href="#Medium-2" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>退出登录时，session已经销毁，需重新登录</p>
 <h3 id="High-2"><a href="#High-2" class="headerlink" title="High"></a><strong>High</strong></h3><p>退出登录时，session先被清空，然后销毁，需要重新登录</p>
 <h2 id="0x05、Broken-Auth-Password-Attacks"><a href="#0x05、Broken-Auth-Password-Attacks" class="headerlink" title="0x05、Broken Auth. - Password Attacks"></a><strong>0x05、Broken Auth. - Password Attacks</strong></h2><h3 id="Low-3"><a href="#Low-3" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>用burpsuite等工具爆破即可</p>
 <h3 id="Medium-3"><a href="#Medium-3" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>增加了一个随机salt值来验证, 类似于token的作用。</p>
 <p>第一种方法：</p>
 <p>审查元素我们可以得到salt的值为7-mawE</p>
-<p><img src="https://img-blog.csdnimg.cn/c7b0385f9ad540fca2f94031fc24808e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c7b0385f9ad540fca2f94031fc24808e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>构造post请求，即可登陆成功</p>
-<p><img src="https://img-blog.csdnimg.cn/77e99da319dc4d0ca47f44c970a6094a.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/77e99da319dc4d0ca47f44c970a6094a.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>第二种方法：</p>
 <p>这里用burpsuite演示:</p>
 <p>\1. 先选取爆破参数 password 和salt:</p>
-<p><img src="https://img-blog.csdnimg.cn/b19f38dc85504e6fb62073b29934a6d8.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/b19f38dc85504e6fb62073b29934a6d8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\2. 从相应的页面中获取salt值:</p>
-<p><img src="https://img-blog.csdnimg.cn/916f56301a944a138d6b38e0dfb37e00.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/916f56301a944a138d6b38e0dfb37e00.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\3. 将redirection设为always:</p>
-<p><img src="https://img-blog.csdnimg.cn/dae3bc20b04f41bf9b0b95bfa4baa927.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/dae3bc20b04f41bf9b0b95bfa4baa927.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\4. 添加密码字典:</p>
-<p><img src="https://img-blog.csdnimg.cn/4ede6b3b032d41389eb09aac5994a5b9.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/4ede6b3b032d41389eb09aac5994a5b9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\5. 将salt设置好, 并且给第一次访问的salt赋值 (不然开始就被不合法验证了, 无法开始):</p>
-<p><img src="https://img-blog.csdnimg.cn/81ff5022f5644ba2ade79b9fe995a569.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/81ff5022f5644ba2ade79b9fe995a569.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\6. 由于设置了salt, 是一对一的验证, 只有获取上一个请求返回的salt值才能，做下一次请求, 因此只能单线程, 在option中设置线程为1:</p>
-<p><img src="https://img-blog.csdnimg.cn/3e663fd2b67d4a69abdea23fd5e881f3.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/3e663fd2b67d4a69abdea23fd5e881f3.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>\7. start attack, 长度不同的那个即为正确密码:</p>
-<p><img src="https://img-blog.csdnimg.cn/84fb5419ed734482988449bf2993b785.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/84fb5419ed734482988449bf2993b785.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="High-3"><a href="#High-3" class="headerlink" title="High"></a><strong>High</strong></h3><p>加了图片验证码, 也是我们现实中经常遇到的:</p>
 <h2 id="0x06、Broken-Auth-Weak-Passwords"><a href="#0x06、Broken-Auth-Weak-Passwords" class="headerlink" title="0x06、Broken Auth. - Weak Passwords"></a><strong>0x06、Broken Auth. - Weak Passwords</strong></h2><p>弱口令，直接挂字典用burp爆破。</p>
 <h3 id="Low-4"><a href="#Low-4" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>test &#x2F; test</p>
 <h3 id="Medium-4"><a href="#Medium-4" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>test &#x2F; test123</p>
 <h3 id="High-4"><a href="#High-4" class="headerlink" title="High"></a><strong>High</strong></h3><p>test &#x2F; Test123</p>
-<h2 id="0x07、Session-Mgmt-Administrative-Portals"><a href="#0x07、Session-Mgmt-Administrative-Portals" class="headerlink" title="0x07、Session Mgmt. - Administrative Portals"></a><strong>0x07、Session Mgmt. - Administrative Portals</strong></h2><h3 id="Low-5"><a href="#Low-5" class="headerlink" title="Low"></a><strong>Low</strong></h3><p><img src="https://img-blog.csdnimg.cn/971a048043694fa5bf0b535b64037d33.png" alt="在这里插入图片描述"></p>
+<h2 id="0x07、Session-Mgmt-Administrative-Portals"><a href="#0x07、Session-Mgmt-Administrative-Portals" class="headerlink" title="0x07、Session Mgmt. - Administrative Portals"></a><strong>0x07、Session Mgmt. - Administrative Portals</strong></h2><h3 id="Low-5"><a href="#Low-5" class="headerlink" title="Low"></a><strong>Low</strong></h3><p><img src="https://img-blog.csdnimg.cn/971a048043694fa5bf0b535b64037d33.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>admin参数控制页面, 直接修改为1即可:</p>
-<p><img src="https://img-blog.csdnimg.cn/484c53ea128d486fa9f2014c7731349e.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/484c53ea128d486fa9f2014c7731349e.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium-5"><a href="#Medium-5" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>同样, 只不过控制的admin参数在cookie中: </p>
-<p><img src="https://img-blog.csdnimg.cn/f19aaebb723148d398d9f08f47cc8483.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/f19aaebb723148d398d9f08f47cc8483.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p> 直接修改为1即可:</p>
-<p><img src="https://img-blog.csdnimg.cn/eb15c4bff19d475da40f71174beb7bc2.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/eb15c4bff19d475da40f71174beb7bc2.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="High-5"><a href="#High-5" class="headerlink" title="High"></a><strong>High</strong></h3><p>需要修改session中的admin值为1, 或者直接用管理员账号bee&#x2F;bug登录也可以。</p>
 <h2 id="0x08、Session-Mgmt-Cookies-HTTPOnly"><a href="#0x08、Session-Mgmt-Cookies-HTTPOnly" class="headerlink" title="0x08、Session Mgmt. - Cookies (HTTPOnly)"></a><strong>0x08、Session Mgmt. - Cookies (HTTPOnly)</strong></h2><h3 id="Low-6"><a href="#Low-6" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>审查源码, 发现 Cookies中httponly字段设置为false:</p>
-<p><img src="https://img-blog.csdnimg.cn/d9bd3a2345f1402eb47d8d6d96e7e5cd.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/d9bd3a2345f1402eb47d8d6d96e7e5cd.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <ul>
 <li>setcookie(name,value,expire,path,domain,secure)</li>
 </ul>
@@ -261,26 +431,26 @@
 </tr>
 </tbody></table>
 <p>点击 Click Here ，本地JS脚本可以直接访问到top_security这个变量值:</p>
-<p><img src="https://img-blog.csdnimg.cn/2048e7d8071b4fee8f37e77712d99a24.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/2048e7d8071b4fee8f37e77712d99a24.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="Medium-6"><a href="#Medium-6" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>Cookies中httponly字段设置为true:</p>
-<p><img src="https://img-blog.csdnimg.cn/f5a5cb625cc041a7ba4def75aa42e12f.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/f5a5cb625cc041a7ba4def75aa42e12f.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>点击Click Here，本地JS脚本无法访问top_security变量值了:</p>
-<p><img src="https://img-blog.csdnimg.cn/37fc20df91f6444cba6175992c4b5d03.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/37fc20df91f6444cba6175992c4b5d03.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="High-6"><a href="#High-6" class="headerlink" title="High"></a><strong>High</strong></h3><p>Cookies中httponly字段设置为ture,同时缩短了cookies的生存时间</p>
-<p><img src="https://img-blog.csdnimg.cn/afee47315d1c49699d04bbf4213c3907.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/afee47315d1c49699d04bbf4213c3907.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>与中级难度的区别在于，调整了Cookie的生存时间，仅有300秒（5分钟）:</p>
-<p><img src="https://img-blog.csdnimg.cn/0f9b4ed197c148e587ea8aafaaf09126.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/0f9b4ed197c148e587ea8aafaaf09126.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h2 id="0x09、Session-Mgmt-Session-ID-in-URL"><a href="#0x09、Session-Mgmt-Session-ID-in-URL" class="headerlink" title="0x09、Session Mgmt. - Session ID in URL"></a><strong>0x09、Session Mgmt. - Session ID in URL</strong></h2><p>三个等级的难度都一样, Session ID 暴露在URL中:</p>
-<p><img src="https://img-blog.csdnimg.cn/7b4a73daec0241c69e6b72ba3988e835.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/7b4a73daec0241c69e6b72ba3988e835.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>Session ID 应该从不暴露在URL中。</p>
 <h2 id="0x10、Session-Mgmt-Strong-Sessions"><a href="#0x10、Session-Mgmt-Strong-Sessions" class="headerlink" title="0x10、Session Mgmt. - Strong Sessions"></a><strong>0x10、Session Mgmt. - Strong Sessions</strong></h2><p>本题主要是通过观察top_security_nossl和top_security_ssl的情况，</p>
 <p>来了解Session的安全存储</p>
 <h3 id="Low-7"><a href="#Low-7" class="headerlink" title="Low"></a><strong>Low</strong></h3><p>没有任何安全可言</p>
 <h3 id="Medium-7"><a href="#Medium-7" class="headerlink" title="Medium"></a><strong>Medium</strong></h3><p>可以观察到top_security_nossl的值是使用了HASH处理</p>
-<p><img src="https://img-blog.csdnimg.cn/c57bc22c279b4f68b9f21d52c5b115e1.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/c57bc22c279b4f68b9f21d52c5b115e1.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <h3 id="High-7"><a href="#High-7" class="headerlink" title="High"></a><strong>High</strong></h3><p>在非SSL情况下，看不到top_security_ssl的值</p>
 <p>改用HTTPS后，可以观察到top_security_nossl值</p>
-<p><img src="https://img-blog.csdnimg.cn/6c55c5d2e2ee46a7bc9c149439ad1baf.png" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/6c55c5d2e2ee46a7bc9c149439ad1baf.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <p>文笔生疏，措辞浅薄，望各位大佬不吝赐教，万分感谢。</p>
 <p>免责声明：由于传播或利用此文所提供的信息、技术或方法而造成的任何直接或间接的后果及损失，均由使用者本人负责， 文章作者不为此承担任何责任。</p>
 <p>转载声明：儒道易行 拥有对此文章的修改和解释权，如欲转载或传播此文章，必须保证此文章的完整性，包括版权声明等全部内容。未经作者允许，不得任意修改或者增减此文章的内容，不得以任何方式将其用于商业目的。</p>
@@ -294,4 +464,345 @@
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg5NTU2NjA1Mw==&action=getalbum&album_id=1696286248027357190&scene=173&from_msgid=2247485408&from_itemidx=1&count=3&nolastread=1#wechat_redirect">https://mp.weixin.qq.com/mp/appmsgalbum?__biz&#x3D;Mzg5NTU2NjA1Mw&#x3D;&#x3D;&amp;action&#x3D;getalbum&amp;album_id&#x3D;1696286248027357190&amp;scene&#x3D;173&amp;from_msgid&#x3D;2247485408&amp;from_itemidx&#x3D;1&amp;count&#x3D;3&amp;nolastread&#x3D;1#wechat_redirect</a></p>
 <p>FreeBuf：</p>
 <p><a target="_blank" rel="noopener" href="https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85">https://www.freebuf.com/author/%E5%9B%BD%E6%9C%8D%E6%9C%80%E5%BC%BA%E6%B8%97%E9%80%8F%E6%8E%8C%E6%8E%A7%E8%80%85</a></p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://rdyx0.github.io">儒道易行</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://rdyx0.github.io/2019/10/13/5.bWAPP%20Broken%20Auth.%20&amp;%20Session%20Mgmt/">http://rdyx0.github.io/2019/10/13/5.bWAPP%20Broken%20Auth.%20&amp;%20Session%20Mgmt/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://rdyx0.github.io" target="_blank">儒道易行</a>！</span></div></div><div class="tag_share"><div class="post_share"><div class="social-share" data-image="/img/fluid.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/10/14/6.bWAPP%20XSS/"><img class="prev-cover" src="/" onerror="onerror=null;src='/img/default.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">6.bWAPP XSS</div></div></a></div><div class="next-post pull-right"><a href="/2019/10/12/4.bWAPP%20XML&amp;XPath%20Injection/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/default.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">4.bWAPP XML&amp;XPath Injection</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/fluid.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">儒道易行</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/rdyx0"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">谢天谢地、不忘祖先、敬畏圣贤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5-bWAPP-Broken-Auth-amp-Session-Mgmt"><span class="toc-number">1.</span> <span class="toc-text">5.bWAPP Broken Auth. &amp; Session Mgmt</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01%E3%80%81Broken-Auth-CAPTCHA-Bypassing"><span class="toc-number">1.1.</span> <span class="toc-text">0x01、Broken Auth - CAPTCHA Bypassing</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low"><span class="toc-number">1.1.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-amp-High"><span class="toc-number">1.1.2.</span> <span class="toc-text">Medium&amp;High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02%E3%80%81Broken-Auth-Forgotten-Function"><span class="toc-number">1.2.</span> <span class="toc-text">0x02、Broken Auth. - Forgotten Function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium"><span class="toc-number">1.2.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High"><span class="toc-number">1.2.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03%E3%80%81Broken-Auth-Insecure-Login-Forms"><span class="toc-number">1.3.</span> <span class="toc-text">0x03、Broken Auth. - Insecure Login Forms</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04%E3%80%81Broken-Auth-Logout-Management"><span class="toc-number">1.4.</span> <span class="toc-text">0x04、Broken Auth. - Logout Management</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-2"><span class="toc-number">1.4.2.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x05%E3%80%81Broken-Auth-Password-Attacks"><span class="toc-number">1.5.</span> <span class="toc-text">0x05、Broken Auth. - Password Attacks</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-3"><span class="toc-number">1.5.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-3"><span class="toc-number">1.5.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-3"><span class="toc-number">1.5.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x06%E3%80%81Broken-Auth-Weak-Passwords"><span class="toc-number">1.6.</span> <span class="toc-text">0x06、Broken Auth. - Weak Passwords</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-4"><span class="toc-number">1.6.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-4"><span class="toc-number">1.6.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-4"><span class="toc-number">1.6.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x07%E3%80%81Session-Mgmt-Administrative-Portals"><span class="toc-number">1.7.</span> <span class="toc-text">0x07、Session Mgmt. - Administrative Portals</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-5"><span class="toc-number">1.7.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-5"><span class="toc-number">1.7.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-5"><span class="toc-number">1.7.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x08%E3%80%81Session-Mgmt-Cookies-HTTPOnly"><span class="toc-number">1.8.</span> <span class="toc-text">0x08、Session Mgmt. - Cookies (HTTPOnly)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-6"><span class="toc-number">1.8.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-6"><span class="toc-number">1.8.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-6"><span class="toc-number">1.8.3.</span> <span class="toc-text">High</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x09%E3%80%81Session-Mgmt-Session-ID-in-URL"><span class="toc-number">1.9.</span> <span class="toc-text">0x09、Session Mgmt. - Session ID in URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x10%E3%80%81Session-Mgmt-Strong-Sessions"><span class="toc-number">1.10.</span> <span class="toc-text">0x10、Session Mgmt. - Strong Sessions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Low-7"><span class="toc-number">1.10.1.</span> <span class="toc-text">Low</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Medium-7"><span class="toc-number">1.10.2.</span> <span class="toc-text">Medium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#High-7"><span class="toc-number">1.10.3.</span> <span class="toc-text">High</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/24/Webug4.0%E9%9D%B6%E5%9C%BA%E9%80%9A%E5%85%B3/" title="Webug4.0靶场通关">Webug4.0靶场通关</a><time datetime="2019-10-24T13:36:15.000Z" title="发表于 2019-10-24 21:36:15">2019-10-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/23/%E7%8B%AC%E5%AD%A4%E4%B9%9D%E5%89%91xss%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="独孤九剑xss通关教程">独孤九剑xss通关教程</a><time datetime="2019-10-23T13:36:15.000Z" title="发表于 2019-10-23 21:36:15">2019-10-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/22/XSS%20Game%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Game通关教程">XSS Game通关教程</a><time datetime="2019-10-22T13:36:15.000Z" title="发表于 2019-10-22 21:36:15">2019-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/21/XSS%20Challenges%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="XSS Challenges通关教程">XSS Challenges通关教程</a><time datetime="2019-10-21T13:36:15.000Z" title="发表于 2019-10-21 21:36:15">2019-10-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/10/20/xss.haozi.me%E9%80%9A%E5%85%B3%E6%95%99%E7%A8%8B/" title="xss.haozi.me通关教程">xss.haozi.me通关教程</a><time datetime="2019-10-20T13:36:15.000Z" title="发表于 2019-10-20 21:36:15">2019-10-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 儒道易行</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>5.bWAPP Broken Auth. &amp; Session Mgmt</div>
+      <div>http://rdyx0.github.io/2019/10/13/5.bWAPP Broken Auth. &amp; Session Mgmt/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>儒道易行</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2019年10月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/10/14/6.bWAPP%20XSS/" title="6.bWAPP XSS">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">6.bWAPP XSS</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2019/10/12/4.bWAPP%20XML&amp;XPath%20Injection/" title="4.bWAPP XML&amp;XPath Injection">
+                        <span class="hidden-mobile">4.bWAPP XML&amp;XPath Injection</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
