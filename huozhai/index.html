@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111c1c">
+<title>火宅 · 一乘之境｜妙法莲华经</title>
+<link rel="stylesheet" href="./fire-house-assets/style.css">
+</head>
+<body>
+<div id="stage" aria-label="可拖动旋转的火宅喻三维场景"></div>
+<div class="vignette"></div><div class="grain"></div>
+<header><a class="brand" href="./1.html"><span class="seal">莲</span><span>妙法莲华经<small>THE LOTUS SUTRA · CHAPTER III</small></span></a><div class="top-tools"><span class="edition">交互叙事 · 卷三</span><button id="sound" aria-pressed="false" title="开启环境音">音境 OFF</button><button id="help" aria-label="打开操作说明">?</button></div></header>
+<aside class="vertical">三 界 无 安 · 犹 如 火 宅</aside>
+<main class="story"><div class="eyebrow"><span id="act-number">ACT 01</span><i></i><span id="act-label">THE BURNING HOUSE</span></div><h1 id="title">火起，<br>而不自知。</h1><p id="description"></p><div class="quote" id="quote"></div><button class="primary" id="next">步入火宅 <span>↗</span></button><div class="story-footer"><span id="count">01 / 05</span><button id="meaning">读懂这一幕 <span>＋</span></button></div></main>
+<div class="scene-caption"><span class="live-dot"></span><span id="scene-caption">三界火宅 · 微缩之境</span><small>拖动环视 / 滚轮缩放 / 点击人物与车乘</small></div>
+<div class="view-tools"><button id="rotate" aria-pressed="true" title="切换自动环视">环视 ON</button><button id="reset-view" title="复位镜头">复位 ↺</button></div>
+<footer><div class="footer-intro"><span>一宅 · 三车 · 一乘</span><small>由方便，入真实。</small></div><nav id="chapters" aria-label="故事章节"></nav><button id="autoplay" aria-pressed="false">自动观演 <span>▷</span></button></footer>
+<div id="loading"><div class="loading-seal">火宅</div><p>一念入境</p><small>正在构筑三界微缩之境…</small></div>
+<dialog id="reading"><button class="close" aria-label="关闭解读">×</button><div class="eyebrow">譬喻与义理 / COMMENTARY</div><h2 id="reading-title"></h2><p id="reading-text"></p><div class="note">故事依《妙法莲华经·譬喻品第三》转述。车乘形象为艺术演绎；义理解读采用三乘方便、会三归一的传统释义。</div></dialog>
+<dialog id="instructions"><button class="close" aria-label="关闭操作说明">×</button><div class="eyebrow">观境指南</div><h2>让故事，慢慢展开。</h2><p>拖动场景旋转视角，滚轮或双指缩放。点击人物、火宅与车乘可阅读其寓意。底部章节可自由切换，方向键 ← → 也可翻页。</p><p>「自动观演」每 14 秒进入下一幕；「音境」开启程序生成的环境音。手机上可在画面右侧拖动环视。</p></dialog>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+  const message = text => { const el = document.querySelector('#loading small'); if (el) { el.textContent = text; el.style.cssText = 'max-width:540px;padding:0 25px;line-height:2;text-align:center;color:#e9b982'; } };
+  if (location.protocol === 'file:') {
+    message('请通过 HTTP 服务访问，不能直接双击 HTML。请在本机浏览器打开 http://127.0.0.1:8766/1.html，或从其他电脑访问 http://192.168.159.129:8766/1.html。');
+    return;
+  }
+  const timeout = setTimeout(() => message('3D 加载时间较长。请检查 fire-house-assets 文件夹是否完整，并确认浏览器支持 WebGL；可按 F12 查看控制台错误。'), 20000);
+  window.addEventListener('error', event => message('场景运行出错：' + event.message));
+  import('./fire-house-assets/app.js?v=2').then(() => clearTimeout(timeout)).catch(error => {
+    clearTimeout(timeout);
+    message('3D 加载失败：' + error.message + '。请确认资源目录可访问，并开启浏览器硬件加速 / WebGL。');
+  });
+})();
+</script>
+</body></html>

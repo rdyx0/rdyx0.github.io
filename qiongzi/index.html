@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111c1c">
+<title>穷子 · 归家之喻｜妙法莲华经</title>
+<link rel="stylesheet" href="./lost-son-assets/style.css">
+</head>
+<body>
+<div id="stage" aria-label="可拖动旋转的穷子喻三维场景"></div>
+<div class="vignette"></div><div class="grain"></div>
+<header><a class="brand" href="./2.html"><span class="seal">信</span><span>妙法莲华经<small>THE LOTUS SUTRA · CHAPTER IV</small></span></a><div class="top-tools"><span class="edition">交互叙事 · 卷四</span><button id="sound" aria-pressed="false" title="开启环境音">音境 OFF</button><button id="help" aria-label="打开操作说明">?</button></div></header>
+<aside class="vertical">譬 如 一 子 · 舍 父 逃 逝</aside>
+<main class="story"><div class="eyebrow"><span id="act-number">ACT 01</span><i></i><span id="act-label">THE LOST SON</span></div><h1 id="title">舍父逃逝，<br>周流诸国。</h1><p id="description"></p><div class="quote" id="quote"></div><button class="primary" id="next">行至王城之外 <span>↗</span></button><div class="story-footer"><span id="count">01 / 05</span><button id="meaning">读懂这一幕 <span>＋</span></button></div></main>
+<div class="scene-caption"><span class="live-dot"></span><span id="scene-caption">流浪穷子 · 忘却身世</span><small>拖动环视 / 滚轮缩放 / 点击人物与宅院</small></div>
+<div class="view-tools"><button id="rotate" aria-pressed="true" title="切换自动环视">环视 ON</button><button id="reset-view" title="复位镜头">复位 ↺</button></div>
+<footer><div class="footer-intro"><span>一子 · 一帚 · 一乘</span><small>由渐门，归本家。</small></div><nav id="chapters" aria-label="故事章节"></nav><button id="autoplay" aria-pressed="false">自动观演 <span>▷</span></button></footer>
+<div id="loading"><div class="loading-seal">归家</div><p>一念归家</p><small>正在构筑王城大宅之境…</small></div>
+<dialog id="reading"><button class="close" aria-label="关闭解读">×</button><div class="eyebrow">譬喻与义理 / COMMENTARY</div><h2 id="reading-title"></h2><p id="reading-text"></p><div class="note">故事依《妙法莲华经·信解品第四》转述。场景为艺术演绎；义理解读采用穷子喻佛、会渐归顿的传统释义。</div></dialog>
+<dialog id="instructions"><button class="close" aria-label="关闭操作说明">×</button><div class="eyebrow">观境指南</div><h2>让故事，慢慢展开。</h2><p>拖动场景旋转视角，滚轮或双指缩放。点击穷子、长者、宅院与库藏可阅读其寓意。底部章节可自由切换，方向键 ← → 也可翻页。</p><p>「自动观演」每 14 秒进入下一幕；「音境」开启程序生成的环境音。手机上可在画面右侧拖动环视。</p></dialog>
+<div id="toast" role="status"></div>
+<script>
+(() => {
+  const message = text => { const el = document.querySelector('#loading small'); if (el) { el.textContent = text; el.style.cssText = 'max-width:540px;padding:0 25px;line-height:2;text-align:center;color:#e9b982'; } };
+  if (location.protocol === 'file:') {
+    message('请通过 HTTP 服务访问，不能直接双击 HTML。请在本机浏览器打开 http://127.0.0.1:8766/2.html，或从其他电脑访问 http://192.168.159.129:8766/2.html。');
+    return;
+  }
+  const timeout = setTimeout(() => message('3D 加载时间较长。请检查 lost-son-assets 文件夹是否完整，并确认浏览器支持 WebGL；可按 F12 查看控制台错误。'), 20000);
+  window.addEventListener('error', event => message('场景运行出错：' + event.message));
+  import('./lost-son-assets/app.js?v=1').then(() => clearTimeout(timeout)).catch(error => {
+    clearTimeout(timeout);
+    message('3D 加载失败：' + error.message + '。请确认资源目录可访问，并开启浏览器硬件加速 / WebGL。');
+  });
+})();
+</script>
+</body></html>
